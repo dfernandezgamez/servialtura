@@ -30,7 +30,7 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
 	 * 
 	 */
 	private List<Solicitud> solicitudes;
-    private Solicitud newSolicitud ;
+    private Solicitud newSolicitud = new Solicitud();
     private Solicitud editSolicitud;
     
     

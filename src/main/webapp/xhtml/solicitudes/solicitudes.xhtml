@@ -10,21 +10,45 @@
 <h:body>
 	<ui:composition template="/xhtml/template/layout.xhtml">
 		<ui:define name="content">
-			<h:form id="userListform">
+			<h:form id="solicitudesListform">
 				<b:container>
 						<p:dataTable var="sol" value="#{solicitudesListBean.solicitudes}" rows="10"
 							paginator="true" editable="false" id="solicitudesTable"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
-							<p:column headerText="Id solicitud" filterBy="#{sol.idSolicitud}" filterMatchMode="contains" sortBy="#{sol.idSolicitud}">
-										<h:outputText value="#{sol.idSolicitud}" />
-							</p:column>
 							<p:column headerText="Descripción" filterBy="#{sol.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{sol.descripcionSolicitud}">
 										<h:outputText value="#{sol.descripcionSolicitud}" />
 							</p:column>
+							<p:column headerText="Fecha solicitud"  sortBy="#{sol.fechaSolicitud}">
+										<h:outputText value="#{sol.fechaSolicitud}" converter="javax.faces.DateTime" />
+							</p:column>
+							<p:column headerText="Email contacto" filterBy="#{sol.emailContacto}" filterMatchMode="contains" sortBy="#{sol.emailContacto}">
+										<h:outputText value="#{sol.emailContacto}" />
+							</p:column>
+							<p:column headerText="Teléfono contacto" filterBy="#{sol.telefonoContacto}" filterMatchMode="contains" sortBy="#{sol.telefonoContacto}">
+										<h:outputText value="#{sol.telefonoContacto}"  />
+							</p:column>
+							<p:column headerText="Presupuesto" footerText="exact" filterMatchMode="exact" filterBy="#{sol.presupuestos}">
+								<f:facet name="filter">
+					                <p:selectOneMenu onchange="PF('solicitudesTable').filter()" >
+					                	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+					                    <f:selectItem itemLabel="Sin presupuesto"/>
+					                    <f:selectItem itemLabel="Con presupuesto" />
+					                </p:selectOneMenu>
+					            </f:facet>
+										<h:panelGroup rendered="#{!sol.presupuestos.isEmpty()}">
+											<i class="fa fa-check" style="color:GREEN"></i>
+											<h:outputText value="Tiene presupuesto"   />
+										</h:panelGroup>
+										<h:panelGroup rendered="#{sol.presupuestos.isEmpty()}">
+											<i class="fa fa-remove" style="color:RED"></i>
+											<h:outputText value="No tiene presupuesto"  rendered="#{sol.presupuestos.isEmpty()}"/>
+												<p:commandButton  icon="fa fa-fw fa-file-text-o" />
+										</h:panelGroup>
+							</p:column>
 
 						</p:dataTable>
-						<p:commandButton value="Añadir solicitud" type="button" icon="ui-icon-pencil" actionListener="#{solicitudesListBean.prepareSolicitud}" oncomplete="PF('newSolicitudDialog').show();" />
+						<p:commandButton value="Añadir solicitud" icon="fa fa-fw fa-plus" process="@form" actionListener="#{solicitudesListBean.prepareSolicitud}" oncomplete="PF('newSolicitudDialog').show();" update=":newSolicitudForm"/>
 				</b:container>
 			</h:form>
 
@@ -44,10 +68,10 @@
 								<p:inputText id="email" maxlength="50" required="true" value="#{solicitudesListBean.newSolicitud.emailContacto}" />
 								
 								<p:outputLabel id="telLbl" for="tel" value="Teléfono contacto" />
-								<p:inputText id="tel" maxlength="50" required="true" value="#{solicitudesListBean.newSolicitud.telefonoContacto}" type="number" />
+								<p:inputNumber id="tel" value="#{solicitudesListBean.newSolicitud.telefonoContacto}"  /> 
 							</b:panelGrid>
-								<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newSolicitudDialog').hide();"/>
-								<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}" update="@form"/>
+							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newSolicitudDialog').hide();" immediate="true"/>
+							<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}" update="@form"/>
 				</h:form>
 			</p:dialog>
 		</ui:define>

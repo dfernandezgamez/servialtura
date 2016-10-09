@@ -2,14 +2,18 @@ package org.servialtura.contabilidad.base.model;
 // default package
 // Generated 01-oct-2016 18:39:37 by Hibernate Tools 4.3.1.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,24 +24,24 @@ import javax.persistence.Table;
 @Table(name = "PRESUPUESTO", catalog = "SERVIALTURA")
 public class Presupuesto implements java.io.Serializable {
 
+	private static final long serialVersionUID = 4567239054460883494L;
 	private Integer idPresupuesto;
 	private String estadoPresupuesto;
 	private String nombreContacto;
 	private String direccionContacto;
 	private Float importePresupuesto;
-	private Integer idSolicitud;
+	private Solicitud solicitud;
 	private Set<Factura> facturas = new HashSet<Factura>(0);
 
 	public Presupuesto() {
 	}
 
 	public Presupuesto(String estadoPresupuesto, String nombreContacto, String direccionContacto,
-			Float importePresupuesto, Integer idSolicitud, Set<Factura> facturas) {
+			Float importePresupuesto, Set<Factura> facturas) {
 		this.estadoPresupuesto = estadoPresupuesto;
 		this.nombreContacto = nombreContacto;
 		this.direccionContacto = direccionContacto;
 		this.importePresupuesto = importePresupuesto;
-		this.idSolicitud = idSolicitud;
 		this.facturas = facturas;
 	}
 
@@ -89,14 +93,6 @@ public class Presupuesto implements java.io.Serializable {
 		this.importePresupuesto = importePresupuesto;
 	}
 
-	@Column(name = "idSolicitud")
-	public Integer getIdSolicitud() {
-		return this.idSolicitud;
-	}
-
-	public void setIdSolicitud(Integer idSolicitud) {
-		this.idSolicitud = idSolicitud;
-	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
 	public Set<Factura> getFacturas() {
@@ -105,6 +101,17 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setFacturas(Set<Factura> facturas) {
 		this.facturas = facturas;
+	}
+
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idSolicitud")
+	public Solicitud getSolicitud() {
+		return solicitud;
+	}
+
+	public void setSolicitud(Solicitud solicitud) {
+		this.solicitud = solicitud;
 	}
 
 }
