@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="userListform">
+				<b:container>
+						<p:dataTable var="sol" value="#{solicitudesListBean.solicitudes}" rows="10"
+							paginator="true" editable="false" id="solicitudesTable"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15">
+							<p:column headerText="Id solicitud" filterBy="#{sol.idSolicitud}" filterMatchMode="contains" sortBy="#{sol.idSolicitud}">
+										<h:outputText value="#{sol.idSolicitud}" />
+							</p:column>
+							<p:column headerText="Descripción" filterBy="#{sol.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{sol.descripcionSolicitud}">
+										<h:outputText value="#{sol.descripcionSolicitud}" />
+							</p:column>
+
+						</p:dataTable>
+						<p:commandButton value="Añadir solicitud" type="button" icon="ui-icon-pencil" actionListener="#{solicitudesListBean.prepareSolicitud}" oncomplete="PF('newSolicitudDialog').show();" />
+				</b:container>
+			</h:form>
+
+
+			<p:dialog header="Nueva solicitud" widgetVar="newSolicitudDialog"  resizable="false" modal="true" closable="true" dynamic="true">
+				<h:form id="newSolicitudForm">
+					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
+							<h:panelGrid>
+								<p:outputLabel id="desLbl" for="des" value="Descripción" />
+								<p:inputTextarea id="des"  required="true" value="#{solicitudesListBean.newSolicitud.descripcionSolicitud}" />
+							</h:panelGrid>
+							 <b:panelGrid colSpans="5,7">
+								<p:outputLabel id="fechaLbl" for="fecha"	value="Fecha solicitud" />
+								<p:calendar id="fecha" value="#{solicitudesListBean.newSolicitud.fechaSolicitud}" size="8" />
+								
+								<p:outputLabel id="emailLbl" for="email" value="Email contacto" />
+								<p:inputText id="email" maxlength="50" required="true" value="#{solicitudesListBean.newSolicitud.emailContacto}" />
+								
+								<p:outputLabel id="telLbl" for="tel" value="Teléfono contacto" />
+								<p:inputText id="tel" maxlength="50" required="true" value="#{solicitudesListBean.newSolicitud.telefonoContacto}" type="number" />
+							</b:panelGrid>
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newSolicitudDialog').hide();"/>
+								<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}" update="@form"/>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+
+</html>

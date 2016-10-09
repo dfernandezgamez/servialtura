@@ -1,0 +1,26 @@
+.alignCenter{
+	text-align:center;
+}
+.backgroundError{
+	color:red;
+}
+.backgroundSuccess{
+	color:green;
+}
+
+.statusDialogClass{
+	background: transparent none repeat fixed 0 0 !important;
+    border: medium none !important;
+    height: 110px !important;
+    width: 120px !important;
+    box-shadow: none !important;
+}
+
+
+.statusDialogClass > div{
+	background: transparent none repeat fixed 0 0 !important;
+    border: medium none !important;
+}
+.statusDialogClass > .ui-widget-content{
+    height: 110px !important;
+}

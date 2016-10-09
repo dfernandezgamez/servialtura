@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="userListform">
+				<b:container>
+						<p:dataTable var="user" value="#{userList.users}" rows="10"
+							paginator="true" editable="true" id="usersTable"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15">
+							<p:ajax event="rowEdit" listener="#{userList.onRowEdit}"
+								update=":userListform:usersTable" />
+							<p:column headerText="#{msg['user']}" filterBy="#{user.usuario}" filterMatchMode="contains" sortBy="#{user.usuario}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{user.usuario}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{user.usuario}" />
+									</f:facet>
+								</p:cellEditor>
+
+							</p:column>
+							<p:column style="width:52px" headerText="#{msg['edit']}">
+								<p:rowEditor />
+							</p:column>
+
+						</p:dataTable>
+						<p:commandButton value="#{msg['user.add']}" type="button" icon="ui-icon-pencil"
+							onclick="PF('newUserDialog').show();" />
+				</b:container>
+			</h:form>
+
+
+			<p:dialog header="#{msg['user.new']}" widgetVar="newUserDialog"  resizable="false"
+				modal="true" closable="true" dynamic="true">
+				<h:form id="newUserForm">
+					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
+	       					 <b:panelGrid colSpans="4,8">
+								<p:outputLabel id="userLbl" for="user" value="#{msg['user']}" />
+								<p:inputText id="user" maxlength="50" required="true"
+									value="#{userList.newUser.usuario}" />
+								<p:outputLabel id="passwordLbl" for="password"
+									value="#{msg['password']}" />
+								<p:password id="password" maxlength="50" required="true"
+									value="#{userList.newUser.password}" />
+							</b:panelGrid>
+								<p:commandButton value="#{msg['cancel']}" 
+									icon="ui-icon-close" onclick="PF('newUserDialog').hide();"/>
+								<p:commandButton value="#{msg['save']}" 
+									icon="ui-icon-disk" process="@form"  
+									actionListener="#{userList.addUser}" 
+									oncomplete="if (!args.validationFailed) {PF('newUserDialog').hide();}" update="@form"/>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+
+</html>

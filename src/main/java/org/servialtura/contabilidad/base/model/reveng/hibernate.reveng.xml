@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="CATEGORIA_MATERIAL"
+		match-catalog="SERVIALTURA">
+	</table-filter>
+	<table-filter match-name="CLIENTE" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="EMPLEADO" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="FACTURA" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="LINEA_PRESUPUESTO"
+		match-catalog="SERVIALTURA">
+	</table-filter>
+	<table-filter match-name="MATERIAL" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="OBRA" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="PAGO" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="PRESUPUESTO"
+		match-catalog="SERVIALTURA">
+	</table-filter>
+	<table-filter match-name="ROL" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="SOLICITUD" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="TRABAJO" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="USUARIO" match-catalog="SERVIALTURA"></table-filter>
+</hibernate-reverse-engineering>

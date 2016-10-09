@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Servialtura</title>
+	<meta name="author" content="David Fernández Gámez"></meta>
+</h:head>
+<h:body style="padding-top: 60px">
+
+	<p:dialog closable="false" resizable="false" draggable="false"  widgetVar="statusDialog" 
+	styleClass="statusDialogClass" modal="true" id="statusDialogId" >
+		<h:outputText styleClass="fa fa-fa fa-spin fa-5x fa-futbol-o " />
+	</p:dialog>
+	
+	<h:outputScript library="holder" name="holder.js" />
+	<h:outputStylesheet library="css" name="styles.css"></h:outputStylesheet>
+	<p:growl id="growl" showDetail="true"   /> 
+	<b:navBar brand="servialtura"  brandHref="#" fixed="top" inverse="true">
+		<b:navbarLinks>
+			<b:navLink value="Home"  href="/faces/xhtml/home.xhtml"></b:navLink>
+			<b:navLink value="Usuarios" href="/faces/xhtml/users/userList.xhtml"></b:navLink>
+			<b:navLink value="Solicitudes" href="/faces/xhtml/solicitudes/solicitudes.xhtml"></b:navLink>
+			<b:navLink value="Presupuestos" href="/faces/xhtml/athletes/athleteList.xhtml"></b:navLink>
+			<b:navLink value="Obras" href="/faces/xhtml/athletes/athleteList.xhtml"></b:navLink>
+			<b:navLink value="Facturas" href="/faces/xhtml/exercices/exerciceList.xhtml"></b:navLink>
+			<b:navLink value="Empleados" href="/faces/xhtml/exercices/exerciceList.xhtml"></b:navLink>
+			<b:navLink value="Pagos" href="/faces/xhtml/exercices/exerciceList.xhtml"></b:navLink>
+			<b:navLink value="Gastos" href="/faces/xhtml/exercices/exerciceList.xhtml"></b:navLink>
+			<b:navLink value="#{msg['bar.logout']}" href="${pageContext.request.contextPath}/j_spring_security_logout"></b:navLink>
+		</b:navbarLinks>
+	</b:navBar>
+</h:body>
+</html>
