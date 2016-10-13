@@ -94,5 +94,15 @@ public class PresupuestosListBean extends BaseBean implements Serializable {
 	public void setEditPresupuesto(Presupuesto editPresupuesto) {
 		this.editPresupuesto = editPresupuesto;
 	}
+
+
+	public PresupuestosService getPresupuestosService() {
+		return presupuestosService;
+	}
+
+
+	public void setPresupuestosService(PresupuestosService presupuestosService) {
+		this.presupuestosService = presupuestosService;
+	}
     
 }

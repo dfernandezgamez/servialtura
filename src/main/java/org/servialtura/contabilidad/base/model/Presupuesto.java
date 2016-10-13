@@ -29,6 +29,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String estadoPresupuesto;
 	private String nombreContacto;
 	private String direccionContacto;
+	private String emailContacto;
 	private Float importePresupuesto;
 	private Solicitud solicitud;
 	private Set<Factura> facturas = new HashSet<Factura>(0);
@@ -112,6 +113,15 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setSolicitud(Solicitud solicitud) {
 		this.solicitud = solicitud;
+	}
+
+	@Column(name = "email_contacto", length = 100)
+	public String getEmailContacto() {
+		return emailContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
 	}
 
 }

@@ -5,7 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.faces.context.FacesContext;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
@@ -19,19 +24,18 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import org.servialtura.contabilidad.base.model.Presupuesto;
+
 
 public class WordHelper {
 
-
-
-	public static void main(String[] args) throws Exception 
-
-	{
-		XWPFDocument presupuesto = new XWPFDocument();
-		crearPortada(presupuesto);
-		crearCuerpo(presupuesto);
-		crearCondicionesLegales(presupuesto);
-		guardarPresupuesto(presupuesto);
+	public static XWPFDocument getPresupuesto(Presupuesto presupuesto){
+		XWPFDocument presupuestoDoc = new XWPFDocument();
+		crearPortada(presupuestoDoc);
+		crearCuerpo(presupuestoDoc);
+		crearCondicionesLegales(presupuestoDoc);
+		return presupuestoDoc;
+		
 	}
 
 	private static void crearCondicionesLegales(XWPFDocument presupuesto) {
@@ -90,7 +94,7 @@ public class WordHelper {
 		parrafo.setAlignment(ParagraphAlignment.LEFT);
 		XWPFRun r1 = parrafo.createRun();
 		r1.setFontSize(10);
-		r1.setText("Atendiendo a su solicitud, les presentamos nuestra mejor oferta, seg�n detallamos a continuaci�n:");
+		r1.setText("Atendiendo a su solicitud, les presentamos nuestra mejor oferta, según detallamos a continuación:");
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
@@ -143,7 +147,7 @@ public class WordHelper {
 		XWPFRun r1 = parrafo.createRun();
 		r1.setBold(true);
 		r1.setFontSize(20);
-		r1.setText("PRESUPUESTO N�: 213-10");
+		r1.setText("PRESUPUESTO Nº: 213-10");
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
@@ -172,9 +176,9 @@ public class WordHelper {
 		r1.addBreak();
 		r1.setText("CIF: B52506664");
 		r1.addBreak();
-		r1.setText("Tlfs: 666 63 07 86 � 665 38 37 07� 984 06 73 75");
+		r1.setText("Tlfs: 666 63 07 86  665 38 37 07 984 06 73 75");
 		r1.addBreak();
-		r1.setText("Correo electr�nico: servialtura@gmail.com");
+		r1.setText("Correo electrónico: servialtura@gmail.com");
 
 
 		XWPFParagraph[] parsFooter = new XWPFParagraph[1];
@@ -191,7 +195,9 @@ public class WordHelper {
 		XWPFParagraph parrafoImagen = presupuesto.createParagraph();
 		XWPFRun r = parrafoImagen.createRun();
 		try {
-			r.addPicture(new FileInputStream("C:\\desarrollo\\java\\git\\pruebas\\src\\servialtura.png"), XWPFDocument.PICTURE_TYPE_PNG, "servialtura.png", Units.toEMU(ancho), Units.toEMU(alto));
+			
+			InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/servialtura.png");
+			r.addPicture(stream, XWPFDocument.PICTURE_TYPE_PNG, "servialtura.png", Units.toEMU(ancho), Units.toEMU(alto));
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
