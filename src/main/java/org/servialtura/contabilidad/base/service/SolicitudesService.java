@@ -26,11 +26,9 @@ public class SolicitudesService {
 	  
 	
 	@Transactional(readOnly = true)
-	public Solicitud getAthleteById(int id){
+	public Solicitud getSolicitud(int id){
 		return genericDao.read(Solicitud.class,id);
 	}
-	
-
 	
 	@Transactional
 	public List<Solicitud> getSolicitudes() throws SystemException{

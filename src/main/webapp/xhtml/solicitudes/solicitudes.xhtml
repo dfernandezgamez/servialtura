@@ -28,7 +28,7 @@
 							<p:column headerText="Teléfono contacto" filterBy="#{sol.telefonoContacto}" filterMatchMode="contains" sortBy="#{sol.telefonoContacto}">
 										<h:outputText value="#{sol.telefonoContacto}"  />
 							</p:column>
-							<p:column headerText="Presupuesto" footerText="exact" filterMatchMode="exact" filterBy="#{sol.presupuestos}">
+							<p:column headerText="Presupuestos">
 								<f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('solicitudesTable').filter()" >
 					                	<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
@@ -43,7 +43,7 @@
 										<h:panelGroup rendered="#{sol.presupuestos.isEmpty()}">
 											<i class="fa fa-remove" style="color:RED"></i>
 											<h:outputText value="No tiene presupuesto"  rendered="#{sol.presupuestos.isEmpty()}"/>
-												<p:commandButton  icon="fa fa-fw fa-file-text-o" />
+												<p:commandButton  icon="fa fa-fw fa-file-text-o"  actionListener="#{solicitudesListBean.redirectNewPresupuesto(sol)}"/>
 										</h:panelGroup>
 							</p:column>
 
@@ -73,7 +73,7 @@
 							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newSolicitudDialog').hide();" immediate="true"/>
 							<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}" update="@form"/>
 				</h:form>
-			</p:dialog>
+			</p:dialog>			
 		</ui:define>
 	</ui:composition>
 

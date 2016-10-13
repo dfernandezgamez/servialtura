@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "LINEA_PRESUPUESTO", catalog = "SERVIALTURA")
 public class LineaPresupuesto implements java.io.Serializable {
 
+	private static final long serialVersionUID = 8781712730942521902L;
 	private Long idLinea;
 	private String descripcionLineaPresupuesto;
 
@@ -46,5 +47,32 @@ public class LineaPresupuesto implements java.io.Serializable {
 	public void setDescripcionLineaPresupuesto(String descripcionLineaPresupuesto) {
 		this.descripcionLineaPresupuesto = descripcionLineaPresupuesto;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idLinea == null) ? 0 : idLinea.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof LineaPresupuesto))
+			return false;
+		LineaPresupuesto other = (LineaPresupuesto) obj;
+		if (idLinea == null) {
+			if (other.getIdLinea() != null)
+				return false;
+		} else if (!idLinea.equals(other.getIdLinea()))
+			return false;
+		return true;
+	}
+	
+	
 
 }
