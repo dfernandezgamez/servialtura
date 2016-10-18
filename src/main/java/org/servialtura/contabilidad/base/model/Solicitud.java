@@ -7,7 +7,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,6 +37,7 @@ public class Solicitud implements java.io.Serializable {
 	private String telefonoContacto;
 	private String nombreContacto;
 	private Cliente cliente;
+	private String personaContacto;
 	private List<Presupuesto> presupuestos;
 
 	public Solicitud() {
@@ -125,6 +125,15 @@ public class Solicitud implements java.io.Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	@Column(name = "persona_contacto", length = 100)
+	public String getPersonaContacto() {
+		return personaContacto;
+	}
+
+	public void setPersonaContacto(String personaContacto) {
+		this.personaContacto = personaContacto;
 	}
 
 }
