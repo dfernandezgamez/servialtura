@@ -1,5 +1,6 @@
 package org.servialtura.contabilidad.base.beans.solicitudes;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +49,13 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
 		}
     }
     
+    public void redirectNewPresupuesto(Solicitud sol){
+    	try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("../presupuestos/newPresupuesto.xhtml?idSolicitud="+sol.getIdSolicitud());
+		} catch (IOException e) {
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error redirecting"));
+		}
+    }
     
     public void addSolicitud(){
     	try {

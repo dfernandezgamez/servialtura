@@ -12,17 +12,19 @@
 		<ui:define name="content">
 			<h:form id="presupuestosListForm">
 				<b:container>
-						<p:dataTable var="pre" value="#{presupuestosListBean.solicitudes}" rows="10"
+						<p:dataTable var="pre" value="#{presupuestosListBean.presupuestos}" rows="10"
 							paginator="true" editable="false" id="solicitudesTable"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
 							<p:column headerText="Id presupuesto" filterBy="#{pre.idPresupuesto}" filterMatchMode="contains" sortBy="#{pre.idPresupuesto}">
 										<h:outputText value="#{pre.idPresupuesto}" />
 							</p:column>
+							
+							<p:column headerText="Nombre contacto" filterBy="#{pre.nombreContacto}" filterMatchMode="contains" sortBy="#{pre.nombreContacto}">
+										<h:outputText value="#{pre.nombreContacto}" />
+							</p:column>
 
 						</p:dataTable>
-						<p:commandButton value="Añadir presupuesto" type="button" icon="ui-icon-pencil"
-							onclick="PF('newPresupuestoDialog').show();" />
 				</b:container>
 			</h:form>
 
