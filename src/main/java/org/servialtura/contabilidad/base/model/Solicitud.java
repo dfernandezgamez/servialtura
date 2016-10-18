@@ -7,11 +7,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,6 +37,7 @@ public class Solicitud implements java.io.Serializable {
 	private String emailContacto;
 	private String telefonoContacto;
 	private String nombreContacto;
+	private Cliente cliente;
 	private List<Presupuesto> presupuestos;
 
 	public Solicitud() {
@@ -111,6 +115,16 @@ public class Solicitud implements java.io.Serializable {
 
 	public void setNombreContacto(String nombreContacto) {
 		this.nombreContacto = nombreContacto;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idCliente")
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 }
