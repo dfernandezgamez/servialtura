@@ -57,9 +57,7 @@
 							
 							<h:panelGrid id="licenciaPanel" rendered="#{newPresupuestoBean.necesitaLicencia}" columns="2">
 								<p:outputLabel id="licenciaLb" value="Nos hacemos cargo nosotros de la licencia?" />
-								<p:selectBooleanCheckbox value="#{newPresupuestoBean.licenciaNuestra}">
-									<p:ajax listener="#{newPresupuestoBean.addLineaLicencia}" update="tableLineasPresupuesto"/>
-								</p:selectBooleanCheckbox>
+								<p:selectBooleanCheckbox value="#{newPresupuestoBean.newPresupuesto.tieneFacturaSuplidos}" />
 							</h:panelGrid>
 						</h:panelGrid>
 						<p:dataTable id="tableLineasPresupuesto" var="linea" value="#{newPresupuestoBean.lineas}" emptyMessage="Sin líneas en el presupuesto" rowIndexVar="rowIndex">
