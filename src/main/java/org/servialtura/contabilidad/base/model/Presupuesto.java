@@ -28,26 +28,15 @@ public class Presupuesto implements java.io.Serializable {
 	private static final long serialVersionUID = 4567239054460883494L;
 	private Integer idPresupuesto;
 	private String estadoPresupuesto;
-	private String nombreContacto;
-	private String direccionContacto;
-	private String emailContacto;
 	private Float importePresupuesto;
 	private Solicitud solicitud;
 	private Boolean tieneFacturaSuplidos;
 	private List<Factura> facturas = new ArrayList<Factura>(0);
-	private List<LineaPresupuesto> lineas = new ArrayList<LineaPresupuesto>(0);
+	private List<Partida> partidas = new ArrayList<Partida>(0);
 
 	public Presupuesto() {
 	}
 
-	public Presupuesto(String estadoPresupuesto, String nombreContacto, String direccionContacto,
-			Float importePresupuesto, List<Factura> facturas) {
-		this.estadoPresupuesto = estadoPresupuesto;
-		this.nombreContacto = nombreContacto;
-		this.direccionContacto = direccionContacto;
-		this.importePresupuesto = importePresupuesto;
-		this.facturas = facturas;
-	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -68,24 +57,6 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setEstadoPresupuesto(String estadoPresupuesto) {
 		this.estadoPresupuesto = estadoPresupuesto;
-	}
-
-	@Column(name = "nombre_contacto", length = 45)
-	public String getNombreContacto() {
-		return this.nombreContacto;
-	}
-
-	public void setNombreContacto(String nombreContacto) {
-		this.nombreContacto = nombreContacto;
-	}
-
-	@Column(name = "direccion_contacto", length = 100)
-	public String getDireccionContacto() {
-		return this.direccionContacto;
-	}
-
-	public void setDireccionContacto(String direccionContacto) {
-		this.direccionContacto = direccionContacto;
 	}
 
 	@Column(name = "importe_presupuesto", precision = 12, scale = 0)
@@ -118,23 +89,7 @@ public class Presupuesto implements java.io.Serializable {
 		this.solicitud = solicitud;
 	}
 
-	@Column(name = "email_contacto", length = 100)
-	public String getEmailContacto() {
-		return emailContacto;
-	}
 
-	public void setEmailContacto(String emailContacto) {
-		this.emailContacto = emailContacto;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
-	public List<LineaPresupuesto> getLineas() {
-		return lineas;
-	}
-
-	public void setLineas(List<LineaPresupuesto> lineas) {
-		this.lineas = lineas;
-	}
 
 	@Column(name = "tiene_factura_suplidos")
 	public Boolean getTieneFacturaSuplidos() {
@@ -143,6 +98,15 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setTieneFacturaSuplidos(Boolean tieneFacturaSuplidos) {
 		this.tieneFacturaSuplidos = tieneFacturaSuplidos;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
+	public List<Partida> getPartidas() {
+		return partidas;
+	}
+
+	public void setPartidas(List<Partida> partidas) {
+		this.partidas = partidas;
 	}
 
 }

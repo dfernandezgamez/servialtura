@@ -51,7 +51,7 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
     
     public void redirectNewPresupuesto(Solicitud sol){
     	try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("../presupuestos/newPresupuesto.xhtml?idSolicitud="+sol.getIdSolicitud());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("xhtml/presupuestos/newPresupuesto.xhtml?idSolicitud="+sol.getIdSolicitud());
 		} catch (IOException e) {
 			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error redirecting"));
 		}

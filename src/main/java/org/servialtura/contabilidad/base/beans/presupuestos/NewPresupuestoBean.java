@@ -23,10 +23,12 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
-import org.servialtura.contabilidad.base.model.LineaPresupuesto;
+import org.servialtura.contabilidad.base.model.LineaPartida;
+import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.model.Solicitud;
 import org.servialtura.contabilidad.base.service.PresupuestosService;
+import org.servialtura.contabilidad.base.service.SolicitudesService;
 
 
 @ManagedBean(name = "newPresupuestoBean")
@@ -42,45 +44,27 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	 * 
 	 */
     private Presupuesto newPresupuesto = new Presupuesto();
-    private List<LineaPresupuesto> lineas = new ArrayList<LineaPresupuesto>();
+    private List<Partida> partidas = new ArrayList<Partida>();
+    private List<LineaPartida> lineas = new ArrayList<LineaPartida>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
-    private LineaPresupuesto newLineaPresupuesto = new LineaPresupuesto();
      
     
     @ManagedProperty(value="#{presupuestosService}")
     private PresupuestosService presupuestosService;
     
-
+    @ManagedProperty(value="#{solicitudesService}")
+    private SolicitudesService solicitudesService;
     
     @PostConstruct
     public void init(){
-    	this.newPresupuesto.setSolicitud( new Solicitud());
+    	String idSolicitud = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idSolicitud");
+    	Solicitud sol=solicitudesService.getSolicitud(Integer.valueOf(idSolicitud));
+    	this.newPresupuesto.setSolicitud(sol);
     	this.newPresupuesto.getSolicitud().setFechaSolicitud( new Date());
-    	lineas = new ArrayList<LineaPresupuesto>();
+    	partidas = new ArrayList<Partida>();
     }
     
-    public void addLineaLicencia(){
-    	LineaPresupuesto lineaLicencia = new LineaPresupuesto();
-    	lineaLicencia.setDescripcionLineaPresupuesto("Hacernos cargo de la licencia");
-    	lineaLicencia.setIdLinea(Long.valueOf("-1"));
-    	if(licenciaNuestra){
-    		lineas.add(lineaLicencia);
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Atención!", "Creada línea automática"));
-    	}else{
-    		lineas.remove(lineaLicencia);
-    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención!", "Eliminada línea automática"));
-    	}
-    	
-    }
-    
-    public void prepareLineaPresupuesto(){
-    	newLineaPresupuesto = new LineaPresupuesto();
-    }
-    public void addLineaPresupuesto(){
-    	this.lineas.add(newLineaPresupuesto);
-    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Atención!", "Creada nueva línea en el presupuesto"));
-    }
     
     public void guardarPresupuesto(){
     	try {
@@ -109,14 +93,6 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 		this.presupuestosService = presupuestosService;
 	}
 
-	public List<LineaPresupuesto> getLineas() {
-		return lineas;
-	}
-
-
-	public void setLineas(List<LineaPresupuesto> lineas) {
-		this.lineas = lineas;
-	}
 
 
 	public Boolean getNecesitaLicencia() {
@@ -135,19 +111,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	public void setLicenciaNuestra(Boolean licenciaNuestra) {
 		this.licenciaNuestra = licenciaNuestra;
 	}
-
-	public LineaPresupuesto getNewLineaPresupuesto() {
-		return newLineaPresupuesto;
-	}
-
-	public void setNewLineaPresupuesto(LineaPresupuesto newLineaPresupuesto) {
-		this.newLineaPresupuesto = newLineaPresupuesto;
-	}
 	
 	public StreamedContent getPresupuestoFile(){
 
 		StreamedContent file = null;
-		newPresupuesto.setLineas(lineas);
 		XWPFDocument document= WordHelper.getPresupuesto(this.newPresupuesto);
     	
     		FileOutputStream ficheroSalida;
@@ -170,6 +137,32 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
        
     	
 		return file;
+	}
+
+	public List<Partida> getPartidas() {
+		return partidas;
+	}
+
+	public void setPartidas(List<Partida> partidas) {
+		this.partidas = partidas;
+	}
+
+	public List<LineaPartida> getLineas() {
+		return lineas;
+	}
+
+	public void setLineas(List<LineaPartida> lineas) {
+		this.lineas = lineas;
+	}
+
+
+	public SolicitudesService getSolicitudesService() {
+		return solicitudesService;
+	}
+
+
+	public void setSolicitudesService(SolicitudesService solicitudesService) {
+		this.solicitudesService = solicitudesService;
 	}
 
 }

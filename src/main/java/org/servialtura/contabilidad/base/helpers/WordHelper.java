@@ -25,7 +25,8 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.joda.time.DateTime;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
-import org.servialtura.contabilidad.base.model.LineaPresupuesto;
+import org.servialtura.contabilidad.base.model.LineaPartida;
+import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 
 
@@ -141,7 +142,7 @@ public class WordHelper {
 		XWPFRun r3 = parrafo3.createRun();
 		r3.setBold(true);
 		r3.setFontSize(12);
-		r3.setText(presupuesto.getDireccionContacto());
+		r3.setText(presupuesto.getSolicitud().getPersonaContacto());
 		r3.setFontFamily("Helvetica");
 		r3.addBreak();
 
@@ -154,31 +155,34 @@ public class WordHelper {
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
-		XWPFParagraph parrafo2 = presupuestoDoc.createParagraph();
-		parrafo2.setVerticalAlignment(TextAlignment.TOP);
-		parrafo2.setAlignment(ParagraphAlignment.CENTER);
-		XWPFRun r2 = parrafo2.createRun();
-		r2.setBold(true);
-		r2.setFontSize(12);
-		r2.setUnderline(UnderlinePatterns.SINGLE);
-		r2.setText(presupuesto.getSolicitud().getDescripcionSolicitud());
-		r2.setFontFamily("Helvetica");
-		r2.addBreak();
-
 
 		addListaTrabajos(presupuestoDoc,presupuesto);
 
 	}
 
 	private static void addListaTrabajos(XWPFDocument presupuestoDoc, Presupuesto presupuesto) {
-		for(LineaPresupuesto linea:presupuesto.getLineas()){
-			XWPFParagraph para = presupuestoDoc.createParagraph();
-			para.setVerticalAlignment(TextAlignment.TOP);
-			para.setAlignment(ParagraphAlignment.CENTER);
-			para.setNumID(BigInteger.TEN);
-			XWPFRun run=para.createRun();
-			run.setText(linea.getDescripcionLineaPresupuesto());
-			run.addBreak();
+		for(Partida partida:presupuesto.getPartidas()){
+			XWPFParagraph parrafo2 = presupuestoDoc.createParagraph();
+			parrafo2.setVerticalAlignment(TextAlignment.TOP);
+			parrafo2.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun r2 = parrafo2.createRun();
+			r2.setBold(true);
+			r2.setFontSize(12);
+			r2.setUnderline(UnderlinePatterns.SINGLE);
+			r2.setText(partida.getNombrePartida());
+			r2.setFontFamily("Helvetica");
+			r2.addBreak();
+			for(LineaPartida linea:partida.getLineasPartida()){
+				XWPFParagraph para = presupuestoDoc.createParagraph();
+				para.setVerticalAlignment(TextAlignment.TOP);
+				para.setAlignment(ParagraphAlignment.CENTER);
+				para.setNumID(BigInteger.TEN);
+				XWPFRun run=para.createRun();
+				run.addBreak();
+				run.setText(linea.getDescripcionLineaPresupuesto());
+				run.addBreak();
+			}
+			
 		}
 		
 		XWPFParagraph importe = presupuestoDoc.createParagraph();
@@ -224,7 +228,7 @@ public class WordHelper {
 		XWPFRun r2 = parrafo2.createRun();
 		r2.setBold(true);
 		r2.setFontSize(10);
-		r2.setText(presupuesto.getDireccionContacto());
+		r2.setText(presupuesto.getSolicitud().getDescripcionSolicitud());
 		r2.setFontFamily("Helvetica");
 		r2.addBreak(BreakType.PAGE);
 	}
