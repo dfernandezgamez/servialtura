@@ -20,7 +20,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 
-public class WordHelper {
+public class PresupuestoHelper {
 
 
 
@@ -66,6 +66,53 @@ public class WordHelper {
 		run4.setText("Este presupuesto Este presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuest");
 		run4.setFontFamily("Helvetica");
 		
+		XWPFParagraph tituloValidez = presupuesto.createParagraph();
+		XWPFRun run6=tituloValidez.createRun();
+		run6.setBold(true);
+		run6.setFontSize(12);
+		run6.setText("Validez");
+		run6.setFontFamily("Helvetica");
+		XWPFParagraph parrafoValidez = presupuesto.createParagraph();
+		parrafoValidez.setIndentFromLeft(800);
+		XWPFRun run5=parrafoValidez.createRun();
+		run5.addBreak();
+		run5.setFontSize(10);
+		run5.setText("El presente presupuesto económico tiene una validez de 180 días, contados a partir de su fecha de emisión.");
+		run5.setFontFamily("Helvetica");
+		run5.addBreak();
+		run5.addBreak();
+		
+		XWPFParagraph parrafoFecha = presupuesto.createParagraph();
+		parrafoFecha.setAlignment(ParagraphAlignment.RIGHT);
+		XWPFRun fecha=parrafoFecha.createRun();
+		fecha.addBreak();
+		fecha.setFontSize(10);
+		fecha.setText("Gijón a 6 de Octubre de 2016");
+		fecha.setFontFamily("Helvetica");
+
+
+		
+		
+		
+		run5.addBreak();
+		run5.addBreak();
+		run5.addBreak();
+		XWPFParagraph firmas = presupuesto.createParagraph();
+		firmas.setAlignment(ParagraphAlignment.LEFT);
+		XWPFRun texto=firmas.createRun();
+		texto.setBold(true);
+		texto.setFontSize(10);
+		texto.setText("ACEPTADO POR LA PROPIEDAD");
+		texto.setFontFamily("Helvetica");
+		texto.addTab();
+		texto.addTab();
+		texto.addTab();
+		
+		XWPFRun textoE=firmas.createRun();
+		textoE.setBold(true);
+		textoE.setFontSize(10);
+		textoE.setText("ACEPTADO POR LA EMPRESA");
+		textoE.setFontFamily("Helvetica");
 		
 
 		
