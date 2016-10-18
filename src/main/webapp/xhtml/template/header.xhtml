@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -40,4 +41,48 @@
 	 </h:form>
 		
 </h:body>
+=======
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Servialtura</title>
+	<meta name="author" content="David Fernández Gámez"></meta>
+</h:head>
+<h:body>
+
+	<p:growl id="growl" showDetail="true"   /> 
+	<h:form>
+		 <p:menubar>
+				<p:submenu label="Usuarios" icon="fa fa-fw fa-users">
+					<p:menuitem value="Listado usuarios" url="/faces/xhtml/users/userList.xhtml"/>
+				</p:submenu>
+				<p:submenu label="Solicitudes" icon="fa fa-fw fa-question">
+					<p:menuitem value="Listado solicitudes"  url="/faces/xhtml/solicitudes/solicitudes.xhtml"/>
+				</p:submenu>
+				<p:submenu label="Presupuestos"  icon="fa fa-fw fa-tasks">
+					<p:menuitem value="Listado presupuestos" url="/faces/xhtml/presupuestos/newPresupuesto.xhtml"/>
+					<p:menuitem value="Nuevo presupuesto" url="/faces/xhtml/presupuestos/newPresupuesto.xhtml"/>
+				</p:submenu>
+				<p:submenu label="Obras" icon="fa fa-fw fa-gear" >
+				</p:submenu>
+				<p:submenu label="Facturas" icon="fa fa-fw fa-euro">
+				</p:submenu>
+				<p:submenu label="Empleados" icon="fa fa-fw fa-street-view">
+				</p:submenu>
+				<p:submenu label="Pagos" >
+				</p:submenu>
+				<p:submenu label="Gastos" >
+				</p:submenu>
+				<p:submenu label="#{msg['bar.logout']}" url="${pageContext.request.contextPath}/j_spring_security_logout"></p:submenu>
+		 </p:menubar>
+	 </h:form>
+		
+</h:body>
+>>>>>>> branch 'master' of https://github.com/dfernandezgamez/servialtura.git
 </html>
