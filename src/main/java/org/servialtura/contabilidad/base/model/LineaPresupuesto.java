@@ -2,11 +2,15 @@ package org.servialtura.contabilidad.base.model;
 // default package
 // Generated 01-oct-2016 18:39:37 by Hibernate Tools 4.3.1.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,6 +23,7 @@ public class LineaPresupuesto implements java.io.Serializable {
 	private static final long serialVersionUID = 8781712730942521902L;
 	private Long idLinea;
 	private String descripcionLineaPresupuesto;
+	private Presupuesto presupuesto;
 
 	public LineaPresupuesto() {
 	}
@@ -71,6 +76,15 @@ public class LineaPresupuesto implements java.io.Serializable {
 		} else if (!idLinea.equals(other.getIdLinea()))
 			return false;
 		return true;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	public Presupuesto getPresupuesto() {
+		return presupuesto;
+	}
+
+	public void setPresupuesto(Presupuesto presupuesto) {
+		this.presupuesto = presupuesto;
 	}
 	
 	

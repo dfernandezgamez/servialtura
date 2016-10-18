@@ -71,8 +71,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>ui-lightness</artifactId>
-			<version>1.0.6</version>
+			<artifactId>cupertino</artifactId>
+			<version>1.0.10</version>
 		</dependency>
 
 		<dependency>
@@ -153,9 +153,9 @@
 
 
 		<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-aspects</artifactId>
-		<version>${spring.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -198,7 +198,7 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 
 		<!-- Hibernate dependencies -->
 		<dependency>
@@ -267,10 +267,16 @@
 			<version>3.15</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.xmlbeans</groupId>
-		    <artifactId>xmlbeans</artifactId>
-		    <version>2.5.0</version>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>2.5.0</version>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -13,6 +13,10 @@
 			<base-name>org.servialtura.contabilidad.i18n.applicationProperties</base-name>
 			<var>msg</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>org.servialtura.contabilidad.i18n.messages</base-name>
+			<var>mensajes</var>
+		</resource-bundle>
 	</application>
 
 </faces-config>

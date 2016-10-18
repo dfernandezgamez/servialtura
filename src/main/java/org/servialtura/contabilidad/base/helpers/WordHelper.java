@@ -1,17 +1,17 @@
 package org.servialtura.contabilidad.base.helpers;
 
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
@@ -22,23 +22,29 @@ import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.joda.time.DateTime;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import org.servialtura.contabilidad.base.model.LineaPresupuesto;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 
 
 public class WordHelper {
+	
+	private static ResourceBundle myResource =     ResourceBundle.getBundle("org.servialtura.contabilidad.i18n.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
 	public static XWPFDocument getPresupuesto(Presupuesto presupuesto){
 		XWPFDocument presupuestoDoc = new XWPFDocument();
-		crearPortada(presupuestoDoc);
-		crearCuerpo(presupuestoDoc);
+		crearPortada(presupuestoDoc,presupuesto);
+		crearCuerpo(presupuestoDoc,presupuesto);
 		crearCondicionesLegales(presupuestoDoc);
 		return presupuestoDoc;
-		
+
 	}
 
+
 	private static void crearCondicionesLegales(XWPFDocument presupuesto) {
+		DateTime hoy = new DateTime();
 		XWPFParagraph tituloCondiciones = presupuesto.createParagraph();
 		XWPFRun run=tituloCondiciones.createRun();
 		run.addBreak(BreakType.PAGE);
@@ -46,16 +52,30 @@ public class WordHelper {
 		run.setFontSize(12);
 		run.setText("CONDICIONES GENERALES");
 		run.setFontFamily("Helvetica");
+		
 		XWPFParagraph parrafoCondiciones = presupuesto.createParagraph();
 		parrafoCondiciones.setIndentFromLeft(800);
 		XWPFRun run2=parrafoCondiciones.createRun();
 		run2.addBreak();
 		run2.setFontSize(10);
-		run2.setText("Este presupuesto Este presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuest");
+		run2.setText(myResource.getString("condicionesLegales1"));
+		run2.addBreak();
 		run2.setFontFamily("Helvetica");
-		
-		
-		
+		XWPFRun run22=parrafoCondiciones.createRun();
+		run22.addBreak();
+		run22.setFontSize(10);
+		run22.setText(myResource.getString("condicionesLegales2"));
+		run22.addBreak();
+		run22.setFontFamily("Helvetica");
+		XWPFRun run33=parrafoCondiciones.createRun();
+		run33.addBreak();
+		run33.setFontSize(10);
+		run33.setText(myResource.getString("condicionesLegales3"));
+		run33.addBreak();
+		run33.setFontFamily("Helvetica");
+
+
+
 		XWPFParagraph tituloFormas = presupuesto.createParagraph();
 		XWPFRun run3=tituloFormas.createRun();
 		run3.setBold(true);
@@ -65,31 +85,67 @@ public class WordHelper {
 		XWPFParagraph parrafoFormaPago = presupuesto.createParagraph();
 		parrafoFormaPago.setIndentFromLeft(800);
 		XWPFRun run4=parrafoFormaPago.createRun();
-		run4.addBreak();
 		run4.setFontSize(10);
-		run4.setText("Este presupuesto Este presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuestEste presupuest");
+		run4.addBreak();
+		run4.setText(myResource.getString("formaPago1"));
+		run4.addBreak();
 		run4.setFontFamily("Helvetica");
+		XWPFRun run44=parrafoFormaPago.createRun();
+		run44.setFontSize(10);
+		run44.addBreak();
+		run44.setText(myResource.getString("formaPago2"));
+		run44.setFontFamily("Helvetica");
+		run44.addBreak();
+		XWPFRun run55=parrafoFormaPago.createRun();
+		run55.setFontSize(10);
+		run55.addBreak();
+		run55.setText(myResource.getString("formaPago3"));
+		run55.setFontFamily("Helvetica");
+		run55.addBreak();
 		
 		
+		XWPFParagraph tituloValidez = presupuesto.createParagraph();
+		XWPFRun run77=tituloValidez.createRun();
+		run77.setBold(true);
+		run77.setFontSize(12);
+		run77.setText("VALIDEZ");
+		run77.setFontFamily("Helvetica");
+		XWPFParagraph parrafoValidez = presupuesto.createParagraph();
+		parrafoValidez.setIndentFromLeft(800);
+		XWPFRun run88=parrafoValidez.createRun();
+		run88.addBreak();
+		run88.setFontSize(10);
+		run88.setText(myResource.getString("validez"));
+		run88.setFontFamily("Helvetica");
+		run88.addBreak();
 
-		
+
+		XWPFParagraph fecha = presupuesto.createParagraph();
+		fecha.setAlignment(ParagraphAlignment.RIGHT);
+		XWPFRun fechaRun=fecha.createRun();
+		fechaRun.setBold(true);
+		fechaRun.setFontSize(12);
+		fechaRun.setFontFamily("Helvetica");
+		fechaRun.addBreak();
+		fechaRun.setText("Gijón a "+hoy.getDayOfMonth()+ " de "+ WordUtils.capitalize(hoy.toString("MMMM",Locale.getDefault())) + " de "+ hoy.getYear() );
+
 	}
 
-	private static void crearCuerpo(XWPFDocument presupuesto) {
-		addParrafoImagen(presupuesto,297/2,210/2,ParagraphAlignment.LEFT);
+	private static void crearCuerpo(XWPFDocument presupuestoDoc, Presupuesto presupuesto) {
+		addParrafoImagen(presupuestoDoc,297/2,210/2,ParagraphAlignment.LEFT);
 
 
-		XWPFParagraph parrafo3 = presupuesto.createParagraph();
+		XWPFParagraph parrafo3 = presupuestoDoc.createParagraph();
 		parrafo3.setVerticalAlignment(TextAlignment.TOP);
 		parrafo3.setAlignment(ParagraphAlignment.RIGHT);
 		XWPFRun r3 = parrafo3.createRun();
 		r3.setBold(true);
 		r3.setFontSize(12);
-		r3.setText("COMUNIDAD DE PROPIETARIOS DE LA CALLE DE A TOMAR POR CULO NUMERO 5 PERO MUY JRTO TODO");
+		r3.setText(presupuesto.getDireccionContacto());
 		r3.setFontFamily("Helvetica");
 		r3.addBreak();
 
-		XWPFParagraph parrafo = presupuesto.createParagraph();
+		XWPFParagraph parrafo = presupuestoDoc.createParagraph();
 		parrafo.setVerticalAlignment(TextAlignment.TOP);
 		parrafo.setAlignment(ParagraphAlignment.LEFT);
 		XWPFRun r1 = parrafo.createRun();
@@ -98,32 +154,41 @@ public class WordHelper {
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
-		XWPFParagraph parrafo2 = presupuesto.createParagraph();
+		XWPFParagraph parrafo2 = presupuestoDoc.createParagraph();
 		parrafo2.setVerticalAlignment(TextAlignment.TOP);
 		parrafo2.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun r2 = parrafo2.createRun();
 		r2.setBold(true);
 		r2.setFontSize(12);
 		r2.setUnderline(UnderlinePatterns.SINGLE);
-		r2.setText("ANCLAJE Y REJUNTEO DE CHAPADO DE PIEDRA NATURAL");
+		r2.setText(presupuesto.getSolicitud().getDescripcionSolicitud());
 		r2.setFontFamily("Helvetica");
 		r2.addBreak();
 
-		
-		addListaTrabajos(presupuesto);
+
+		addListaTrabajos(presupuestoDoc,presupuesto);
 
 	}
 
-	private static void addListaTrabajos(XWPFDocument presupuesto) {
-		for(int i=1;i<10;i++){
-			XWPFParagraph para = presupuesto.createParagraph();
+	private static void addListaTrabajos(XWPFDocument presupuestoDoc, Presupuesto presupuesto) {
+		for(LineaPresupuesto linea:presupuesto.getLineas()){
+			XWPFParagraph para = presupuestoDoc.createParagraph();
 			para.setVerticalAlignment(TextAlignment.TOP);
 			para.setAlignment(ParagraphAlignment.CENTER);
-			para.setNumID(BigInteger.ONE);
+			para.setNumID(BigInteger.TEN);
 			XWPFRun run=para.createRun();
-			run.setText( "Elemento: "+String.valueOf(i));
-
+			run.setText(linea.getDescripcionLineaPresupuesto());
+			run.addBreak();
 		}
+		
+		XWPFParagraph importe = presupuestoDoc.createParagraph();
+		importe.setVerticalAlignment(TextAlignment.TOP);
+		importe.setAlignment(ParagraphAlignment.LEFT);
+		XWPFRun run=importe.createRun();
+		run.setBold(true);
+		run.addBreak();
+		run.addBreak();
+		run.setText(myResource.getString("importeObra"));
 	}
 
 	private static void guardarPresupuesto(XWPFDocument presupuesto) throws FileNotFoundException, IOException {
@@ -132,34 +197,34 @@ public class WordHelper {
 		ficheroSalida.close();
 	}
 
-	private static void crearPortada(XWPFDocument presupuesto) {
-		addParrafoImagen(presupuesto,297,210,ParagraphAlignment.CENTER);
-		addParrafoInformacionObra(presupuesto);
-		addPiePagina(presupuesto);
+	private static void crearPortada(XWPFDocument presupuestoDoc, Presupuesto presupuesto) {
+		addParrafoImagen(presupuestoDoc,297,210,ParagraphAlignment.CENTER);
+		addParrafoInformacionObra(presupuestoDoc,presupuesto);
+		addPiePagina(presupuestoDoc);
 
 	}
 
-	private static void addParrafoInformacionObra(XWPFDocument presupuesto) {
-		XWPFParagraph parrafo = presupuesto.createParagraph();
+	private static void addParrafoInformacionObra(XWPFDocument presupuestoDoc, Presupuesto presupuesto) {
+		XWPFParagraph parrafo = presupuestoDoc.createParagraph();
 		parrafo.setVerticalAlignment(TextAlignment.TOP);
 		parrafo.setAlignment(ParagraphAlignment.CENTER);
 
 		XWPFRun r1 = parrafo.createRun();
 		r1.setBold(true);
 		r1.setFontSize(20);
-		r1.setText("PRESUPUESTO Nº: 213-10");
+		r1.setText("PRESUPUESTO Nº:"+ presupuesto.getIdPresupuesto());
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
 
-		XWPFParagraph parrafo2 = presupuesto.createParagraph();
+		XWPFParagraph parrafo2 = presupuestoDoc.createParagraph();
 		parrafo2.setVerticalAlignment(TextAlignment.TOP);
 		parrafo2.setAlignment(ParagraphAlignment.CENTER);
 
 		XWPFRun r2 = parrafo2.createRun();
 		r2.setBold(true);
 		r2.setFontSize(10);
-		r2.setText("CONCEJO DE ILLANO Y CCONCEJO DE ILLANO Y ");
+		r2.setText(presupuesto.getDireccionContacto());
 		r2.setFontFamily("Helvetica");
 		r2.addBreak(BreakType.PAGE);
 	}
@@ -195,7 +260,7 @@ public class WordHelper {
 		XWPFParagraph parrafoImagen = presupuesto.createParagraph();
 		XWPFRun r = parrafoImagen.createRun();
 		try {
-			
+
 			InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/servialtura.png");
 			r.addPicture(stream, XWPFDocument.PICTURE_TYPE_PNG, "servialtura.png", Units.toEMU(ancho), Units.toEMU(alto));
 		} catch (InvalidFormatException e) {

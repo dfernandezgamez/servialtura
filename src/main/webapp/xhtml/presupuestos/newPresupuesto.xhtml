@@ -24,35 +24,35 @@
 				<p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
 			<b:container >
 					<p:fieldset legend="Información del presupuesto" toggleable="true">
-						<h:panelGrid columns="2" width="100%">
-							<p:outputLabel id="desLbl" value="Descripción: " />
+						<h:panelGrid columns="2" width="50%">
+							<p:outputLabel id="desLbl" value="Descripción: " for="des" />
 							<p:inputText id="des"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.descripcionSolicitud}" />
+								value="#{newPresupuestoBean.newPresupuesto.solicitud.descripcionSolicitud}" required="true"/>
 								
-							<p:outputLabel id="fechaLbl" value="Fecha solicitud: " />
+							<p:outputLabel id="fechaLbl" value="Fecha solicitud: " for="fecha"/>
 							<p:calendar id="fecha"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.fechaSolicitud}">
+								value="#{newPresupuestoBean.newPresupuesto.solicitud.fechaSolicitud}" required="true">
 									<f:convertDateTime/>
 								</p:calendar>
 								
-							<p:outputLabel id="nombreLbl" value="Nombre contacto: " />
+							<p:outputLabel id="nombreLbl" value="Nombre contacto: "  for="nombre"/>
 							<p:inputText id="nombre"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.nombreContacto}" />
+								value="#{newPresupuestoBean.newPresupuesto.solicitud.nombreContacto}" required="true"/>
 								
-							<p:outputLabel id="emailLbl" value="Email contacto: " />
+							<p:outputLabel id="emailLbl" value="Email contacto: " for="email"/>
 							<p:inputText id="email"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.emailContacto}" />
+								value="#{newPresupuestoBean.newPresupuesto.solicitud.emailContacto}" required="true" />
 								
-							<p:outputLabel id="teleconoLbl" value="Telefono contacto: " />
+							<p:outputLabel id="teleconoLbl" value="Telefono contacto: " for="telefono" />
 							<p:inputText id="telefono"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.telefonoContacto}" />
+								value="#{newPresupuestoBean.newPresupuesto.solicitud.telefonoContacto}" required="false" />
 						</h:panelGrid>
 					</p:fieldset>
-					<p:fieldset legend="Líneas del presupuesto" toggleable="true" >
+					<p:fieldset legend="Líneas del presupuesto" toggleable="true" id="fieldsetLineas">
 						<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
 							<p:outputLabel  value="¿Necesita licencia?" />
 							<p:selectBooleanCheckbox value="#{newPresupuestoBean.necesitaLicencia}">
-								<p:ajax update="@form" />
+								<p:ajax update=":newPresupuestoForm:fieldsetLineas" />
 							</p:selectBooleanCheckbox>
 							
 							<h:panelGrid id="licenciaPanel" rendered="#{newPresupuestoBean.necesitaLicencia}" columns="2">
@@ -69,9 +69,19 @@
 						    <p:column headerText="Descripción">
 						        <h:outputText value="#{linea.descripcionLineaPresupuesto}" />
 						    </p:column>
+						    
+						    <f:facet name="footer">
+						   			 <p:commandButton value="Añadir linea" icon="fa fa-fw fa-plus" process="@this" actionListener="#{newPresupuestoBean.prepareLineaPresupuesto}" oncomplete="PF('newLineaPresupuestoDialog').show();" update=":newLineaPresupuestoForm"/>
+						    </f:facet>
 						</p:dataTable>
-						<p:commandButton value="Añadir linea" icon="fa fa-fw fa-plus" process="@form" actionListener="#{newPresupuestoBean.prepareLineaPresupuesto}" oncomplete="PF('newLineaPresupuestoDialog').show();" update=":newLineaPresupuestoForm"/>
-						<p:commandButton value="Previsualizar presupuesto" ajax="false" icon="fa fa-fw fa-ye" onclick="PrimeFaces.monitorDownload(start, stop);">
+						
+						<p:commandButton value="Guardar presupuesto"  icon="ui-icon-disk"
+							actionListener="#{newPresupuestoBean.guardarPresupuesto}" 
+							update="@form">
+
+							</p:commandButton>
+						
+						<p:commandButton value="Previsualizar presupuesto" ajax="false" icon="fa fa-fw fa-eye" onclick="PrimeFaces.monitorDownload(start, stop);">
 					        <p:fileDownload value="#{newPresupuestoBean.presupuestoFile}" />
 					    </p:commandButton>
 					</p:fieldset>
@@ -87,7 +97,7 @@
 								<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newLineaPresupuesto.descripcionLineaPresupuesto}" />
 							</h:panelGrid>
 							<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newLineaPresupuestoDialog').hide();" immediate="true"/>
-							<p:commandButton value="Guardar" icon="ui-icon-disk" actionListener="#{newPresupuestoBean.addLineaPresupuesto}" oncomplete="if (!args.validationFailed) {PF('newLineaPresupuestoDialog').hide();}" update=":newPresupuestoForm"/>
+							<p:commandButton value="Guardar" icon="ui-icon-disk" actionListener="#{newPresupuestoBean.addLineaPresupuesto}" oncomplete="if (!args.validationFailed) {PF('newLineaPresupuestoDialog').hide();}" update=":newPresupuestoForm:fieldsetLineas"/>
 				</h:form>
 			</p:dialog>		
 		</ui:define>

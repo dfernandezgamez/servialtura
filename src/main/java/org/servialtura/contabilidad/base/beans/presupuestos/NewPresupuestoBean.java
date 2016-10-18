@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +25,7 @@ import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
 import org.servialtura.contabilidad.base.model.LineaPresupuesto;
 import org.servialtura.contabilidad.base.model.Presupuesto;
+import org.servialtura.contabilidad.base.model.Solicitud;
 import org.servialtura.contabilidad.base.service.PresupuestosService;
 
 
@@ -39,11 +41,11 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	/**
 	 * 
 	 */
-    private Presupuesto newPresupuesto;
-    private List<LineaPresupuesto> lineas;
+    private Presupuesto newPresupuesto = new Presupuesto();
+    private List<LineaPresupuesto> lineas = new ArrayList<LineaPresupuesto>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
-    private LineaPresupuesto newLineaPresupuesto;
+    private LineaPresupuesto newLineaPresupuesto = new LineaPresupuesto();
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -53,9 +55,9 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     
     @PostConstruct
     public void init(){
-    	this.newPresupuesto = new Presupuesto();
+    	this.newPresupuesto.setSolicitud( new Solicitud());
+    	this.newPresupuesto.getSolicitud().setFechaSolicitud( new Date());
     	lineas = new ArrayList<LineaPresupuesto>();
-    	
     }
     
     public void addLineaLicencia(){
@@ -80,7 +82,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Atención!", "Creada nueva línea en el presupuesto"));
     }
     
-    public void createPresupuesto(){
+    public void guardarPresupuesto(){
     	try {
     		presupuestosService.createPresupuesto(newPresupuesto);
 		} catch (SystemException e) {
@@ -145,6 +147,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	public StreamedContent getPresupuestoFile(){
 
 		StreamedContent file = null;
+		newPresupuesto.setLineas(lineas);
 		XWPFDocument document= WordHelper.getPresupuesto(this.newPresupuesto);
     	
     		FileOutputStream ficheroSalida;
