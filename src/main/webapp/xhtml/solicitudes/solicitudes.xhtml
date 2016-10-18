@@ -16,11 +16,14 @@
 							paginator="true" editable="false" id="solicitudesTable"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
+							<p:column headerText="Fecha solicitud"  sortBy="#{sol.fechaSolicitud}">
+										<h:outputText value="#{sol.fechaSolicitud}" converter="javax.faces.DateTime" />
+							</p:column>
 							<p:column headerText="Descripción" filterBy="#{sol.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{sol.descripcionSolicitud}">
 										<h:outputText value="#{sol.descripcionSolicitud}" />
 							</p:column>
-							<p:column headerText="Fecha solicitud"  sortBy="#{sol.fechaSolicitud}">
-										<h:outputText value="#{sol.fechaSolicitud}" converter="javax.faces.DateTime" />
+							<p:column headerText="Persona contacto" filterBy="#{sol.personaContacto}" filterMatchMode="contains" sortBy="#{sol.personaContacto}">
+										<h:outputText value="#{sol.personaContacto}"  />
 							</p:column>
 							<p:column headerText="Email contacto" filterBy="#{sol.emailContacto}" filterMatchMode="contains" sortBy="#{sol.emailContacto}">
 										<h:outputText value="#{sol.emailContacto}" />

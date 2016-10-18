@@ -45,7 +45,6 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     private List<LineaPresupuesto> lineas = new ArrayList<LineaPresupuesto>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
-    private LineaPresupuesto newLineaPresupuesto = new LineaPresupuesto();
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -72,14 +71,6 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención!", "Eliminada línea automática"));
     	}
     	
-    }
-    
-    public void prepareLineaPresupuesto(){
-    	newLineaPresupuesto = new LineaPresupuesto();
-    }
-    public void addLineaPresupuesto(){
-    	this.lineas.add(newLineaPresupuesto);
-    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Atención!", "Creada nueva línea en el presupuesto"));
     }
     
     public void guardarPresupuesto(){
@@ -136,18 +127,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 		this.licenciaNuestra = licenciaNuestra;
 	}
 
-	public LineaPresupuesto getNewLineaPresupuesto() {
-		return newLineaPresupuesto;
-	}
-
-	public void setNewLineaPresupuesto(LineaPresupuesto newLineaPresupuesto) {
-		this.newLineaPresupuesto = newLineaPresupuesto;
-	}
 	
 	public StreamedContent getPresupuestoFile(){
 
 		StreamedContent file = null;
-		newPresupuesto.setLineas(lineas);
 		XWPFDocument document= WordHelper.getPresupuesto(this.newPresupuesto);
     	
     		FileOutputStream ficheroSalida;

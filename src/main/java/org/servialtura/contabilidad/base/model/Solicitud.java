@@ -35,7 +35,6 @@ public class Solicitud implements java.io.Serializable {
 	private String descripcionSolicitud;
 	private String emailContacto;
 	private String telefonoContacto;
-	private String nombreContacto;
 	private Cliente cliente;
 	private String personaContacto;
 	private List<Presupuesto> presupuestos;
@@ -108,17 +107,8 @@ public class Solicitud implements java.io.Serializable {
 		this.presupuestos = presupuestos;
 	}
 
-	@Column(name = "nombre_contacto", length = 50)
-	public String getNombreContacto() {
-		return nombreContacto;
-	}
-
-	public void setNombreContacto(String nombreContacto) {
-		this.nombreContacto = nombreContacto;
-	}
-
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idCliente")
+	@JoinColumn(name = "id_cliente")
 	public Cliente getCliente() {
 		return cliente;
 	}

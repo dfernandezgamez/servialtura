@@ -35,7 +35,7 @@ public class Presupuesto implements java.io.Serializable {
 	private Solicitud solicitud;
 	private Boolean tieneFacturaSuplidos;
 	private List<Factura> facturas = new ArrayList<Factura>(0);
-	private List<LineaPresupuesto> lineas = new ArrayList<LineaPresupuesto>(0);
+	private List<Partida> partidas = new ArrayList<Partida>(0);
 
 	public Presupuesto() {
 	}
@@ -127,14 +127,6 @@ public class Presupuesto implements java.io.Serializable {
 		this.emailContacto = emailContacto;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
-	public List<LineaPresupuesto> getLineas() {
-		return lineas;
-	}
-
-	public void setLineas(List<LineaPresupuesto> lineas) {
-		this.lineas = lineas;
-	}
 
 	@Column(name = "tiene_factura_suplidos")
 	public Boolean getTieneFacturaSuplidos() {
@@ -143,6 +135,15 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setTieneFacturaSuplidos(Boolean tieneFacturaSuplidos) {
 		this.tieneFacturaSuplidos = tieneFacturaSuplidos;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "partida")
+	public List<Partida> getPartidas() {
+		return partidas;
+	}
+
+	public void setPartidas(List<Partida> partidas) {
+		this.partidas = partidas;
 	}
 
 }
