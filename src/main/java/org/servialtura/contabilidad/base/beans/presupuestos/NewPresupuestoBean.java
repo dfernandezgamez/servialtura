@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -48,6 +47,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     private List<LineaPartida> lineas = new ArrayList<LineaPartida>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
+    private Partida newPartida;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -61,7 +61,6 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	String idSolicitud = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idSolicitud");
     	Solicitud sol=solicitudesService.getSolicitud(Integer.valueOf(idSolicitud));
     	this.newPresupuesto.setSolicitud(sol);
-    	this.newPresupuesto.getSolicitud().setFechaSolicitud( new Date());
     	partidas = new ArrayList<Partida>();
     }
     
@@ -72,7 +71,21 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 		} catch (SystemException e) {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando presupuesto"));
 		}
+    	
     }
+    
+    public void addPartida(){
+    	try {
+    		presupuestosService.createPartida(newPartida);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando partida"));
+		}
+    }
+    
+    public void prepareNewPartida(){
+    	this.newPartida = new Partida();
+    }
+    
 
 	public Presupuesto getNewPresupuesto() {
 		return newPresupuesto;
@@ -163,6 +176,16 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setSolicitudesService(SolicitudesService solicitudesService) {
 		this.solicitudesService = solicitudesService;
+	}
+
+
+	public Partida getNewPartida() {
+		return newPartida;
+	}
+
+
+	public void setNewPartida(Partida newPartida) {
+		this.newPartida = newPartida;
 	}
 
 }

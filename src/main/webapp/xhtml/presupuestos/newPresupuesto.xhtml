@@ -60,22 +60,29 @@
 						</h:panelGrid>
 					</p:fieldset>
 					<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldsetLineas">
-
+						<p:commandButton value="Crear nueva partida"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
-						<p:commandButton value="Guardar presupuesto"  icon="ui-icon-disk"
-							actionListener="#{newPresupuestoBean.guardarPresupuesto}" 
-							update="@form">
-
-							</p:commandButton>
-						
-						<p:commandButton value="Previsualizar presupuesto" ajax="false" icon="fa fa-fw fa-eye" onclick="PrimeFaces.monitorDownload(start, stop);">
-					        <p:fileDownload value="#{newPresupuestoBean.presupuestoFile}" />
-					    </p:commandButton>
 					</p:fieldset>
+					
+					<p:commandButton value="Guardar presupuesto"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.guardarPresupuesto}"	update="@form"/>
+					<p:commandButton value="Previsualizar presupuesto" ajax="false" icon="fa fa-fw fa-eye" onclick="PrimeFaces.monitorDownload(start, stop);">
+				        <p:fileDownload value="#{newPresupuestoBean.presupuestoFile}" />
+				    </p:commandButton>
 			</b:container>
 			</h:form>
 			
 			<!-- dialogs -->
+				<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
+				<h:form id="newPartidaForm">
+					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
+							<h:panelGrid>
+								<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
+								<p:inputTextarea id="des"  required="true" value="#{newPresupuestoBean.newPartida.nombrePartida}" />
+							</h:panelGrid>
+							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
+							<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{newPresupuestoBean.addPartida()}" oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update="@form"/>
+				</h:form>
+			</p:dialog>	
 		</ui:define>
 	</ui:composition>
 </h:body>

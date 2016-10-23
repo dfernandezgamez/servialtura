@@ -61,7 +61,7 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
     	try {
     		solicitudesService.createSolicitud(newSolicitud);
 		} catch (SystemException e) {
-			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando solicitud solicitud"));
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando solicitud"));
 		}
     }
     
