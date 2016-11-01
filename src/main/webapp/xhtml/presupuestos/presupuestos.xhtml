@@ -19,9 +19,12 @@
 							<p:column headerText="Id presupuesto" filterBy="#{pre.idPresupuesto}" filterMatchMode="contains" sortBy="#{pre.idPresupuesto}">
 										<h:outputText value="#{pre.idPresupuesto}" />
 							</p:column>
+							<p:column headerText="Estado del presupuesto" filterBy="#{pre.estadoPresupuesto}" filterMatchMode="contains" sortBy="#{pre.estadoPresupuesto}">
+										<h:outputText value="#{pre.estadoPresupuesto}" />
+							</p:column>
 							
-							<p:column headerText="Nombre contacto" filterBy="#{pre.nombreContacto}" filterMatchMode="contains" sortBy="#{pre.nombreContacto}">
-										<h:outputText value="#{pre.nombreContacto}" />
+							<p:column headerText="Nombre contacto" filterBy="#{pre.solicitud.personaContacto}" filterMatchMode="contains" sortBy="#{pre.nombreContacto}">
+										<h:outputText value="#{pre.solicitud.personaContacto}" />
 							</p:column>
 
 						</p:dataTable>

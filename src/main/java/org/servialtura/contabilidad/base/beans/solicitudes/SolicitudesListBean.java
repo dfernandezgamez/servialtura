@@ -31,7 +31,7 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
 	 * 
 	 */
 	private List<Solicitud> solicitudes;
-    private Solicitud newSolicitud = new Solicitud();
+    private Solicitud newSolicitud ;
     private Solicitud editSolicitud;
     
     
@@ -66,11 +66,19 @@ public class SolicitudesListBean extends BaseBean implements Serializable {
     }
     
     public void addSolicitud(){
+    	if(newSolicitud.getEmailContacto().isEmpty() && newSolicitud.getTelefonoContacto().isEmpty()){
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Info", "Al menos el teléfono o el email son obligatorios"));
+    		FacesContext.getCurrentInstance().validationFailed();
+    		return;
+    	}
+    	
     	try {
     		solicitudesService.createSolicitud(newSolicitud);
+    		this.solicitudes= solicitudesService.getSolicitudes();
 		} catch (SystemException e) {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando solicitud"));
 		}
+    	
     }
     
     public void updateSolicitud(){

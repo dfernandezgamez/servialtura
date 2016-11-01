@@ -103,14 +103,16 @@
 				<h:form id="newPartidaForm">
 					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
 					    	<b:container >
-								<h:panelGrid columns="4">
+								 <b:panelGrid colSpans="5,7">
 									<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
 									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newPartida.nombrePartida}" />
 									
 									<p:outputLabel id="impLbl" for="importe" value="Importe de la partida" />
-									<p:inputText id="importe"  required="true" value="#{newPresupuestoBean.newPartida.importePartida}"/>
+									<p:inputText id="importe"  required="true" value="#{newPresupuestoBean.newPartida.importePartida}">
+										<p:keyFilter regEx="/[ABC]/i"/>
+									</p:inputText>
 										
-								</h:panelGrid>
+								</b:panelGrid>
 								<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@this" onclick="PF('newLineaDialog').show();" update="newLineaForm" actionListener="#{newPresupuestoBean.prepareNewLinea}"/>
 								
 								<p:dataTable var="lin" value="#{newPresupuestoBean.lineas}" rows="10"
@@ -132,12 +134,10 @@
 				<p:dialog widgetVar="newLineaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
 				<h:form id="newLineaForm">
 					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-					    	<b:container >
-								<h:panelGrid columns="2">
+								 <b:panelGrid colSpans="5,7">
 									<p:outputLabel id="desLbl" for="des" value="Nombre de la línea" />
 									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newLinea.descripcionLineaPresupuesto}" />
-								</h:panelGrid>
-							</b:container>
+								</b:panelGrid>
 							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newLineaDialog').hide();" immediate="true"/>
 							<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@form" actionListener="#{newPresupuestoBean.addLinea()}" 
 							 oncomplete="if (!args.validationFailed) {PF('newLineaDialog').hide();}" update="@form, :newPartidaForm:lineasTable"/>

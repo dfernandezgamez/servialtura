@@ -59,23 +59,31 @@
 
 			<p:dialog header="Nueva solicitud" widgetVar="newSolicitudDialog"  resizable="false" modal="true" closable="true" dynamic="true">
 				<h:form id="newSolicitudForm">
-					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
-							<h:panelGrid>
-								<p:outputLabel id="desLbl" for="des" value="Descripción" />
-								<p:inputTextarea id="des"  required="true" value="#{solicitudesListBean.newSolicitud.descripcionSolicitud}" />
-							</h:panelGrid>
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
 							 <b:panelGrid colSpans="5,7">
+								 <p:outputLabel id="desLbl" for="des" value="Descripción" />
+								<p:inputText id="des"  required="true" value="#{solicitudesListBean.newSolicitud.descripcionSolicitud}" />
+								
+								<p:outputLabel id="personaLbl" for="persona" value="Persona de contacto" />
+								<p:inputText id="persona"  required="true" value="#{solicitudesListBean.newSolicitud.personaContacto}" />
+								
 								<p:outputLabel id="fechaLbl" for="fecha"	value="Fecha solicitud" />
-								<p:calendar id="fecha" value="#{solicitudesListBean.newSolicitud.fechaSolicitud}" size="8" />
+								<p:calendar id="fecha" value="#{solicitudesListBean.newSolicitud.fechaSolicitud}" size="8" pattern="dd/MM/yyyy"/>
 								
 								<p:outputLabel id="emailLbl" for="email" value="Email contacto" />
-								<p:inputText id="email" maxlength="50" required="true" value="#{solicitudesListBean.newSolicitud.emailContacto}" />
+								<p:inputText id="email" maxlength="50"  value="#{solicitudesListBean.newSolicitud.emailContacto}" >
+									<p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/>
+								</p:inputText>
 								
 								<p:outputLabel id="telLbl" for="tel" value="Teléfono contacto" />
-								<p:inputNumber id="tel" value="#{solicitudesListBean.newSolicitud.telefonoContacto}"  /> 
+								<p:inputText id="tel" value="#{solicitudesListBean.newSolicitud.telefonoContacto}" >
+									<p:keyFilter regEx="/[\d\-\.]/"/>
+								</p:inputText> 
 							</b:panelGrid>
 							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newSolicitudDialog').hide();" immediate="true"/>
-							<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}" update="@form"/>
+							<p:commandButton ajax="true" value="Guardar" icon="ui-icon-disk" process="@form" action="#{solicitudesListBean.addSolicitud}" oncomplete="if (!args.validationFailed) {PF('newSolicitudDialog').hide();}"
+							 update="@form :solicitudesListform:solicitudesTable" type="submit">
+							 </p:commandButton>
 				</h:form>
 			</p:dialog>			
 		</ui:define>

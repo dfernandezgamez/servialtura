@@ -21,6 +21,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
+import org.servialtura.contabilidad.base.enums.EstadoPresupuestoEnum;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
 import org.servialtura.contabilidad.base.model.LineaPartida;
 import org.servialtura.contabilidad.base.model.Partida;
@@ -62,6 +63,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	String idSolicitud = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idSolicitud");
     	Solicitud sol=solicitudesService.getSolicitud(Integer.valueOf(idSolicitud));
     	this.newPresupuesto.setSolicitud(sol);
+    	this.newPresupuesto.setEstadoPresupuesto(EstadoPresupuestoEnum.EN_PREPARACION);
     }
     
     public void guardarPresupuesto(){
