@@ -47,7 +47,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     private List<LineaPartida> lineas = new ArrayList<LineaPartida>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
+<<<<<<< HEAD
     private Partida newPartida;
+=======
+>>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -64,7 +67,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	partidas = new ArrayList<Partida>();
     }
     
+<<<<<<< HEAD
     
+=======
+>>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
     public void guardarPresupuesto(){
     	try {
     		presupuestosService.createPresupuesto(newPresupuesto);
@@ -124,6 +130,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	public void setLicenciaNuestra(Boolean licenciaNuestra) {
 		this.licenciaNuestra = licenciaNuestra;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
 	
 	public StreamedContent getPresupuestoFile(){
 
