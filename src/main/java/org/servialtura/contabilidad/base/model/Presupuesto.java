@@ -89,17 +89,7 @@ public class Presupuesto implements java.io.Serializable {
 		this.solicitud = solicitud;
 	}
 
-<<<<<<< HEAD
-=======
-	@Column(name = "email_contacto", length = 100)
-	public String getEmailContacto() {
-		return emailContacto;
-	}
 
-	public void setEmailContacto(String emailContacto) {
-		this.emailContacto = emailContacto;
-	}
->>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
 
 
 	@Column(name = "tiene_factura_suplidos")
@@ -111,11 +101,7 @@ public class Presupuesto implements java.io.Serializable {
 		this.tieneFacturaSuplidos = tieneFacturaSuplidos;
 	}
 
-<<<<<<< HEAD
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
-=======
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "partida")
->>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
 	public List<Partida> getPartidas() {
 		return partidas;
 	}

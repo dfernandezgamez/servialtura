@@ -47,10 +47,8 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     private List<LineaPartida> lineas = new ArrayList<LineaPartida>();
     private Boolean necesitaLicencia;
     private Boolean licenciaNuestra;
-<<<<<<< HEAD
     private Partida newPartida;
-=======
->>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
+    private LineaPartida newLinea;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -64,14 +62,18 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	String idSolicitud = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idSolicitud");
     	Solicitud sol=solicitudesService.getSolicitud(Integer.valueOf(idSolicitud));
     	this.newPresupuesto.setSolicitud(sol);
-    	partidas = new ArrayList<Partida>();
     }
     
-<<<<<<< HEAD
-    
-=======
->>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
     public void guardarPresupuesto(){
+    	
+    	if(partidas==null || partidas.isEmpty()){
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Info", "No hay partidas en el presupuesto!!!"));
+    		FacesContext.getCurrentInstance().validationFailed();
+    		return;
+    	}
+    	
+    	newPresupuesto.getPartidas().addAll(partidas);
+    	
     	try {
     		presupuestosService.createPresupuesto(newPresupuesto);
 		} catch (SystemException e) {
@@ -81,15 +83,34 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     }
     
     public void addPartida(){
-    	try {
-    		presupuestosService.createPartida(newPartida);
-		} catch (SystemException e) {
-			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando partida"));
-		}
+    	if(lineas==null || lineas.isEmpty()){
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Info", "No hay lineas en el presupuesto"));
+    		FacesContext.getCurrentInstance().validationFailed();
+    		return;
+    	}
+    	this.newPartida.getLineasPartida().addAll(lineas);
+    	if(partidas==null) {
+    		partidas = new ArrayList<Partida>();
+    	}
+    	partidas.add(newPartida);
+
+    }
+    
+    public void prepareNewLinea(){
+    	this.newLinea = new LineaPartida();
+    	this.newLinea.setPartida(newPartida);
+    }
+    
+    public void addLinea(){
+    	if(lineas==null){
+    		lineas = new ArrayList<LineaPartida>();
+    	}
+    	this.lineas.add(newLinea);
     }
     
     public void prepareNewPartida(){
     	this.newPartida = new Partida();
+    	this.lineas = new ArrayList<LineaPartida>();
     }
     
 
@@ -130,10 +151,6 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	public void setLicenciaNuestra(Boolean licenciaNuestra) {
 		this.licenciaNuestra = licenciaNuestra;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 64dec6e0a2448737832c1246e6f2c3783eca4b16
 	
 	public StreamedContent getPresupuestoFile(){
 
@@ -196,6 +213,14 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setNewPartida(Partida newPartida) {
 		this.newPartida = newPartida;
+	}
+
+	public LineaPartida getNewLinea() {
+		return newLinea;
+	}
+
+	public void setNewLinea(LineaPartida newLinea) {
+		this.newLinea = newLinea;
 	}
 
 }

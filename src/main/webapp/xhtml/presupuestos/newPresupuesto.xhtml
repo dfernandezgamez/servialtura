@@ -60,7 +60,34 @@
 						</h:panelGrid>
 					</p:fieldset>
 					<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldsetLineas">
-						<p:commandButton value="Crear nueva partida"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
+						<p:dataTable var="par" value="#{newPresupuestoBean.partidas}" 
+					        rows="12" paginator="true" id="partidas" emptyMessage="Sin partidas en el presupuesto"
+					        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					        rowsPerPageTemplate="6,12,16">
+					        <p:column style="width:50px">
+					            <p:rowToggler />
+					        </p:column>
+					 
+					        <f:facet name="header">
+					           Partidas del presupuesto
+					        </f:facet>
+					        <p:column>
+					                <h:outputText value="#{par.nombrePartida}" />
+					         </p:column>
+					        <p:column>
+					                <h:outputText value="#{par.importePartida}" />
+					         </p:column>
+							<p:rowExpansion>
+					            <p:panelGrid  columns="1" >
+					            	<h:outputText value="Líneas" />
+					            	 <p:repeat value="#{par.lineasPartida}" var="lin" >
+						                <h:outputText value="#{lin.descripcionLineaPresupuesto}" /><br />
+						             </p:repeat>
+					            </p:panelGrid>
+					        </p:rowExpansion>
+					 
+					    </p:dataTable>
+						<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{newPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
 					</p:fieldset>
 					
@@ -74,13 +101,46 @@
 			<!-- dialogs -->
 				<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
 				<h:form id="newPartidaForm">
-					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
-							<h:panelGrid>
-								<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
-								<p:inputTextarea id="des"  required="true" value="#{newPresupuestoBean.newPartida.nombrePartida}" />
-							</h:panelGrid>
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<b:container >
+								<h:panelGrid columns="4">
+									<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
+									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newPartida.nombrePartida}" />
+									
+									<p:outputLabel id="impLbl" for="importe" value="Importe de la partida" />
+									<p:inputText id="importe"  required="true" value="#{newPresupuestoBean.newPartida.importePartida}"/>
+										
+								</h:panelGrid>
+								<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@this" onclick="PF('newLineaDialog').show();" update="newLineaForm" actionListener="#{newPresupuestoBean.prepareNewLinea}"/>
+								
+								<p:dataTable var="lin" value="#{newPresupuestoBean.lineas}" rows="10"
+											paginator="true" editable="false" id="lineasTable" emptyMessage="Sin líneas en la partida"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="5,10,15">
+											<p:column headerText="Descripción línea de partida"  >
+														<h:outputText value="#{lin.descripcionLineaPresupuesto}" />
+											</p:column>
+								</p:dataTable>
+							</b:container>
 							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
-							<p:commandButton value="Guardar" icon="ui-icon-disk" process="@form" actionListener="#{newPresupuestoBean.addPartida()}" oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update="@form"/>
+							<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{newPresupuestoBean.addPartida()}" 
+							oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":newPresupuestoForm:partidas"/>
+					</h:form>
+				</p:dialog>	
+				
+				
+				<p:dialog widgetVar="newLineaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
+				<h:form id="newLineaForm">
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<b:container >
+								<h:panelGrid columns="2">
+									<p:outputLabel id="desLbl" for="des" value="Nombre de la línea" />
+									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newLinea.descripcionLineaPresupuesto}" />
+								</h:panelGrid>
+							</b:container>
+							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newLineaDialog').hide();" immediate="true"/>
+							<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@form" actionListener="#{newPresupuestoBean.addLinea()}" 
+							 oncomplete="if (!args.validationFailed) {PF('newLineaDialog').hide();}" update="@form, :newPartidaForm:lineasTable"/>
 				</h:form>
 			</p:dialog>	
 		</ui:define>

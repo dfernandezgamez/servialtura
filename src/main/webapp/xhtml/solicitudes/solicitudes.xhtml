@@ -42,11 +42,12 @@
 										<h:panelGroup rendered="#{!sol.presupuestos.isEmpty()}">
 											<i class="fa fa-check" style="color:GREEN"></i>
 											<h:outputText value="Tiene presupuesto"   />
+											<p:commandButton  icon="fa fa-fw fa-file-text-o"  actionListener="#{solicitudesListBean.redirectExistingPresupuesto(sol)}"/>
 										</h:panelGroup>
 										<h:panelGroup rendered="#{sol.presupuestos.isEmpty()}">
 											<i class="fa fa-remove" style="color:RED"></i>
 											<h:outputText value="No tiene presupuesto"  rendered="#{sol.presupuestos.isEmpty()}"/>
-												<p:commandButton  icon="fa fa-fw fa-file-text-o"  actionListener="#{solicitudesListBean.redirectNewPresupuesto(sol)}"/>
+												<p:commandButton  icon="fa fa-fw fa-file-o"  actionListener="#{solicitudesListBean.redirectNewPresupuesto(sol)}"/>
 										</h:panelGroup>
 							</p:column>
 
