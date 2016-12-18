@@ -44,6 +44,11 @@ public class PresupuestosService {
 	}
 	
 	@Transactional
+	public String getNuevoNumeroPresupuesto(Presupuesto presupuesto) throws SystemException{
+		return "";
+	}
+	
+	@Transactional
 	public void createPresupuesto(Presupuesto pre) throws SystemException{
 		 genericDao.create(pre);
 	}

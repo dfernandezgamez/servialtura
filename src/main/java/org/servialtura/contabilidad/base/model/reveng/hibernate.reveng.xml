@@ -2,11 +2,11 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-	<table-filter match-name="PRESUPUESTO"
+	<table-filter match-name="CATEGORIA_SERVICIO"
 		match-catalog="SERVIALTURA">
 	</table-filter>
-	<table-filter match-name="PARTIDA" match-catalog="SERVIALTURA"></table-filter>
-	<table-filter match-name="LINEA_PARTIDA"
+	<table-filter match-name="SERVICIO" match-catalog="SERVIALTURA"></table-filter>
+	<table-filter match-name="UNIDAD_SERVICIO"
 		match-catalog="SERVIALTURA">
 	</table-filter>
 </hibernate-reverse-engineering>

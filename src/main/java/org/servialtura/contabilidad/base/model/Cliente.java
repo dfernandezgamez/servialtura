@@ -1,6 +1,6 @@
 package org.servialtura.contabilidad.base.model;
 // default package
-// Generated 01-oct-2016 18:39:37 by Hibernate Tools 4.3.1.Final
+// Generated 18-dic-2016 13:04:56 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "CLIENTE", catalog = "SERVIALTURA")
 public class Cliente implements java.io.Serializable {
 
+	private static final long serialVersionUID = 5537411214887274014L;
 	private Integer idCliente;
 	private String nombreCliente;
 	private String nifCliente;
@@ -47,7 +48,7 @@ public class Cliente implements java.io.Serializable {
 		this.idCliente = idCliente;
 	}
 
-	@Column(name = "nombre_cliente", length = 45)
+	@Column(name = "nombre_cliente")
 	public String getNombreCliente() {
 		return this.nombreCliente;
 	}
@@ -56,7 +57,7 @@ public class Cliente implements java.io.Serializable {
 		this.nombreCliente = nombreCliente;
 	}
 
-	@Column(name = "nif_cliente", length = 45)
+	@Column(name = "nif_cliente")
 	public String getNifCliente() {
 		return this.nifCliente;
 	}
@@ -65,7 +66,7 @@ public class Cliente implements java.io.Serializable {
 		this.nifCliente = nifCliente;
 	}
 
-	@Column(name = "email_cliente", length = 30)
+	@Column(name = "email_cliente")
 	public String getEmailCliente() {
 		return this.emailCliente;
 	}
@@ -74,7 +75,7 @@ public class Cliente implements java.io.Serializable {
 		this.emailCliente = emailCliente;
 	}
 
-	@Column(name = "telefono_cliente", length = 20)
+	@Column(name = "telefono_cliente")
 	public String getTelefonoCliente() {
 		return this.telefonoCliente;
 	}
@@ -83,13 +84,38 @@ public class Cliente implements java.io.Serializable {
 		this.telefonoCliente = telefonoCliente;
 	}
 
-	@Column(name = "direccion_cliente", length = 150)
+	@Column(name = "direccion_cliente")
 	public String getDireccionCliente() {
 		return this.direccionCliente;
 	}
 
 	public void setDireccionCliente(String direccionCliente) {
 		this.direccionCliente = direccionCliente;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idCliente == null) ? 0 : idCliente.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Cliente))
+			return false;
+		Cliente other = (Cliente) obj;
+		if (idCliente == null) {
+			if (other.getIdCliente() != null)
+				return false;
+		} else if (!idCliente.equals(other.getIdCliente()))
+			return false;
+		return true;
 	}
 
 }

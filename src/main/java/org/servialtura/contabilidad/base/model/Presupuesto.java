@@ -1,13 +1,15 @@
 package org.servialtura.contabilidad.base.model;
+
 // default package
-// Generated 01-oct-2016 18:39:37 by Hibernate Tools 4.3.1.Final
+// Generated 18-dic-2016 13:04:56 by Hibernate Tools 4.3.1.Final
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.servialtura.contabilidad.base.enums.EstadoPresupuestoEnum;
 
@@ -29,18 +33,35 @@ import org.servialtura.contabilidad.base.enums.EstadoPresupuestoEnum;
 @Table(name = "PRESUPUESTO", catalog = "SERVIALTURA")
 public class Presupuesto implements java.io.Serializable {
 
-	private static final long serialVersionUID = 4567239054460883494L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7559442234637997116L;
 	private Integer idPresupuesto;
 	private EstadoPresupuestoEnum estadoPresupuesto;
-	private Float importePresupuesto;
-	private Solicitud solicitud;
+	private BigDecimal importePresupuesto;
 	private Boolean tieneFacturaSuplidos;
-	private List<Factura> facturas = new ArrayList<Factura>(0);
-	private List<Partida> partidas = new ArrayList<Partida>(0);
+	private Date fechaSolicitud;
+	private String descripcionSolicitud;
+	private String emailContacto;
+	private String personaContacto;
+	private String telefonoContacto;
+	private String numeroPresupuesto;
+	private Cliente cliente;
+	private List<Partida> partidas = new ArrayList<Partida>();
 
 	public Presupuesto() {
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cliente")
+	public Cliente getCliente() {
+		return this.cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -54,7 +75,7 @@ public class Presupuesto implements java.io.Serializable {
 		this.idPresupuesto = idPresupuesto;
 	}
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "estado_presupuesto", length=20 )
 	public EstadoPresupuestoEnum getEstadoPresupuesto() {
 		return this.estadoPresupuesto;
@@ -64,51 +85,82 @@ public class Presupuesto implements java.io.Serializable {
 		this.estadoPresupuesto = estadoPresupuesto;
 	}
 
-	@Column(name = "importe_presupuesto", precision = 12, scale = 0)
-	public Float getImportePresupuesto() {
+	@Column(name = "importe_presupuesto", precision = 38)
+	public BigDecimal getImportePresupuesto() {
 		return this.importePresupuesto;
 	}
 
-	public void setImportePresupuesto(Float importePresupuesto) {
+	public void setImportePresupuesto(BigDecimal importePresupuesto) {
 		this.importePresupuesto = importePresupuesto;
 	}
 
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
-	public List<Factura> getFacturas() {
-		return this.facturas;
-	}
-
-	public void setFacturas(List<Factura> facturas) {
-		this.facturas = facturas;
-	}
-
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name = "idSolicitud")
-	public Solicitud getSolicitud() {
-		return solicitud;
-	}
-
-	public void setSolicitud(Solicitud solicitud) {
-		this.solicitud = solicitud;
-	}
-
-
-
-
 	@Column(name = "tiene_factura_suplidos")
 	public Boolean getTieneFacturaSuplidos() {
-		return tieneFacturaSuplidos;
+		return this.tieneFacturaSuplidos;
 	}
 
 	public void setTieneFacturaSuplidos(Boolean tieneFacturaSuplidos) {
 		this.tieneFacturaSuplidos = tieneFacturaSuplidos;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_solicitud", length = 19)
+	public Date getFechaSolicitud() {
+		return this.fechaSolicitud;
+	}
+
+	public void setFechaSolicitud(Date fechaSolicitud) {
+		this.fechaSolicitud = fechaSolicitud;
+	}
+
+	@Column(name = "descripcion_solicitud")
+	public String getDescripcionSolicitud() {
+		return this.descripcionSolicitud;
+	}
+
+	public void setDescripcionSolicitud(String descripcionSolicitud) {
+		this.descripcionSolicitud = descripcionSolicitud;
+	}
+
+	@Column(name = "email_contacto")
+	public String getEmailContacto() {
+		return this.emailContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
+	}
+
+	@Column(name = "persona_contacto")
+	public String getPersonaContacto() {
+		return this.personaContacto;
+	}
+
+	public void setPersonaContacto(String personaContacto) {
+		this.personaContacto = personaContacto;
+	}
+	
+	@Column(name = "numero_presupuesto")
+	public String getNumeroPresupuesto() {
+		return this.numeroPresupuesto;
+	}
+
+	public void setNumeroPresupuesto(String numeroPresupuesto) {
+		this.numeroPresupuesto = numeroPresupuesto;
+	}
+
+	@Column(name = "telefono_contacto")
+	public String getTelefonoContacto() {
+		return this.telefonoContacto;
+	}
+
+	public void setTelefonoContacto(String telefonoContacto) {
+		this.telefonoContacto = telefonoContacto;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
 	public List<Partida> getPartidas() {
-		return partidas;
+		return this.partidas;
 	}
 
 	public void setPartidas(List<Partida> partidas) {

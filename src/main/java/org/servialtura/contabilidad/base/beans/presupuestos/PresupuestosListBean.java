@@ -1,5 +1,6 @@
 package org.servialtura.contabilidad.base.beans.presupuestos;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -48,21 +49,12 @@ public class PresupuestosListBean extends BaseBean implements Serializable {
     }
     
     
-    public void addSolicitud(){
+    public void redirectToPresupuesto(Presupuesto pre){
     	try {
-    		presupuestosService.createPresupuesto(newPresupuesto);
-		} catch (SystemException e) {
-			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando presupuesto"));
+			FacesContext.getCurrentInstance().getExternalContext().redirect("../presupuestos/editPresupuesto.xhtml?idPresupuesto="+pre.getIdPresupuesto());
+		} catch (IOException e) {
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error redirecting"));
 		}
-    }
-    
-    public void updateSolicitud(){
-    	try {
-    		presupuestosService.updatePresupuesto(editPresupuesto);
-		} catch (SystemException e) {
-			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error actualizando presupuesto"));
-		}
-    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Presupuesto actualizado correctamente"));
     }
 
 

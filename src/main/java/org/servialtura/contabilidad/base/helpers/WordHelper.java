@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -25,7 +24,6 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.joda.time.DateTime;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
-import org.servialtura.contabilidad.base.model.LineaPartida;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 
@@ -142,7 +140,7 @@ public class WordHelper {
 		XWPFRun r3 = parrafo3.createRun();
 		r3.setBold(true);
 		r3.setFontSize(12);
-		r3.setText(presupuesto.getSolicitud().getPersonaContacto());
+		r3.setText(presupuesto.getPersonaContacto());
 		r3.setFontFamily("Helvetica");
 		r3.addBreak();
 
@@ -172,16 +170,16 @@ public class WordHelper {
 			r2.setText(partida.getNombrePartida());
 			r2.setFontFamily("Helvetica");
 			r2.addBreak();
-			for(LineaPartida linea:partida.getLineasPartida()){
-				XWPFParagraph para = presupuestoDoc.createParagraph();
-				para.setVerticalAlignment(TextAlignment.TOP);
-				para.setAlignment(ParagraphAlignment.CENTER);
-				para.setNumID(BigInteger.TEN);
-				XWPFRun run=para.createRun();
-				run.addBreak();
-				run.setText(linea.getDescripcionLineaPresupuesto());
-				run.addBreak();
-			}
+//			for(LineaPartida linea:partida.getLineasPartida()){
+//				XWPFParagraph para = presupuestoDoc.createParagraph();
+//				para.setVerticalAlignment(TextAlignment.TOP);
+//				para.setAlignment(ParagraphAlignment.CENTER);
+//				para.setNumID(BigInteger.TEN);
+//				XWPFRun run=para.createRun();
+//				run.addBreak();
+//				run.setText(linea.getDescripcionLineaPresupuesto());
+//				run.addBreak();
+//			}
 			
 		}
 		
@@ -228,7 +226,7 @@ public class WordHelper {
 		XWPFRun r2 = parrafo2.createRun();
 		r2.setBold(true);
 		r2.setFontSize(10);
-		r2.setText(presupuesto.getSolicitud().getDescripcionSolicitud());
+		r2.setText(presupuesto.getDescripcionSolicitud());
 		r2.setFontFamily("Helvetica");
 		r2.addBreak(BreakType.PAGE);
 	}

@@ -12,7 +12,7 @@
     <context:annotation-config/>
     <context:spring-configured/>
 	<context:property-placeholder 
-        location="props/applicationProperties.properties" />
+        location="props/applicationPropertiesTest.properties" />
 
 
     <!-- Data Source Declaration -->

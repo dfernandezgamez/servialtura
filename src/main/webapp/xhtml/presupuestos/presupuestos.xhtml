@@ -16,41 +16,28 @@
 							paginator="true" editable="false" id="solicitudesTable"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
-							<p:column headerText="Id presupuesto" filterBy="#{pre.idPresupuesto}" filterMatchMode="contains" sortBy="#{pre.idPresupuesto}">
-										<h:outputText value="#{pre.idPresupuesto}" />
+							<p:column headerText="Estado"  sortBy="#{pre.estadoPresupuesto}">
+										<i class="#{pre.estadoPresupuesto.icon}"   style="color:#{pre.estadoPresupuesto.color}"></i>
 							</p:column>
-							<p:column headerText="Estado del presupuesto" filterBy="#{pre.estadoPresupuesto}" filterMatchMode="contains" sortBy="#{pre.estadoPresupuesto}">
-										<h:outputText value="#{pre.estadoPresupuesto}" />
+							<p:column headerText="Descripción" filterBy="#{pre.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{pre.descripcionSolicitud}">
+										<h:outputText value="#{pre.descripcionSolicitud}"  />
 							</p:column>
-							
-							<p:column headerText="Nombre contacto" filterBy="#{pre.solicitud.personaContacto}" filterMatchMode="contains" sortBy="#{pre.nombreContacto}">
-										<h:outputText value="#{pre.solicitud.personaContacto}" />
+							<p:column headerText="Nombre contacto"  sortBy="#{pre.nombreContacto}">
+										<h:outputText value="#{pre.personaContacto}" />
+							</p:column>
+							<p:column headerText="Importe" filterBy="#{pre.importePresupuesto}" filterMatchMode="contains" sortBy="#{pre.importePresupuesto}">
+										<h:outputText value="#{pre.importePresupuesto}" />
+							</p:column>
+							<p:column headerText="Fecha solicitud" filterBy="#{pre.fechaSolicitud}" filterMatchMode="contains" sortBy="#{pre.fechaSolicitud}">
+										<h:outputText value="#{pre.fechaSolicitud}"  converter="javax.faces.DateTime"  />
+							</p:column>
+							<p:column >
+										<p:commandButton  icon="ui-icon-search"  actionListener="#{presupuestosListBean.redirectToPresupuesto(pre)}"/>
 							</p:column>
 
 						</p:dataTable>
 				</b:container>
 			</h:form>
-
-
-			<p:dialog header="Nuevo presupuesto" widgetVar="newPresupuestoDialog"  resizable="false"
-				modal="true" closable="true" dynamic="true">
-				<h:form id="newPresupuestoForm">
-					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
-	       					 <b:panelGrid colSpans="4,8">
-								<p:outputLabel id="userLbl" for="user" value="Descripción" />
-								<p:inputText id="user" maxlength="50" required="true"
-									value="#{presupuestosListBean.newSolicitud.descripcionSolicitud}" />
-								<p:outputLabel id="passwordLbl" for="fecha"	value="Fecha solicitud" />
-								<p:calendar id="passwor" value="#{presupuestosListBea.newSolicitud.fechaSolicitud}"  />
-							</b:panelGrid>
-								<p:commandButton value="#{msg['cancel']}" 
-									icon="ui-icon-close" onclick="PF('newPresupuestoDialog').hide();"/>
-								<p:commandButton value="#{msg['save']}" 
-									icon="ui-icon-disk" process="@form"  
-									actionListener="#{presupuestosListBean.addSolicitud}" 
-									oncomplete="if (!args.validationFailed) {PF('newPresupuestoDialog').hide();}" update="@form"/>
-				</h:form>
-			</p:dialog>
 		</ui:define>
 	</ui:composition>
 

@@ -1,20 +1,16 @@
 package org.servialtura.contabilidad.base.model;
 // default package
-// Generated 18-oct-2016 19:34:49 by Hibernate Tools 4.3.1.Final
+// Generated 18-dic-2016 13:04:56 by Hibernate Tools 4.3.1.Final
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,17 +20,21 @@ import javax.persistence.Table;
 @Table(name = "PARTIDA", catalog = "SERVIALTURA")
 public class Partida implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1450122648967981882L;
 	private Integer idPartida;
 	private Presupuesto presupuesto;
 	private String nombrePartida;
-	private String importePartida;
-	private List<LineaPartida> lineasPartida = new ArrayList<LineaPartida>(0);
+	private BigDecimal importePartida;
+	private String descripcionPartida;
 
 	public Partida() {
+	}
+
+	public Partida(Presupuesto presupuesto, String nombrePartida, BigDecimal importePartida,
+			String descripcionPartida) {
+		this.presupuesto = presupuesto;
+		this.nombrePartida = nombrePartida;
+		this.importePartida = importePartida;
+		this.descripcionPartida = descripcionPartida;
 	}
 
 	@Id
@@ -59,7 +59,7 @@ public class Partida implements java.io.Serializable {
 		this.presupuesto = presupuesto;
 	}
 
-	@Column(name = "nombre_partida", length = 100)
+	@Column(name = "nombre_partida")
 	public String getNombrePartida() {
 		return this.nombrePartida;
 	}
@@ -68,22 +68,22 @@ public class Partida implements java.io.Serializable {
 		this.nombrePartida = nombrePartida;
 	}
 
-	@Column(name = "importe_partida", length = 45)
-	public String getImportePartida() {
+	@Column(name = "importe_partida", precision = 38)
+	public BigDecimal getImportePartida() {
 		return this.importePartida;
 	}
 
-	public void setImportePartida(String importePartida) {
+	public void setImportePartida(BigDecimal importePartida) {
 		this.importePartida = importePartida;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "partida")
-	public List<LineaPartida> getLineasPartida() {
-		return this.lineasPartida;
+	@Column(name = "descripcion_partida", length = 16777215)
+	public String getDescripcionPartida() {
+		return this.descripcionPartida;
 	}
 
-	public void setLineasPartida(List<LineaPartida> lineaPartidas) {
-		this.lineasPartida = lineaPartidas;
+	public void setDescripcionPartida(String descripcionPartida) {
+		this.descripcionPartida = descripcionPartida;
 	}
 
 }

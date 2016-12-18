@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+		
+			<h:form id="editPresupuestoForm">
+				<p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
+			<b:container >
+				<p:tabView id="tabView">
+					<p:tab title="Detalles">
+						<p:fieldset legend="Presupuesto: #{editPresupuestoBean.selectedPresupuesto.numeroPresupuesto}" toggleable="true" id="infoPanel">
+							<h:panelGrid columns="2" width="100%" >
+								<p:outputLabel id="desLbl" value="Descripción: " for="des" />
+								<p:inputTextarea id="des" 
+									value="#{editPresupuestoBean.selectedPresupuesto.descripcionSolicitud}" required="true"/>
+									
+								<p:outputLabel id="fechaLbl" value="Fecha solicitud: " for="fecha" />
+								<p:calendar id="fecha"
+									value="#{editPresupuestoBean.selectedPresupuesto.fechaSolicitud}" >
+										<f:convertDateTime/>
+								</p:calendar>
+								
+								<p:outputLabel value="Cliente" for="cliente" />
+	        					<p:autoComplete id="cliente" dropdown="true" converter="omnifaces.SelectItemsConverter" 
+	        					 value="#{editPresupuestoBean.selectedPresupuesto.cliente}" completeMethod="#{editPresupuestoBean.searchCliente}"
+	        					 emptyMessage="No se han encontrado clientes" placeholder="Buscar clientes" 
+	        					 var="cli" itemLabel="#{cli.nombreCliente}" itemValue="#{cli}">
+	        						<p:ajax event="itemSelect" listener="#{editPresupuestoBean.onItemSelect(cli)}"  update="infoPanel"/>
+	        					</p:autoComplete>
+									
+								<p:outputLabel id="nombreLbl" value="Persona contacto: "  for="nombre"/>
+								<p:inputText id="nombre"
+									value="#{editPresupuestoBean.selectedPresupuesto.personaContacto}" required="true"/>
+									
+								<p:outputLabel id="emailLbl" value="Email contacto: " for="email"/>
+								<p:inputText id="email"
+									value="#{editPresupuestoBean.selectedPresupuesto.emailContacto}" required="true" />
+									
+								<p:outputLabel id="teleconoLbl" value="Telefono contacto: "  for="telefono"/>
+								<p:inputText id="telefono"
+									value="#{editPresupuestoBean.selectedPresupuesto.telefonoContacto}" required="true" />
+							</h:panelGrid>
+						</p:fieldset>
+					</p:tab>
+					<p:tab title="Partidas">
+							<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldSetPartidas">
+								<p:dataTable var="par" value="#{editPresupuestoBean.selectedPresupuesto.partidas}" 
+							        rows="12" paginator="true" id="partidas" emptyMessage="Sin partidas en el presupuesto"
+							        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							        rowsPerPageTemplate="6,12,16">
+							        <p:column style="width:50px">
+							            <p:rowToggler />
+							        </p:column>
+							 
+							        <f:facet name="header">
+							           Partidas del presupuesto
+							        </f:facet>
+							        <p:column>
+							                <h:outputText value="#{par.nombrePartida}" />
+							         </p:column>
+							        <p:column>
+							                <h:outputText value="#{par.importePartida}" />
+							         </p:column>
+							 
+							    </p:dataTable>
+								<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
+						
+							</p:fieldset>
+					</p:tab>
+					<p:tab title="Gastos">
+					</p:tab>
+					
+				</p:tabView>
+			</b:container>
+			</h:form>
+			
+			
+			
+			<!-- dialogos -->
+			<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
+				<h:form id="newPartidaForm">
+				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+				    	<b:container >
+							 <b:panelGrid colSpans="5,7">
+								<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
+								<p:inputText id="des"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
+								
+								<p:outputLabel id="impLbl" for="importe" value="Importe de la partida" />
+								<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
+									<p:keyFilter regEx="/[ABC]/i"/>
+								</p:inputText>
+									
+							</b:panelGrid>
+						</b:container>
+						<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
+						<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addPartida()}" 
+						oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetPartidas"/>
+				</h:form>
+			</p:dialog>	
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

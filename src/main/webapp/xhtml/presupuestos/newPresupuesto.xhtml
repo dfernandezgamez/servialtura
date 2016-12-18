@@ -10,139 +10,48 @@
 <h:body>
 	<ui:composition template="/xhtml/template/layout.xhtml">
 		<ui:define name="content">
-			<script type="text/javascript">
-				function start() {
-				    PF('statusDialog').show();
-				}
-				 
-				function stop() {
-				    PF('statusDialog').hide();
-				}
-				</script>
 		
 			<h:form id="newPresupuestoForm">
 				<p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
 			<b:container >
-					<p:fieldset legend="Información del presupuesto" toggleable="true" >
-						<h:panelGrid columns="2" width="50%">
-							<p:outputLabel id="desLbl" value="Descripción: "  />
-							<p:outputLabel id="des"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.descripcionSolicitud}" required="true"/>
+					<p:fieldset legend="Nuevo presupuesto" toggleable="true" id="infoPanel">
+						<h:panelGrid columns="2" width="100%" >
+							<p:outputLabel id="desLbl" value="Descripción: " for="des" />
+							<p:inputTextarea id="des" 
+								value="#{newPresupuestoBean.newPresupuesto.descripcionSolicitud}" required="true"/>
 								
-							<p:outputLabel id="fechaLbl" value="Fecha solicitud: " />
+							<p:outputLabel id="fechaLbl" value="Fecha solicitud: " for="fecha" />
 							<p:calendar id="fecha"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.fechaSolicitud}" readonly="true">
+								value="#{newPresupuestoBean.newPresupuesto.fechaSolicitud}" >
 									<f:convertDateTime/>
-								</p:calendar>
-								
-							<p:outputLabel id="nombreLbl" value="Persona contacto: "  />
-							<p:outputLabel id="nombre"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.personaContacto}" required="true"/>
-								
-							<p:outputLabel id="emailLbl" value="Email contacto: " />
-							<p:outputLabel id="email"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.emailContacto}" required="true" />
-								
-							<p:outputLabel id="teleconoLbl" value="Telefono contacto: "  />
-							<p:outputLabel id="telefono"
-								value="#{newPresupuestoBean.newPresupuesto.solicitud.telefonoContacto}" required="false" />
-						</h:panelGrid>
-						<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
-							<p:outputLabel  value="¿Necesita licencia?" />
-							<p:selectBooleanCheckbox value="#{newPresupuestoBean.necesitaLicencia}">
-								<p:ajax update="licenciaPanel" />
-							</p:selectBooleanCheckbox>
+							</p:calendar>
 							
-							<h:panelGrid id="licenciaPanel" rendered="#{newPresupuestoBean.necesitaLicencia}" columns="2">
-								<p:outputLabel id="licenciaLb" value="Nos hacemos cargo nosotros de la licencia?" />
-								<p:selectBooleanCheckbox value="#{newPresupuestoBean.newPresupuesto.tieneFacturaSuplidos}" />
-							</h:panelGrid>
+							<p:outputLabel value="Cliente" for="cliente" />
+        					<p:autoComplete id="cliente" dropdown="true" converter="omnifaces.SelectItemsConverter" 
+        					 value="#{newPresupuestoBean.newPresupuesto.cliente}" completeMethod="#{newPresupuestoBean.searchCliente}"
+        					 emptyMessage="No se han encontrado clientes" placeholder="Buscar clientes" 
+        					 var="cli" itemLabel="#{cli.nombreCliente}" itemValue="#{cli}">
+        						<p:ajax event="itemSelect" listener="#{newPresupuestoBean.onItemSelect(cli)}"  update="infoPanel"/>
+        					</p:autoComplete>
+								
+							<p:outputLabel id="nombreLbl" value="Persona contacto: "  for="nombre"/>
+							<p:inputText id="nombre"
+								value="#{newPresupuestoBean.newPresupuesto.personaContacto}" required="true"/>
+								
+							<p:outputLabel id="emailLbl" value="Email contacto: " for="email"/>
+							<p:inputText id="email"
+								value="#{newPresupuestoBean.newPresupuesto.emailContacto}" required="true" />
+								
+							<p:outputLabel id="teleconoLbl" value="Telefono contacto: "  for="telefono"/>
+							<p:inputText id="telefono"
+								value="#{newPresupuestoBean.newPresupuesto.telefonoContacto}" required="true" />
 						</h:panelGrid>
-					</p:fieldset>
-					<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldsetLineas">
-						<p:dataTable var="par" value="#{newPresupuestoBean.partidas}" 
-					        rows="12" paginator="true" id="partidas" emptyMessage="Sin partidas en el presupuesto"
-					        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					        rowsPerPageTemplate="6,12,16">
-					        <p:column style="width:50px">
-					            <p:rowToggler />
-					        </p:column>
-					 
-					        <f:facet name="header">
-					           Partidas del presupuesto
-					        </f:facet>
-					        <p:column>
-					                <h:outputText value="#{par.nombrePartida}" />
-					         </p:column>
-					        <p:column>
-					                <h:outputText value="#{par.importePartida}" />
-					         </p:column>
-							<p:rowExpansion>
-					            <p:panelGrid  columns="1" >
-					            	<h:outputText value="Líneas" />
-					            	 <p:repeat value="#{par.lineasPartida}" var="lin" >
-						                <h:outputText value="#{lin.descripcionLineaPresupuesto}" /><br />
-						             </p:repeat>
-					            </p:panelGrid>
-					        </p:rowExpansion>
-					 
-					    </p:dataTable>
-						<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{newPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
-						
 					</p:fieldset>
 					
 					<p:commandButton value="Guardar presupuesto"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.guardarPresupuesto}"	update="@form"/>
-					<p:commandButton value="Previsualizar presupuesto" ajax="false" icon="fa fa-fw fa-eye" onclick="PrimeFaces.monitorDownload(start, stop);">
-				        <p:fileDownload value="#{newPresupuestoBean.presupuestoFile}" />
-				    </p:commandButton>
 			</b:container>
 			</h:form>
 			
-			<!-- dialogs -->
-				<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
-				<h:form id="newPartidaForm">
-					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-					    	<b:container >
-								 <b:panelGrid colSpans="5,7">
-									<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
-									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newPartida.nombrePartida}" />
-									
-									<p:outputLabel id="impLbl" for="importe" value="Importe de la partida" />
-									<p:inputText id="importe"  required="true" value="#{newPresupuestoBean.newPartida.importePartida}">
-										<p:keyFilter regEx="/[ABC]/i"/>
-									</p:inputText>
-										
-								</b:panelGrid>
-								<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@this" onclick="PF('newLineaDialog').show();" update="newLineaForm" actionListener="#{newPresupuestoBean.prepareNewLinea}"/>
-								
-								<p:dataTable var="lin" value="#{newPresupuestoBean.lineas}" rows="10"
-											paginator="true" editable="false" id="lineasTable" emptyMessage="Sin líneas en la partida"
-											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-											rowsPerPageTemplate="5,10,15">
-											<p:column headerText="Descripción línea de partida"  >
-														<h:outputText value="#{lin.descripcionLineaPresupuesto}" />
-											</p:column>
-								</p:dataTable>
-							</b:container>
-							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
-							<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{newPresupuestoBean.addPartida()}" 
-							oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":newPresupuestoForm:partidas"/>
-					</h:form>
-				</p:dialog>	
-				
-				
-				<p:dialog widgetVar="newLineaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
-				<h:form id="newLineaForm">
-					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-								 <b:panelGrid colSpans="5,7">
-									<p:outputLabel id="desLbl" for="des" value="Nombre de la línea" />
-									<p:inputText id="des"  required="true" value="#{newPresupuestoBean.newLinea.descripcionLineaPresupuesto}" />
-								</b:panelGrid>
-							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newLineaDialog').hide();" immediate="true"/>
-							<p:commandButton value="Añadir línea" icon="ui-icon-plus" process="@form" actionListener="#{newPresupuestoBean.addLinea()}" 
-							 oncomplete="if (!args.validationFailed) {PF('newLineaDialog').hide();}" update="@form, :newPartidaForm:lineasTable"/>
-				</h:form>
-			</p:dialog>	
 		</ui:define>
 	</ui:composition>
 </h:body>
