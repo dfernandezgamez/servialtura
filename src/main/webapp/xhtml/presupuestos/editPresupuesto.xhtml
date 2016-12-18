@@ -6,6 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
 	<ui:composition template="/xhtml/template/layout.xhtml">
@@ -53,29 +54,42 @@
 					<p:tab title="Partidas">
 							<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldSetPartidas">
 								<p:dataTable var="par" value="#{editPresupuestoBean.selectedPresupuesto.partidas}" 
-							        rows="12" paginator="true" id="partidas" emptyMessage="Sin partidas en el presupuesto"
-							        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							        rowsPerPageTemplate="6,12,16">
-							        <p:column style="width:50px">
+							         id="partidas" emptyMessage="Sin partidas en el presupuesto">
+							        <p:column >
 							            <p:rowToggler />
 							        </p:column>
-							 
-							        <f:facet name="header">
-							           Partidas del presupuesto
-							        </f:facet>
-							        <p:column>
+							        <p:column headerText="Nombre partida">
 							                <h:outputText value="#{par.nombrePartida}" />
 							         </p:column>
-							        <p:column>
-							                <h:outputText value="#{par.importePartida}" />
+							        <p:column headerText="Importe">
+							                <h:outputText value="#{par.importePartida}" /> €
 							         </p:column>
+							         
+							         <p:rowExpansion>
+							            <p:panelGrid  columns="1"   style="width:300px">
+							                <f:facet name="header">
+							                    <h:outputText value="Descripción"/>
+							                </f:facet>
+							                <h:outputText value="#{par.descripcionPartida}" escape="false" />
+							            </p:panelGrid>
+							        </p:rowExpansion>
 							 
 							    </p:dataTable>
 								<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
 							</p:fieldset>
 					</p:tab>
-					<p:tab title="Gastos">
+					<p:tab title="Cálculo">
+						<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetServicios">
+								<p:dataTable var="ser" value="#{editPresupuestoBean.selectedPresupuesto.servicios}" 
+							         id="servicios" emptyMessage="Sin servicios en el presupuesto">
+							        <p:column headerText="Nombre partida">
+							                <h:outputText value="#{par.nombrePartida}" />
+							         </p:column>
+							    </p:dataTable>
+								<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
+						
+							</p:fieldset>
 					</p:tab>
 					
 				</p:tabView>
@@ -85,15 +99,19 @@
 			
 			
 			<!-- dialogos -->
-			<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" closable="true" dynamic="true">
+			<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" maximizable="true"  closable="true" dynamic="true">
 				<h:form id="newPartidaForm">
 				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
 				    	<b:container >
 							 <b:panelGrid colSpans="5,7">
-								<p:outputLabel id="desLbl" for="des" value="Nombre de la partida" />
-								<p:inputText id="des"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
+								<p:outputLabel id="tituloLbl" for="titulo" value="Título de la partida" />
+								<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
 								
-								<p:outputLabel id="impLbl" for="importe" value="Importe de la partida" />
+								<p:outputLabel id="desLbl" for="des" value="Descripción de la partida" />
+								<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" interfaceColor="#27ae60">  
+								</pe:ckEditor> 
+								
+								<p:outputLabel id="impLbl" for="importe" value="Importe" />
 								<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
 									<p:keyFilter regEx="/[ABC]/i"/>
 								</p:inputText>

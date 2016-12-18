@@ -18,6 +18,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -49,6 +51,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String numeroPresupuesto;
 	private Cliente cliente;
 	private List<Partida> partidas = new ArrayList<Partida>();
+	private List<Servicio> servicios = new ArrayList<Servicio>();
 
 	public Presupuesto() {
 	}
@@ -165,6 +168,18 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setPartidas(List<Partida> partidas) {
 		this.partidas = partidas;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="SERVICIOS_PRESUPUESTO", 
+	joinColumns={@JoinColumn(name="idPresupuesto")}, 
+	inverseJoinColumns={@JoinColumn(name="idServicio")})
+	public List<Servicio> getServicios() {
+		return this.servicios;
+	}
+
+	public void setServicios(List<Servicio> servicios) {
+		this.servicios = servicios;
 	}
 
 }

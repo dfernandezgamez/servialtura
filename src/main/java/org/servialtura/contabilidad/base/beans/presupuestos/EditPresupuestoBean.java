@@ -65,6 +65,18 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     
     public void prepareNewPartida(){
     	this.newPartida = new Partida();
+    	this.newPartida.setPresupuesto(selectedPresupuesto);
+    }
+    
+    public void addPartida(){
+    	try {
+    		presupuestosService.createPartida(newPartida);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando partida"));
+		}
+    	
+    	this.partidas.add(newPartida);
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida creada correctamente"));
     }
     
 
