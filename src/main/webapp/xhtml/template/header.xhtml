@@ -7,7 +7,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Servialtura</title>
+	<title>D'altura</title>
 	<meta name="author" content="David Fernández Gámez"></meta>
 </h:head>
 <h:body>
@@ -22,7 +22,10 @@
 					<p:menuitem value="Listado presupuestos" url="/faces/xhtml/presupuestos/presupuestos.xhtml"/>
 					<p:menuitem value="Nuevo presupuesto" url="/faces/xhtml/presupuestos/newPresupuesto.xhtml"/>
 				</p:submenu>
-
+				<p:submenu label="Material" icon="fa fa-fw fa-paint-brush">
+					<p:menuitem value="Listado proveedores" url="/faces/xhtml/proveedores/proveedores.xhtml"/>
+					<p:menuitem value="Listado material" url="/faces/xhtml/proveedores/materiales.xhtml"/>
+				</p:submenu>
 				<p:submenu label="Facturas" icon="fa fa-fw fa-euro">
 				</p:submenu>
 				<p:submenu label="Empleados" icon="fa fa-fw fa-street-view">

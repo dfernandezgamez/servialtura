@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="proveedoresListForm">
+				<b:container>
+						<p:dataTable var="pro" value="#{proveedoresListBean.proveedores}" rows="10"
+							paginator="true" editable="false" id="solicitudesTable"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15">
+							<p:column headerText="Nombre"  sortBy="#{pro.nombreProveedor}">
+										<h:outputText value="#{pro.nombreProveedor}" />
+							</p:column>
+							<p:column headerText="Email"  sortBy="#{pro.emailProveedor}">
+										<h:outputText value="#{pro.emailProveedor}" />
+							</p:column>
+							<p:column headerText="Teléfono"  sortBy="#{pro.telefonoProveedor}">
+										<h:outputText value="#{pro.telefonoProveedor}" />
+							</p:column>
+							<p:column headerText="Dirección"  sortBy="#{pro.direccionProveedor}">
+										<h:outputText value="#{pro.direccionProveedor}" />
+							</p:column>
+
+
+						</p:dataTable>
+				</b:container>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+
+</html>

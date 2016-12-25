@@ -79,15 +79,15 @@
 						
 							</p:fieldset>
 					</p:tab>
-					<p:tab title="Cálculo">
-						<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetServicios">
-								<p:dataTable var="ser" value="#{editPresupuestoBean.selectedPresupuesto.servicios}" 
-							         id="servicios" emptyMessage="Sin servicios en el presupuesto">
+					<p:tab title="Materiales">
+						<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetMateriales">
+								<p:dataTable var="ser" value="#{editPresupuestoBean.selectedPresupuesto.materiales}" 
+							         id="servicios" emptyMessage="Sin materiales en el presupuesto">
 							        <p:column headerText="Nombre partida">
 							                <h:outputText value="#{par.nombrePartida}" />
 							         </p:column>
 							    </p:dataTable>
-								<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
+								<p:commandButton value="Añadir material"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewMaterial}"  oncomplete="PF('newMaterialDialog').show();"	update=":newMaterialForm"/>
 						
 							</p:fieldset>
 					</p:tab>
@@ -121,6 +121,34 @@
 						<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
 						<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addPartida()}" 
 						oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetPartidas"/>
+				</h:form>
+			</p:dialog>	
+			
+			<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+				<h:form id="newMaterialForm">
+				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+							 <b:panelGrid colSpans="2,10">
+								<p:outputLabel id="materialLbl" for="material" value="Material" />
+								<p:autoComplete id="material" dropdown="true" converter="omnifaces.SelectItemsConverter"  minQueryLength="3" 
+	        					 value="#{editPresupuestoBean.newMaterial}" completeMethod="#{editPresupuestoBean.searchMaterial}"
+	        					 emptyMessage="No se han encontrado materiales" placeholder="Buscar material" 
+	        					 var="ma" itemLabel="#{ma.nombreMaterial}" itemValue="#{ma}">
+	        						<f:facet name="itemtip">
+						                <h:panelGrid columns="2" width="100%">
+						                    <h:outputText value="Precio" />
+						                    <h:outputText value="#{ma.precioUnitario} €" />
+						 
+						                    <h:outputText value="Proveedor" />
+						                    <h:outputText value="#{ma.proveedor.nombreProveedor}" />
+						                </h:panelGrid>
+						            </f:facet>
+	        					</p:autoComplete>
+
+									
+							</b:panelGrid>
+						<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
+						<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addMaterial()}" 
+						oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetMateriales"/>
 				</h:form>
 			</p:dialog>	
 			

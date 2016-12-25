@@ -49,20 +49,20 @@ public class Presupuesto implements java.io.Serializable {
 	private String personaContacto;
 	private String telefonoContacto;
 	private String numeroPresupuesto;
-	private Cliente cliente;
+	private Empresa cliente;
 	private List<Partida> partidas = new ArrayList<Partida>();
-	private List<Servicio> servicios = new ArrayList<Servicio>();
+	private List<Material> materiales = new ArrayList<Material>();
 
 	public Presupuesto() {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cliente")
-	public Cliente getCliente() {
+	public Empresa getCliente() {
 		return this.cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(Empresa cliente) {
 		this.cliente = cliente;
 	}
 
@@ -171,15 +171,15 @@ public class Presupuesto implements java.io.Serializable {
 	}
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="SERVICIOS_PRESUPUESTO", 
+	@JoinTable(name="MATERIALES_PRESUPUESTO", 
 	joinColumns={@JoinColumn(name="idPresupuesto")}, 
-	inverseJoinColumns={@JoinColumn(name="idServicio")})
-	public List<Servicio> getServicios() {
-		return this.servicios;
+	inverseJoinColumns={@JoinColumn(name="idMaterial")})
+	public List<Material> getMateriales() {
+		return this.materiales;
 	}
 
-	public void setServicios(List<Servicio> servicios) {
-		this.servicios = servicios;
+	public void setMateriales(List<Material> materiales) {
+		this.materiales = materiales;
 	}
 
 }

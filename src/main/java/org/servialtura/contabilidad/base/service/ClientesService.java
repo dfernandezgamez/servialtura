@@ -8,7 +8,7 @@ import javax.transaction.SystemException;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.servialtura.contabilidad.base.db.GenericDAO;
-import org.servialtura.contabilidad.base.model.Cliente;
+import org.servialtura.contabilidad.base.model.Empresa;
 import org.servialtura.contabilidad.base.utils.CriteriaFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,19 +24,19 @@ public class ClientesService {
 	 * 
 	 */
 	@Autowired
-	GenericDAO<Cliente, Serializable> genericDao;
+	GenericDAO<Empresa, Serializable> genericDao;
 	  
 	
 	@Transactional(readOnly = true)
-	public Cliente getClienteById(int id){
-		return genericDao.read(Cliente.class,id);
+	public Empresa getClienteById(int id){
+		return genericDao.read(Empresa.class,id);
 	}
 	
 	
 	@Transactional
-	public Cliente getClienteByName(String userName) throws SystemException{
+	public Empresa getClienteByName(String userName) throws SystemException{
 		
-		CriteriaFilters filters = new CriteriaFilters(Cliente.class);
+		CriteriaFilters filters = new CriteriaFilters(Empresa.class);
 		
 		filters.addCriterion(Restrictions.like("nombreCliente", userName));
 
@@ -45,9 +45,9 @@ public class ClientesService {
 	}
 	
 	@Transactional
-	public List<Cliente> findClients(String clientName) throws SystemException{
+	public List<Empresa> findClients(String clientName) throws SystemException{
 		
-		CriteriaFilters filters = new CriteriaFilters(Cliente.class);
+		CriteriaFilters filters = new CriteriaFilters(Empresa.class);
 		
 		filters.addCriterion(Restrictions.like("nombreCliente", clientName, MatchMode.ANYWHERE));
 
@@ -56,26 +56,26 @@ public class ClientesService {
 	}
 	
 	@Transactional
-	public List<Cliente> listClientes() throws SystemException{
+	public List<Empresa> listClientes() throws SystemException{
 				
-		return genericDao.findAll(Cliente.class);
+		return genericDao.findAll(Empresa.class);
 
 	}
 	
 	@Transactional
-	public void createCliente(Cliente cliente) throws SystemException{
+	public void createCliente(Empresa cliente) throws SystemException{
 		 genericDao.create(cliente);
 	}
 	
 	@Transactional
-	public void updateCliente(Cliente cliente) throws SystemException{
+	public void updateCliente(Empresa cliente) throws SystemException{
 		 genericDao.update(cliente);
 	}
 	
-	public GenericDAO<Cliente, Serializable> getGenericDao() {
+	public GenericDAO<Empresa, Serializable> getGenericDao() {
 		return genericDao;
 	}
-	public void setGenericDao(GenericDAO<Cliente, Serializable> genericDao) {
+	public void setGenericDao(GenericDAO<Empresa, Serializable> genericDao) {
 		this.genericDao = genericDao;
 	}
 	

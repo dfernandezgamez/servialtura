@@ -21,10 +21,12 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
+import org.servialtura.contabilidad.base.model.Material;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.service.ClientesService;
 import org.servialtura.contabilidad.base.service.PresupuestosService;
+import org.servialtura.contabilidad.base.service.ProveedoresService;
 
 
 @ManagedBean(name = "editPresupuestoBean")
@@ -38,7 +40,9 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
     private Presupuesto selectedPresupuesto;
     private List<Partida> partidas;
+    private List<Material> materiales;
     private Partida newPartida;
+    private Material newMaterial;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -47,6 +51,9 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     
     @ManagedProperty(value="#{clientesService}")
     private ClientesService clientesService;
+    
+    @ManagedProperty(value="#{proveedoresService}")
+    private ProveedoresService proveedoresService;
     
     @PostConstruct
     public void init(){
@@ -68,6 +75,10 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	this.newPartida.setPresupuesto(selectedPresupuesto);
     }
     
+    public void prepareNewMaterial(){
+    	this.newMaterial = new Material();
+    }
+    
     public void addPartida(){
     	try {
     		presupuestosService.createPartida(newPartida);
@@ -77,6 +88,13 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	
     	this.partidas.add(newPartida);
     	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida creada correctamente"));
+    }
+    
+    public List<Material> searchMaterial(String query) throws SystemException {
+        return proveedoresService.findMateriales(query);
+    }
+    
+    public void addMaterial(){
     }
     
 
@@ -144,6 +162,30 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setNewPartida(Partida newPartida) {
 		this.newPartida = newPartida;
+	}
+
+	public List<Material> getMateriales() {
+		return materiales;
+	}
+
+	public void setMateriales(List<Material> materiales) {
+		this.materiales = materiales;
+	}
+
+	public Material getNewMaterial() {
+		return newMaterial;
+	}
+
+	public void setNewMaterial(Material newMaterial) {
+		this.newMaterial = newMaterial;
+	}
+
+	public ProveedoresService getMaterialesService() {
+		return proveedoresService;
+	}
+
+	public void setMaterialesService(ProveedoresService materialesService) {
+		this.proveedoresService = materialesService;
 	}
 
 

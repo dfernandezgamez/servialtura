@@ -23,7 +23,7 @@ import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.enums.EstadoPresupuestoEnum;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
-import org.servialtura.contabilidad.base.model.Cliente;
+import org.servialtura.contabilidad.base.model.Empresa;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.service.ClientesService;
 import org.servialtura.contabilidad.base.service.PresupuestosService;
@@ -109,13 +109,13 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 		return file;
 	}
 	
-	 public void onItemSelect(Cliente cliente) {
-		 this.newPresupuesto.setEmailContacto(cliente.getEmailCliente());
-		 this.newPresupuesto.setTelefonoContacto(cliente.getTelefonoCliente());
-		 this.newPresupuesto.setPersonaContacto(cliente.getNombreCliente());
+	 public void onItemSelect(Empresa cliente) {
+		 this.newPresupuesto.setEmailContacto(cliente.getEmailEmpresa());
+		 this.newPresupuesto.setTelefonoContacto(cliente.getTelefonoEmpresa());
+		 this.newPresupuesto.setPersonaContacto(cliente.getNombreEmpresa());
 	    }
 	
-	 public List<Cliente> searchCliente(String query) throws SystemException {
+	 public List<Empresa> searchCliente(String query) throws SystemException {
 	        return clientesService.findClients(query);
 	    }
 
