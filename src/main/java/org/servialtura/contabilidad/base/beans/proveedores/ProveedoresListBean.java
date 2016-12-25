@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.transaction.SystemException;
 
+import org.primefaces.event.RowEditEvent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.model.Proveedor;
 import org.servialtura.contabilidad.base.service.ProveedoresService;
@@ -45,6 +46,33 @@ public class ProveedoresListBean extends BaseBean implements Serializable {
 			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error reciviendo los proveedores"));
 		}
     }
+    
+    public void addProveedor(){
+    	try {
+    		proveedoresService.createProveedor(newProveedor);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creating user"));
+		}
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Proveedor creado correctamente"));
+    }
+    
+    public List<Proveedor> searchProveedor(String query) throws SystemException {
+        return proveedoresService.findProveedores(query);
+    }
+    public void onRowEdit(RowEditEvent event) {
+    	Proveedor proveedor=(Proveedor) event.getObject();
+    	try {
+    		proveedoresService.updateProveedor(proveedor);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creating user"));
+		}
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Proveedor actualizado correctamente"));
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+
+    }
+    
     
 
 	public List<Proveedor> getProveedores() {

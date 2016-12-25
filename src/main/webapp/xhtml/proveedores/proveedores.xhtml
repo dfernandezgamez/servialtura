@@ -12,27 +12,81 @@
 		<ui:define name="content">
 			<h:form id="proveedoresListForm">
 				<b:container>
+						<p:commandButton value="Añadir proveedor"  icon="ui-icon-plus" oncomplete="PF('newProveedorDialog').show();" />
 						<p:dataTable var="pro" value="#{proveedoresListBean.proveedores}" rows="10"
-							paginator="true" editable="false" id="solicitudesTable"
+							paginator="true"  id="solicitudesTable" editable="true" 
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
-							<p:column headerText="Nombre"  sortBy="#{pro.nombreProveedor}">
-										<h:outputText value="#{pro.nombreProveedor}" />
+							<p:ajax event="rowEdit" listener="#{proveedoresListBean.onRowEdit}" update=":proveedoresListForm:solicitudesTable" />
+      						<p:ajax event="rowEditCancel" listener="#{proveedoresListBean.onRowCancel}" update=":proveedoresListForm" />
+							<p:column headerText="Nombre"  sortBy="#{pro.nombreProveedor}" filterBy="#{pro.nombreProveedor}" filterMatchMode="contains">
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{pro.nombreProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{pro.nombreProveedor}"/></f:facet>
+								</p:cellEditor>
 							</p:column>
-							<p:column headerText="Email"  sortBy="#{pro.emailProveedor}">
-										<h:outputText value="#{pro.emailProveedor}" />
+							<p:column headerText="Email"  sortBy="#{pro.emailProveedor}" filterBy="#{pro.emailProveedor}" filterMatchMode="contains">
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{pro.emailProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{pro.emailProveedor}"/></f:facet>
+								</p:cellEditor>
 							</p:column>
-							<p:column headerText="Teléfono"  sortBy="#{pro.telefonoProveedor}">
-										<h:outputText value="#{pro.telefonoProveedor}" />
+							<p:column headerText="Teléfono"  sortBy="#{pro.telefonoProveedor}" filterBy="#{pro.telefonoProveedor}" filterMatchMode="contains">
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{pro.telefonoProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{pro.telefonoProveedor}"/></f:facet>
+								</p:cellEditor>
 							</p:column>
-							<p:column headerText="Dirección"  sortBy="#{pro.direccionProveedor}">
-										<h:outputText value="#{pro.direccionProveedor}" />
+							<p:column headerText="Dirección"  sortBy="#{pro.direccionProveedor}" filterBy="#{pro.direccionProveedor}" filterMatchMode="contains">
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{pro.direccionProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{pro.direccionProveedor}"/></f:facet>
+								</p:cellEditor>
 							</p:column>
-
+							<p:column headerText="Notas"  sortBy="#{pro.notasProveedor}" filterBy="#{pro.notasProveedor}" filterMatchMode="contains">
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{pro.notasProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{pro.notasProveedor}"/></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column style="width:55px" headerText="Editar" >
+					           <p:rowEditor />
+					       </p:column>
 
 						</p:dataTable>
 				</b:container>
 			</h:form>
+			
+			
+			
+			
+			<!-- dialogos -->
+			<p:dialog header="Nuevo proveedor" widgetVar="newProveedorDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+				<h:form id="newProveedorForm">
+				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+							 <b:panelGrid colSpans="2,10">
+								<p:outputLabel id="nombreLbl" value="Nombre"  for="nombre"/>
+								<p:inputText id="nombre"
+									value="#{proveedoresListBean.newProveedor.nombreProveedor}" required="true"/>
+									
+								<p:outputLabel id="emailLbl" value="Email" for="email"/>
+								<p:inputText id="email"
+									value="#{proveedoresListBean.newProveedor.emailProveedor}" required="false" />
+									
+								<p:outputLabel id="teleconoLbl" value="Telefono"  for="telefono"/>
+								<p:inputText id="telefono"
+									value="#{proveedoresListBean.newProveedor.telefonoProveedor}" required="false" />
+								<p:outputLabel id="direccionLbl" value="Dirección"  for="direccion"/>
+								<p:inputText id="direccion"
+									value="#{proveedoresListBean.newProveedor.direccionProveedor}" required="false" />
+
+									
+							</b:panelGrid>
+						<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newProveedorDialog').hide();" immediate="true"/>
+						<p:commandButton value="Añadir proveedor" icon="ui-icon-plus" process="@form" actionListener="#{proveedoresListBean.addProveedor()}" 
+						oncomplete="if (!args.validationFailed) {PF('newProveedorDialog').hide();}" update=":proveedoresListForm"/>
+				</h:form>
+			</p:dialog>	
 		</ui:define>
 	</ui:composition>
 

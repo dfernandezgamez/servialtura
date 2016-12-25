@@ -72,9 +72,8 @@ public class ProveedoresService {
 	public List<Proveedor> findProveedores(String materialName) throws SystemException{
 		
 		CriteriaFilters filters = new CriteriaFilters(Proveedor.class);
-		
+		filters.setOrder(Order.asc("nombreProveedor"));
 		filters.addCriterion(Restrictions.like("nombreProveedor", materialName, MatchMode.ANYWHERE));
-
 		return proveedoresDao.findByCriteria(filters);
 
 	}
@@ -99,6 +98,17 @@ public class ProveedoresService {
 	@Transactional
 	public void updateMaterial(Material cliente) throws SystemException{
 		 materialesDao.update(cliente);
+	}
+	
+
+	@Transactional
+	public void createProveedor(Proveedor proveedor) throws SystemException{
+		 proveedoresDao.create(proveedor);
+	}
+	
+	@Transactional
+	public void updateProveedor(Proveedor cliente) throws SystemException{
+		proveedoresDao.update(cliente);
 	}
 
 
