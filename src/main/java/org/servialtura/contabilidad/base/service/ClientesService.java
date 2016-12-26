@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.SystemException;
 
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.servialtura.contabilidad.base.db.GenericDAO;
 import org.servialtura.contabilidad.base.model.Empresa;
@@ -37,19 +38,19 @@ public class ClientesService {
 	public Empresa getClienteByName(String userName) throws SystemException{
 		
 		CriteriaFilters filters = new CriteriaFilters(Empresa.class);
-		
-		filters.addCriterion(Restrictions.like("nombreCliente", userName));
+		filters.setOrder(Order.asc("nombreEmpresa"));
+		filters.addCriterion(Restrictions.like("nombreEmpresa", userName));
 
 		return genericDao.findSingleByCriteria(filters);
 
 	}
 	
 	@Transactional
-	public List<Empresa> findClients(String clientName) throws SystemException{
+	public List<Empresa> findEmpresas(String clientName) throws SystemException{
 		
 		CriteriaFilters filters = new CriteriaFilters(Empresa.class);
-		
-		filters.addCriterion(Restrictions.like("nombreCliente", clientName, MatchMode.ANYWHERE));
+		filters.setOrder(Order.asc("nombreEmpresa"));
+		filters.addCriterion(Restrictions.like("nombreEmpresa", clientName, MatchMode.ANYWHERE));
 
 		return genericDao.findByCriteria(filters);
 

@@ -116,7 +116,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	    }
 	
 	 public List<Empresa> searchCliente(String query) throws SystemException {
-	        return clientesService.findClients(query);
+	        return clientesService.findEmpresas(query);
 	    }
 
 

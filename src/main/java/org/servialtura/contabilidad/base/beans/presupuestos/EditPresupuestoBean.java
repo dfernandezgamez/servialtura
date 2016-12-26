@@ -17,10 +17,12 @@ import javax.faces.context.FacesContext;
 import javax.transaction.SystemException;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
+import org.servialtura.contabilidad.base.model.Empresa;
 import org.servialtura.contabilidad.base.model.Material;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
@@ -79,6 +81,11 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	this.newMaterial = new Material();
     }
     
+    public void onItemSelect(SelectEvent event) {
+    	Empresa e= (Empresa) event.getObject();
+       // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Selected", event.getObject().toString()));
+    }
+    
     public void addPartida(){
     	try {
     		presupuestosService.createPartida(newPartida);
@@ -92,6 +99,10 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     
     public List<Material> searchMaterial(String query) throws SystemException {
         return proveedoresService.findMateriales(query);
+    }
+    
+    public List<Empresa> searchEmpresa(String query) throws SystemException {
+        return clientesService.findEmpresas(query);
     }
     
     public void addMaterial(){
@@ -186,6 +197,14 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setMaterialesService(ProveedoresService materialesService) {
 		this.proveedoresService = materialesService;
+	}
+
+	public ProveedoresService getProveedoresService() {
+		return proveedoresService;
+	}
+
+	public void setProveedoresService(ProveedoresService proveedoresService) {
+		this.proveedoresService = proveedoresService;
 	}
 
 

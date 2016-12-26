@@ -29,12 +29,12 @@
 										<f:convertDateTime/>
 								</p:calendar>
 								
-								<p:outputLabel value="Cliente" for="cliente" />
+								<p:outputLabel value="Empresa" for="cliente" />
 	        					<p:autoComplete id="cliente" dropdown="true" converter="omnifaces.SelectItemsConverter" 
-	        					 value="#{editPresupuestoBean.selectedPresupuesto.cliente}" completeMethod="#{editPresupuestoBean.searchCliente}"
+	        					 value="#{editPresupuestoBean.selectedPresupuesto.cliente}" completeMethod="#{editPresupuestoBean.searchEmpresa}"
 	        					 emptyMessage="No se han encontrado clientes" placeholder="Buscar clientes" 
-	        					 var="cli" itemLabel="#{cli.nombreCliente}" itemValue="#{cli}">
-	        						<p:ajax event="itemSelect" listener="#{editPresupuestoBean.onItemSelect(cli)}"  update="infoPanel"/>
+	        					 var="cli" itemLabel="#{cli.nombreEmpresa}" itemValue="#{cli}" >
+	        						<p:ajax event="itemSelect" listener="#{editPresupuestoBean.onItemSelect}" process="@this"/>
 	        					</p:autoComplete>
 									
 								<p:outputLabel id="nombreLbl" value="Persona contacto: "  for="nombre"/>

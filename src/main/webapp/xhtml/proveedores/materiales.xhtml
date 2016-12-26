@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="materialesListForm">
+				<b:container>
+						<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" />
+						
+						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10" widgetVar="materialesTable"
+							paginator="true"  id="materialesTable" editable="true" filteredValue="#{materialesListBean.filteredMateriales}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15">
+							<p:ajax event="rowEdit" listener="#{materialesListBean.onRowEdit}" update=":materialesListForm:materialesTable" />
+							<p:column headerText="Categoria" filterBy="#{mate.categoriaMaterial.nombreCategoria}"  sortBy="#{mate.categoriaMaterial.nombreCategoria}" filterMatchMode="contains">
+								<f:facet name="filter">
+					                <p:autoComplete dropdown="true" converter="omnifaces.SelectItemsConverter" value="#{mate.categoriaMaterial.nombreCategoria}"
+					        					 completeMethod="#{materialesListBean.searchCategorias}"
+					        					 emptyMessage="No se han encontrado categorias" placeholder="Filtrar categorias" 
+					        					 var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat.nombreCategoria}">
+					        						<p:ajax event="itemSelect" oncomplete="PF('materialesTable').filter()"/>
+					        		</p:autoComplete>
+					            </f:facet>
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{mate.categoriaMaterial.nombreCategoria}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{mate.categoriaMaterial.nombreCategoria}"/></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Nombre"  sortBy="#{mate.nombreMaterial}" filterBy="#{mate.nombreMaterial}" filterMatchMode="contains">
+							<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{mate.nombreMaterial}"/></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{mate.nombreMaterial}"/></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Precio"  sortBy="#{mate.precioUnitario}" >
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{mate.precioUnitario}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{mate.precioUnitario}"/></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Proveedor"  sortBy="#{mate.proveedor.nombreProveedor}" filterBy="#{mate.proveedor.nombreProveedor}" filterMatchMode="exact" >
+								<f:facet name="filter">
+					                <p:autoComplete dropdown="true" converter="omnifaces.SelectItemsConverter" 
+					        					 completeMethod="#{materialesListBean.searchProveedores}" value="#{mate.proveedor.nombreProveedor}"
+					        					 emptyMessage="No se han encontrado proveedores" placeholder="Filtrar proveedores" 
+					        					 var="pro" itemLabel="#{pro.nombreProveedor}" itemValue="#{pro.nombreProveedor}">
+					        					 <p:ajax event="itemSelect"  oncomplete="PF('materialesTable').filter()"/>
+					        		</p:autoComplete>
+					            </f:facet>
+								<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{mate.proveedor.nombreProveedor}" /></f:facet>
+										 <f:facet name="input"><p:inputText  value="#{mate.proveedor.nombreProveedor}"/></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column style="width:55px" headerText="Editar" >
+					           <p:rowEditor />
+					       </p:column>
+
+						</p:dataTable>
+				</b:container>
+			</h:form>
+			
+			
+			
+			
+			<!-- dialogos -->
+			<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+				<h:form id="newMaterialForm">
+				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+							 <b:panelGrid colSpans="2,10">
+								<p:outputLabel id="nombreLbl" value="Nombre"  for="nombre"/>
+								<p:inputText id="nombre"
+									value="#{materialesListBean.newMaterial.nombreMaterial}" required="true"/>
+									
+							</b:panelGrid>
+						<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newMaterialDialog').hide();" immediate="true"/>
+						<p:commandButton value="Añadir proveedor" icon="ui-icon-plus" process="@form" actionListener="#{materialesListBean.addMaterial()}" 
+						oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":materialesListForm"/>
+				</h:form>
+			</p:dialog>	
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+
+</html>

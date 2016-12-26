@@ -50,4 +50,33 @@ public class CategoriaMaterial implements java.io.Serializable {
 		this.nombreCategoria = nombreCategoria;
 	}
 
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idCategoriaMaterial == null) ? 0 : idCategoriaMaterial.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof CategoriaMaterial))
+			return false;
+		CategoriaMaterial other = (CategoriaMaterial) obj;
+		if (idCategoriaMaterial == null) {
+			if (other.getIdCategoriaMaterial() != null)
+				return false;
+		} else if (!idCategoriaMaterial.equals(other.getIdCategoriaMaterial()))
+			return false;
+		return true;
+	}
+
 }

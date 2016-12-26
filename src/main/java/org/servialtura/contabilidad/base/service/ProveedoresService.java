@@ -9,6 +9,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.servialtura.contabilidad.base.db.GenericDAO;
+import org.servialtura.contabilidad.base.model.CategoriaMaterial;
 import org.servialtura.contabilidad.base.model.Material;
 import org.servialtura.contabilidad.base.model.Proveedor;
 import org.servialtura.contabilidad.base.utils.CriteriaFilters;
@@ -30,6 +31,9 @@ public class ProveedoresService {
 	
 	@Autowired
 	GenericDAO<Proveedor, Serializable> proveedoresDao;
+	
+	@Autowired
+	GenericDAO<CategoriaMaterial, Serializable> categoriasDao;
 	  
 	
 	@Transactional(readOnly = true)
@@ -57,6 +61,17 @@ public class ProveedoresService {
 		filters.addCriterion(Restrictions.like("nombreMaterial", materialName, MatchMode.ANYWHERE));
 
 		return materialesDao.findByCriteria(filters);
+
+	}
+	
+	@Transactional
+	public List<CategoriaMaterial> findCategoriasMaterial(String categoriaName) throws SystemException{
+		
+		CriteriaFilters filters = new CriteriaFilters(CategoriaMaterial.class);
+		filters.setOrder(Order.asc("nombreCategoria"));
+		filters.addCriterion(Restrictions.like("nombreCategoria", categoriaName, MatchMode.ANYWHERE));
+
+		return categoriasDao.findByCriteria(filters);
 
 	}
 	
@@ -129,6 +144,16 @@ public class ProveedoresService {
 
 	public void setProveedoresDao(GenericDAO<Proveedor, Serializable> proveedoresDao) {
 		this.proveedoresDao = proveedoresDao;
+	}
+
+
+	public GenericDAO<CategoriaMaterial, Serializable> getCategoriasDao() {
+		return categoriasDao;
+	}
+
+
+	public void setCategoriasDao(GenericDAO<CategoriaMaterial, Serializable> categoriasDao) {
+		this.categoriasDao = categoriasDao;
 	}
 	
 	

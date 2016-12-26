@@ -48,7 +48,7 @@ public class Empresa implements java.io.Serializable {
 		this.idEmpresa = idEmpresa;
 	}
 
-	@Column(name = "nombre_cliente")
+	@Column(name = "nombre_empresa")
 	public String getNombreEmpresa() {
 		return this.nombreEmpresa;
 	}
@@ -57,7 +57,7 @@ public class Empresa implements java.io.Serializable {
 		this.nombreEmpresa = nombreEmpresa;
 	}
 
-	@Column(name = "nif_cliente")
+	@Column(name = "nif_empresa")
 	public String getNifEmpresa() {
 		return this.nifEmpresa;
 	}
@@ -66,7 +66,7 @@ public class Empresa implements java.io.Serializable {
 		this.nifEmpresa = nifEmpresa;
 	}
 
-	@Column(name = "email_cliente")
+	@Column(name = "email_empresa")
 	public String getEmailEmpresa() {
 		return this.emailEmpresa;
 	}
@@ -75,7 +75,7 @@ public class Empresa implements java.io.Serializable {
 		this.emailEmpresa = emailEmpresa;
 	}
 
-	@Column(name = "telefono_cliente")
+	@Column(name = "telefono_empresa")
 	public String getTelefonoEmpresa() {
 		return this.telefonoEmpresa;
 	}
@@ -84,7 +84,7 @@ public class Empresa implements java.io.Serializable {
 		this.telefonoEmpresa = telefonoEmpresa;
 	}
 
-	@Column(name = "direccion_cliente")
+	@Column(name = "direccion_empresa")
 	public String getDireccionEmpresa() {
 		return this.direccionEmpresa;
 	}
@@ -93,29 +93,10 @@ public class Empresa implements java.io.Serializable {
 		this.direccionEmpresa = direccionEmpresa;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idEmpresa == null) ? 0 : idEmpresa.hashCode());
-		return result;
-	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Empresa))
-			return false;
-		Empresa other = (Empresa) obj;
-		if (idEmpresa == null) {
-			if (other.getIdEmpresa() != null)
-				return false;
-		} else if (!idEmpresa.equals(other.getIdEmpresa()))
-			return false;
-		return true;
+	public String toString() {
+		return "Empresa [idEmpresa=" + idEmpresa + "]";
 	}
 
 }
