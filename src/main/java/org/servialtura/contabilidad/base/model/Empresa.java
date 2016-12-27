@@ -99,4 +99,29 @@ public class Empresa implements java.io.Serializable {
 		return "Empresa [idEmpresa=" + idEmpresa + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idEmpresa == null) ? 0 : idEmpresa.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Empresa))
+			return false;
+		Empresa other = (Empresa) obj;
+		if (idEmpresa == null) {
+			if (other.getIdEmpresa() != null)
+				return false;
+		} else if (!idEmpresa.equals(other.getIdEmpresa()))
+			return false;
+		return true;
+	}
+
 }

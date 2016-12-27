@@ -95,4 +95,34 @@ public class Proveedor implements java.io.Serializable {
 		this.notasProveedor = notasProveedor;
 	}
 
+	@Override
+	public String toString() {
+		return "Proveedor [idProveedor=" + idProveedor + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idProveedor == null) ? 0 : idProveedor.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Proveedor))
+			return false;
+		Proveedor other = (Proveedor) obj;
+		if (idProveedor == null) {
+			if (other.getIdProveedor() != null)
+				return false;
+		} else if (!idProveedor.equals(other.getIdProveedor()))
+			return false;
+		return true;
+	}
+
 }

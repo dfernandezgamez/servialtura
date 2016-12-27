@@ -79,4 +79,11 @@ public class CategoriaMaterial implements java.io.Serializable {
 		return true;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "CategoriaMaterial [idCategoriaMaterial=" + idCategoriaMaterial + "]";
+	}
+
 }
