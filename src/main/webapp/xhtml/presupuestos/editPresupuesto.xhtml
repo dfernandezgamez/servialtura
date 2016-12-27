@@ -108,7 +108,7 @@
 								<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
 								
 								<p:outputLabel id="desLbl" for="des" value="Descripción de la partida" />
-								<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" interfaceColor="#27ae60">  
+								<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" toolbar="#{UIConstants.CUSTOM_TOOLBAR}" interfaceColor="#27ae60">  
 								</pe:ckEditor> 
 								
 								<p:outputLabel id="impLbl" for="importe" value="Importe" />

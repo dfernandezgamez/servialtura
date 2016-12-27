@@ -3,15 +3,21 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pe="http://primefaces.org/ui/extensions"
       xmlns:ui="http://java.sun.com/jsf/facelets">
  
     <h:head>
 	<h:outputStylesheet name="common-style.css" library="css" />
+	<h:outputStylesheet library="idiada-web-theme" name="7.6.4/css/idiada.css" />
+    <h:outputStylesheet library="font-awesome" name="4.5.0/css/font-awesome.css" />
     </h:head>
  
     <h:body>
  
 	<div id="page">
+		<p:importConstants type="idiada.crm.model.constants.UICon" var="UIConstants" />
  
 	    <div id="header">
 		<ui:insert name="header" >
