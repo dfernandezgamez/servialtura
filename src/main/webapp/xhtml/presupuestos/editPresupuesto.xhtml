@@ -17,7 +17,7 @@
 			<b:container >
 				<p:tabView id="tabView">
 					<p:tab title="Detalles">
-						<p:fieldset legend="Presupuesto: #{editPresupuestoBean.selectedPresupuesto.numeroPresupuesto}" toggleable="true" id="infoPanel">
+						<p:fieldset legend="Presupuesto: #{editPresupuestoBean.selectedPresupuesto.numeroPresupuesto}" toggleable="true" id="infoPanel" styleClass="idiada-fieldset-nobackground">
 							<h:panelGrid columns="2" width="100%" >
 								<p:outputLabel id="desLbl" value="Descripción: " for="des" />
 								<p:inputTextarea id="des" 
@@ -52,7 +52,7 @@
 						</p:fieldset>
 					</p:tab>
 					<p:tab title="Partidas">
-							<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldSetPartidas">
+							<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldSetPartidas" styleClass="idiada-fieldset-nobackground">
 								<p:dataTable var="par" value="#{editPresupuestoBean.selectedPresupuesto.partidas}" 
 							         id="partidas" emptyMessage="Sin partidas en el presupuesto">
 							        <p:column >
@@ -75,19 +75,19 @@
 							        </p:rowExpansion>
 							 
 							    </p:dataTable>
-								<p:commandButton value="Añadir nueva partida"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
+								<p:commandButton value="Añadir nueva partida" styleClass="btn btn-info"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}"  oncomplete="PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
 							</p:fieldset>
 					</p:tab>
 					<p:tab title="Materiales">
-						<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetMateriales">
+						<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetMateriales" styleClass="idiada-fieldset-nobackground">
 								<p:dataTable var="ser" value="#{editPresupuestoBean.selectedPresupuesto.materiales}" 
 							         id="servicios" emptyMessage="Sin materiales en el presupuesto">
 							        <p:column headerText="Nombre partida">
 							                <h:outputText value="#{par.nombrePartida}" />
 							         </p:column>
 							    </p:dataTable>
-								<p:commandButton value="Añadir material"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewMaterial}"  oncomplete="PF('newMaterialDialog').show();"	update=":newMaterialForm"/>
+								<p:commandButton value="Añadir material" styleClass="btn btn-info"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewMaterial}"  oncomplete="PF('newMaterialDialog').show();"	update=":newMaterialForm"/>
 						
 							</p:fieldset>
 					</p:tab>
@@ -99,58 +99,61 @@
 			
 			
 			<!-- dialogos -->
-			<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" maximizable="true"  closable="true" dynamic="true">
 				<h:form id="newPartidaForm">
-				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-				    	<b:container >
-							 <b:panelGrid colSpans="5,7">
-								<p:outputLabel id="tituloLbl" for="titulo" value="Título de la partida" />
-								<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
-								
-								<p:outputLabel id="desLbl" for="des" value="Descripción de la partida" />
-								<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" toolbar="#{UIConstants.CUSTOM_TOOLBAR}" interfaceColor="#27ae60">  
-								</pe:ckEditor> 
-								
-								<p:outputLabel id="impLbl" for="importe" value="Importe" />
-								<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
-									<p:keyFilter regEx="/[ABC]/i"/>
-								</p:inputText>
-									
-							</b:panelGrid>
-						</b:container>
-						<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
-						<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addPartida()}" 
-						oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetPartidas"/>
+					<p:dialog header="Nueva partida" widgetVar="newPartidaDialog"  resizable="false" modal="true" maximizable="true"  closable="true" dynamic="true" onShow="Idiada(PF('newPartidaDialog')).centerDialog();">
+					
+						    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+						    	<b:container >
+									 <b:panelGrid colSpans="5,7">
+										<p:outputLabel id="tituloLbl" for="titulo" value="Título de la partida" />
+										<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
+										
+										<p:outputLabel id="desLbl" for="des" value="Descripción de la partida" />
+										<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" toolbar="#{UIConstants.CUSTOM_TOOLBAR}" interfaceColor="#27ae60">  
+										</pe:ckEditor> 
+										
+										<p:outputLabel id="impLbl" for="importe" value="Importe" />
+										<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
+											<p:keyFilter regEx="/[ABC]/i"/>
+										</p:inputText>
+											
+									</b:panelGrid>
+								</b:container>
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Añadir partida" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addPartida()}" 
+								oncomplete="if (!args.validationFailed) {PF('newPartidaDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetPartidas" styleClass="btn btn-info"/>
+					
+					</p:dialog>	
 				</h:form>
-			</p:dialog>	
-			
-			<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
 				<h:form id="newMaterialForm">
-				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-							 <b:panelGrid colSpans="2,10">
-								<p:outputLabel id="materialLbl" for="material" value="Material" />
-								<p:autoComplete id="material" dropdown="true" converter="omnifaces.SelectItemsConverter"  minQueryLength="3" 
-	        					 value="#{editPresupuestoBean.newMaterial}" completeMethod="#{editPresupuestoBean.searchMaterial}"
-	        					 emptyMessage="No se han encontrado materiales" placeholder="Buscar material" 
-	        					 var="ma" itemLabel="#{ma.nombreMaterial}" itemValue="#{ma}">
-	        						<f:facet name="itemtip">
-						                <h:panelGrid columns="2" width="100%">
-						                    <h:outputText value="Precio" />
-						                    <h:outputText value="#{ma.precioUnitario} €" />
-						 
-						                    <h:outputText value="Proveedor" />
-						                    <h:outputText value="#{ma.proveedor.nombreProveedor}" />
-						                </h:panelGrid>
-						            </f:facet>
-	        					</p:autoComplete>
-
-									
-							</b:panelGrid>
-						<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true"/>
-						<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addMaterial()}" 
-						oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetMateriales"/>
+				<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true" onShow="Idiada(PF('newMaterialDialog')).centerDialog();">
+					
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+								 <b:panelGrid colSpans="2,10">
+									<p:outputLabel id="materialLbl" for="material" value="Material" />
+									<p:autoComplete id="material" dropdown="true" converter="omnifaces.SelectItemsConverter"  minQueryLength="3" 
+		        					 value="#{editPresupuestoBean.newMaterial}" completeMethod="#{editPresupuestoBean.searchMaterial}"
+		        					 emptyMessage="No se han encontrado materiales" placeholder="Buscar material" 
+		        					 var="ma" itemLabel="#{ma.nombreMaterial}" itemValue="#{ma}">
+		        						<f:facet name="itemtip">
+							                <h:panelGrid columns="2" width="100%">
+							                    <h:outputText value="Precio" />
+							                    <h:outputText value="#{ma.precioUnitario} €" />
+							 
+							                    <h:outputText value="Proveedor" />
+							                    <h:outputText value="#{ma.proveedor.nombreProveedor}" />
+							                </h:panelGrid>
+							            </f:facet>
+		        					</p:autoComplete>
+	
+										
+								</b:panelGrid>
+							<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newPartidaDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+							<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addMaterial()}" styleClass="btn btn-info"
+							oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":editPresupuestoForm:tabView:fieldSetMateriales"/>
+					
+				</p:dialog>	
 				</h:form>
-			</p:dialog>	
 			
 		</ui:define>
 	</ui:composition>

@@ -34,30 +34,30 @@
 							</p:column>
 
 						</p:dataTable>
-						<p:commandButton value="#{msg['user.add']}" type="button" icon="ui-icon-pencil"
+						<p:commandButton value="Añadir usuario"  icon="ui-icon-pencil" styleClass="btn btn-info"
 							oncomplete="PF('newUserDialog').show();" />
 				</b:container>
 			</h:form>
 
 
-			<p:dialog header="#{msg['user.new']}" widgetVar="newUserDialog"  resizable="false"
+			<p:dialog header="Nuevo usuario" widgetVar="newUserDialog"  resizable="false"
 				modal="true" closable="true" dynamic="true">
 				<h:form id="newUserForm">
 					    <p:messages showDetail="false" autoUpdate="true" closable="true" id="messages"/>
 	       					 <b:panelGrid colSpans="4,8">
-								<p:outputLabel id="userLbl" for="user" value="#{msg['user']}" />
+								<p:outputLabel id="userLbl" for="user" value="Usuario" />
 								<p:inputText id="user" maxlength="50" required="true"
 									value="#{userList.newUser.usuario}" />
 								<p:outputLabel id="passwordLbl" for="password"
-									value="#{msg['password']}" />
+									value="Contraseña" />
 								<p:password id="password" maxlength="50" required="true"
 									value="#{userList.newUser.password}" />
 							</b:panelGrid>
-								<p:commandButton value="#{msg['cancel']}" 
-									icon="ui-icon-close" onclick="PF('newUserDialog').hide();"/>
-								<p:commandButton value="#{msg['save']}" 
+								<p:commandButton value="Cancelar" 
+									icon="ui-icon-close" onclick="PF('newUserDialog').hide();" styleClass="btn btn-default"/>
+								<p:commandButton value="Guardar" 
 									icon="ui-icon-disk" process="@form"  
-									actionListener="#{userList.addUser}" 
+									actionListener="#{userList.addUser}"  styleClass="btn btn-info"
 									oncomplete="if (!args.validationFailed) {PF('newUserDialog').hide();}" update="@form"/>
 				</h:form>
 			</p:dialog>

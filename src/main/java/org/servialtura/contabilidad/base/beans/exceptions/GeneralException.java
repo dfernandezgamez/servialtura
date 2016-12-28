@@ -2,7 +2,6 @@ package org.servialtura.contabilidad.base.beans.exceptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,7 +14,7 @@ public abstract class GeneralException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = -3551222104242176674L;
-	private final List<I18nMessage> errorMessages = new ArrayList<>();
+	private final List<I18nMessage> errorMessages = new ArrayList<I18nMessage>();
 
 	public GeneralException(String key, Object... params) {
 		super(key);
@@ -27,17 +26,6 @@ public abstract class GeneralException extends Exception {
 		addError(key, params);
 	}
 
-	/**
-	 * @deprecated Use {@link #getErrorMessages()}
-	 */
-	@Deprecated
-	public Map<String, List<?>> getErrorMap() {
-		Map<String, List<?>> map = new HashMap<>();
-		for (I18nMessage msg : errorMessages) {
-			map.put(msg.getKey(), msg.getParams());
-		}
-		return map;
-	}
 
 	public void addErrors(Map<String, List<?>> errorMap) {
 		for (Entry<String, List<?>> e : errorMap.entrySet()) {

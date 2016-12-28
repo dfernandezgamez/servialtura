@@ -27,11 +27,11 @@
 							</p:calendar>
 							
 							<p:outputLabel value="Cliente" for="cliente" />
-        					<p:autoComplete id="cliente" dropdown="true" converter="omnifaces.SelectItemsConverter" 
-        					 value="#{newPresupuestoBean.newPresupuesto.cliente}" completeMethod="#{newPresupuestoBean.searchCliente}"
+        					<p:autoComplete id="cliente" dropdown="true" converter="#{genericEntityConverter}" 
+        					 value="#{newPresupuestoBean.selectedEmpresa}" completeMethod="#{newPresupuestoBean.searchCliente}"
         					 emptyMessage="No se han encontrado clientes" placeholder="Buscar clientes" 
-        					 var="cli" itemLabel="#{cli.nombreCliente}" itemValue="#{cli}">
-        						<p:ajax event="itemSelect" listener="#{newPresupuestoBean.onItemSelect(cli)}"  update="infoPanel"/>
+        					 var="cli" itemLabel="#{cli.nombreEmpresa}" itemValue="#{cli}">
+        						<p:ajax event="itemSelect" listener="#{newPresupuestoBean.onItemSelect}"  update="infoPanel"/>
         					</p:autoComplete>
 								
 							<p:outputLabel id="nombreLbl" value="Persona contacto: "  for="nombre"/>
@@ -48,7 +48,7 @@
 						</h:panelGrid>
 					</p:fieldset>
 					
-					<p:commandButton value="Guardar presupuesto"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.guardarPresupuesto}"	update="@form"/>
+					<p:commandButton value="Guardar presupuesto" styleClass="btn btn-info"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.guardarPresupuesto}"	update="@form"/>
 			</b:container>
 			</h:form>
 			

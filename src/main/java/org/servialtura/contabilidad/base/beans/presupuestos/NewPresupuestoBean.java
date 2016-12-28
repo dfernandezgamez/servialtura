@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.transaction.SystemException;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
@@ -39,6 +40,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = -7766171432336654234L;
 
     private Presupuesto newPresupuesto;
+    private Empresa selectedEmpresa;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -109,10 +111,10 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 		return file;
 	}
 	
-	 public void onItemSelect(Empresa cliente) {
-		 this.newPresupuesto.setEmailContacto(cliente.getEmailEmpresa());
-		 this.newPresupuesto.setTelefonoContacto(cliente.getTelefonoEmpresa());
-		 this.newPresupuesto.setPersonaContacto(cliente.getNombreEmpresa());
+	 public void onItemSelect(SelectEvent event) {
+		 this.newPresupuesto.setEmailContacto(selectedEmpresa.getEmailEmpresa());
+		 this.newPresupuesto.setTelefonoContacto(selectedEmpresa.getTelefonoEmpresa());
+		 this.newPresupuesto.setPersonaContacto(selectedEmpresa.getNombreEmpresa());
 	    }
 	
 	 public List<Empresa> searchCliente(String query) throws SystemException {
@@ -126,6 +128,14 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setClientesService(ClientesService clientesService) {
 		this.clientesService = clientesService;
+	}
+
+	public Empresa getSelectedEmpresa() {
+		return selectedEmpresa;
+	}
+
+	public void setSelectedEmpresa(Empresa selectedEmpresa) {
+		this.selectedEmpresa = selectedEmpresa;
 	}
 
 }

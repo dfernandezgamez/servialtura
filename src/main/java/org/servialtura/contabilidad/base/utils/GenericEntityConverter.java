@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PreDestroy;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
-import org.springframework.context.annotation.Scope;
-
 @Named
-@Scope("view")
+@ViewScoped
 public class GenericEntityConverter implements Converter, Serializable {
 
 	/**
@@ -24,7 +23,7 @@ public class GenericEntityConverter implements Converter, Serializable {
 	private Map<String, Object> entities;
 	
 	public GenericEntityConverter(){
-		entities = new HashMap<>();
+		entities = new HashMap<String, Object>();
 	}
 
 	@Override

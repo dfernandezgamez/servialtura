@@ -12,7 +12,10 @@
 		<ui:define name="content">
 			<h:form id="materialesListForm">
 				<b:container>
-						<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" />
+							<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
+								<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" styleClass="btn btn-info"/>
+							</h:panelGrid>
+						
 						
 						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10" widgetVar="materialesTable"
 							paginator="true"  id="materialesTable" editable="true" filteredValue="#{materialesListBean.filteredMateriales}"

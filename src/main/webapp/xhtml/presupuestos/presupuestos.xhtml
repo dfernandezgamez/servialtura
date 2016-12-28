@@ -12,26 +12,30 @@
 		<ui:define name="content">
 			<h:form id="presupuestosListForm">
 				<b:container>
+					<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
+						<p:commandButton value="Añadir presupuesto"  icon="ui-icon-plus" oncomplete="PF('newPresupuestoDialog').show();" styleClass="btn btn-info"/>
+					</h:panelGrid>
 						<p:dataTable var="pre" value="#{presupuestosListBean.presupuestos}" rows="10"
 							paginator="true" editable="false" id="solicitudesTable"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
-							<p:column headerText="Estado"  sortBy="#{pre.estadoPresupuesto}">
+
+							<p:column headerText="Estado"  sortBy="#{pre.estadoPresupuesto}" styleClass="col-button  col-align-center">
 										<i class="#{pre.estadoPresupuesto.icon}"   style="color:#{pre.estadoPresupuesto.color}"></i>
 							</p:column>
-							<p:column headerText="Descripción" filterBy="#{pre.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{pre.descripcionSolicitud}">
+							<p:column headerText="Descripción" filterBy="#{pre.descripcionSolicitud}" filterMatchMode="contains" sortBy="#{pre.descripcionSolicitud}" styleClass="col-lg  col-align-center">
 										<h:outputText value="#{pre.descripcionSolicitud}"  />
 							</p:column>
-							<p:column headerText="Nombre contacto"  sortBy="#{pre.nombreContacto}">
+							<p:column headerText="Nombre contacto"  sortBy="#{pre.personaContacto}" styleClass="col-md  col-align-center">
 										<h:outputText value="#{pre.personaContacto}" />
 							</p:column>
-							<p:column headerText="Importe" filterBy="#{pre.importePresupuesto}" filterMatchMode="contains" sortBy="#{pre.importePresupuesto}">
-										<h:outputText value="#{pre.importePresupuesto}" />
+							<p:column headerText="Importe" filterBy="#{pre.importePresupuesto}" filterMatchMode="contains" sortBy="#{pre.importePresupuesto}" styleClass="col-md  col-align-center">
+										<h:outputText value="#{pre.importePresupuesto} €" />
 							</p:column>
-							<p:column headerText="Fecha solicitud" filterBy="#{pre.fechaSolicitud}" filterMatchMode="contains" sortBy="#{pre.fechaSolicitud}">
+							<p:column headerText="Fecha solicitud" filterBy="#{pre.fechaSolicitud}" filterMatchMode="contains" sortBy="#{pre.fechaSolicitud}" styleClass="col-date  col-align-center">
 										<h:outputText value="#{pre.fechaSolicitud}"  converter="javax.faces.DateTime"  />
 							</p:column>
-							<p:column >
+							<p:column styleClass="col-button  col-align-center">
 										<p:commandButton  icon="ui-icon-search"  actionListener="#{presupuestosListBean.redirectToPresupuesto(pre)}"/>
 							</p:column>
 
