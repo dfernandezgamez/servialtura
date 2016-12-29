@@ -45,6 +45,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     private List<Material> materiales;
     private Partida newPartida;
     private Material newMaterial;
+    private Boolean isEditing;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -63,13 +64,18 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	selectedPresupuesto=presupuestosService.getPresupuesto(Integer.valueOf(idPresupuesto));
     }
     
+    public void editPresupuesto(Boolean value){
+    	isEditing=value;
+    }
+    
     public void guardarPresupuesto(){
     	try {
     		presupuestosService.updatePresupuesto(selectedPresupuesto);
 		} catch (SystemException e) {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error actualizando  presupuesto"));
 		}
-    	
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Presupuesto actualizado correctamente"));
+    	isEditing=false;
     }
     
     public void prepareNewPartida(){
@@ -205,6 +211,14 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setProveedoresService(ProveedoresService proveedoresService) {
 		this.proveedoresService = proveedoresService;
+	}
+
+	public Boolean getIsEditing() {
+		return isEditing;
+	}
+
+	public void setIsEditing(Boolean isEditing) {
+		this.isEditing = isEditing;
 	}
 
 

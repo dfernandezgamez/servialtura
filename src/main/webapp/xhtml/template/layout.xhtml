@@ -18,6 +18,20 @@
  
 	<div id="page">
 		<p:importConstants type="org.servialtura.contabilidad.base.utils.constants.UICon" var="UIConstants" />
+		<script type="text/javascript">
+				function start() {
+				    PF('statusDialog').show();
+				}
+				function stop() {
+				    PF('statusDialog').hide();
+				}
+				function showStatus() {
+					PF('statusDialog').show();
+				}
+				function hideStatus() {
+					PF('statusDialog').hide();
+				}
+	      </script>
  
 	    <div id="header">
 		<ui:insert name="header" >
@@ -29,6 +43,9 @@
 	  	<ui:insert name="content" >
 	 	  <ui:include src="/xhtml/template/content.xhtml" />
 	   	</ui:insert>
+	   	<p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" showHeader="false" styleClass="blockUI">
+				<p:graphicImage value="/resources/images/ajax-loader-circle.gif" />
+			</p:dialog>
 	    </div>
  
 	    <div id="footer">

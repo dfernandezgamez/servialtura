@@ -57,7 +57,7 @@ public class ProveedoresService {
 	public List<Material> findMateriales(String materialName) throws SystemException{
 		
 		CriteriaFilters filters = new CriteriaFilters(Material.class);
-		filters.setOrder(Order.asc("nombreProveedor"));
+		filters.setOrder(Order.asc("nombreMaterial"));
 		filters.addCriterion(Restrictions.like("nombreMaterial", materialName, MatchMode.ANYWHERE));
 
 		return materialesDao.findByCriteria(filters);
