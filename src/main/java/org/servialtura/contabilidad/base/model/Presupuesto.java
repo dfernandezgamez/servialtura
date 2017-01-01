@@ -18,8 +18,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -51,7 +49,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String numeroPresupuesto;
 	private Empresa cliente;
 	private List<Partida> partidas = new ArrayList<Partida>();
-	private List<Material> materiales = new ArrayList<Material>();
+	private List<MaterialesPresupuesto> materialesPresupuestos = new ArrayList<MaterialesPresupuesto>();
 
 	public Presupuesto() {
 	}
@@ -170,16 +168,50 @@ public class Presupuesto implements java.io.Serializable {
 		this.partidas = partidas;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="MATERIALES_PRESUPUESTO", 
-	joinColumns={@JoinColumn(name="idPresupuesto")}, 
-	inverseJoinColumns={@JoinColumn(name="idMaterial")})
-	public List<Material> getMateriales() {
-		return this.materiales;
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(name="MATERIALES_PRESUPUESTO", 
+//	joinColumns={@JoinColumn(name="idPresupuesto")}, 
+//	inverseJoinColumns={@JoinColumn(name="idMaterial")})
+//	public List<Material> getMateriales() {
+//		return this.materiales;
+//	}
+//
+//	public void setMateriales(List<Material> materiales) {
+//		this.materiales = materiales;
+//	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
+	public List<MaterialesPresupuesto> getMaterialesPresupuestos() {
+		return this.materialesPresupuestos;
 	}
 
-	public void setMateriales(List<Material> materiales) {
-		this.materiales = materiales;
+	public void setMaterialesPresupuestos(List<MaterialesPresupuesto> materialesPresupuestos) {
+		this.materialesPresupuestos = materialesPresupuestos;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idPresupuesto == null) ? 0 : idPresupuesto.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Presupuesto))
+			return false;
+		Presupuesto other = (Presupuesto) obj;
+		if (idPresupuesto == null) {
+			if (other.getIdPresupuesto() != null)
+				return false;
+		} else if (!idPresupuesto.equals(other.getIdPresupuesto()))
+			return false;
+		return true;
 	}
 
 }

@@ -5,6 +5,8 @@ package org.servialtura.contabilidad.base.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +35,7 @@ public class Material implements java.io.Serializable {
 	private String nombreMaterial;
 	private BigDecimal precioUnitario;
 	private Proveedor proveedor;
+	private Set<MaterialesPresupuesto> materialesPresupuestos = new HashSet<MaterialesPresupuesto>(0);
 
 	public Material() {
 	}
@@ -96,6 +100,42 @@ public class Material implements java.io.Serializable {
 
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "material")
+	public Set<MaterialesPresupuesto> getMaterialesPresupuestos() {
+		return this.materialesPresupuestos;
+	}
+
+	public void setMaterialesPresupuestos(Set<MaterialesPresupuesto> materialesPresupuestos) {
+		this.materialesPresupuestos = materialesPresupuestos;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idMaterial == null) ? 0 : idMaterial.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Material))
+			return false;
+		Material other = (Material) obj;
+		if (idMaterial == null) {
+			if (other.getIdMaterial() != null)
+				return false;
+		} else if (!idMaterial.equals(other.getIdMaterial()))
+			return false;
+		return true;
 	}
 
 }

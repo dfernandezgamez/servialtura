@@ -66,7 +66,7 @@ public class LoginBean extends BaseBean implements Serializable {
         	PropertyUtils.addMessage(FacesContext.getCurrentInstance(),"messagesLogin","message.loginFailed", null);
 			return "/login";
         }
-        return "xhtml/presupuestos/presupuestos.xhtml";
+        return "faces/xhtml/presupuestos/presupuestos.xhtml";
     }
     
      

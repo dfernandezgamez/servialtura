@@ -22,6 +22,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.joda.time.DateTime;
+import org.jsoup.Jsoup;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.servialtura.contabilidad.base.model.Partida;
@@ -170,17 +171,9 @@ public class WordHelper {
 			r2.setText(partida.getNombrePartida());
 			r2.setFontFamily("Helvetica");
 			r2.addBreak();
-//			for(LineaPartida linea:partida.getLineasPartida()){
-//				XWPFParagraph para = presupuestoDoc.createParagraph();
-//				para.setVerticalAlignment(TextAlignment.TOP);
-//				para.setAlignment(ParagraphAlignment.CENTER);
-//				para.setNumID(BigInteger.TEN);
-//				XWPFRun run=para.createRun();
-//				run.addBreak();
-//				run.setText(linea.getDescripcionLineaPresupuesto());
-//				run.addBreak();
-//			}
 			
+			//por cada <p> que nos encontremos tenemos que crear un nuevo parrafo
+			//por cada <ui> hay que empezar una lista con elementos
 		}
 		
 		XWPFParagraph importe = presupuestoDoc.createParagraph();
@@ -214,7 +207,7 @@ public class WordHelper {
 		XWPFRun r1 = parrafo.createRun();
 		r1.setBold(true);
 		r1.setFontSize(20);
-		r1.setText("PRESUPUESTO Nº:"+ presupuesto.getIdPresupuesto());
+		r1.setText("PRESUPUESTO Nº:"+ presupuesto.getNumeroPresupuesto());
 		r1.setFontFamily("Helvetica");
 		r1.addBreak();
 
@@ -239,13 +232,17 @@ public class WordHelper {
 		footerParagraph.setAlignment(ParagraphAlignment.LEFT);
 		XWPFRun r1 = footerParagraph.createRun();
 		r1.setFontSize(6);
-		r1.setText("SERVIALTURA S.L.L.");
+		r1.setText("D'ALTURA S.L.");
 		r1.addBreak();
-		r1.setText("CIF: B52506664");
+		r1.setText("CIF: xxxx");
 		r1.addBreak();
-		r1.setText("Tlfs: 666 63 07 86  665 38 37 07 984 06 73 75");
+		r1.setText("Teléfonos:");
 		r1.addBreak();
-		r1.setText("Correo electrónico: servialtura@gmail.com");
+		r1.setText("Oficina:+34 984067375 // +34 616598617");
+		r1.addBreak();
+		r1.setText("Obra: +34 665383707");
+		r1.addBreak();
+		r1.setText("Correo electrónico: renedaltura@gmail.com");
 
 
 		XWPFParagraph[] parsFooter = new XWPFParagraph[1];
@@ -263,8 +260,8 @@ public class WordHelper {
 		XWPFRun r = parrafoImagen.createRun();
 		try {
 
-			InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/servialtura.png");
-			r.addPicture(stream, XWPFDocument.PICTURE_TYPE_PNG, "servialtura.png", Units.toEMU(ancho), Units.toEMU(alto));
+			InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/images/daltura.jpg");
+			r.addPicture(stream, XWPFDocument.PICTURE_TYPE_JPEG, "daltura.jpg", Units.toEMU(ancho), Units.toEMU(alto));
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

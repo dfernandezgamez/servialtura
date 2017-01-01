@@ -24,6 +24,7 @@ import org.servialtura.contabilidad.base.beans.BaseBean;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
 import org.servialtura.contabilidad.base.model.Empresa;
 import org.servialtura.contabilidad.base.model.Material;
+import org.servialtura.contabilidad.base.model.MaterialPresupuesto;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.service.ClientesService;
@@ -46,6 +47,8 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     private Partida newPartida;
     private Material newMaterial;
     private Boolean isEditing;
+    private Partida selectedPartida;
+    private List<MaterialPresupuesto> materialesPresupuestoList;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -83,13 +86,15 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	this.newPartida.setPresupuesto(selectedPresupuesto);
     }
     
+    public void prepareEditPartida(Partida partida){
+    	this.selectedPartida=partida;
+    }
+    
     public void prepareNewMaterial(){
     	this.newMaterial = new Material();
     }
     
     public void onItemSelect(SelectEvent event) {
-    	Empresa e= (Empresa) event.getObject();
-       // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Selected", event.getObject().toString()));
     }
     
     public void addPartida(){
@@ -101,6 +106,16 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	
     	this.partidas.add(newPartida);
     	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida creada correctamente"));
+    }
+    
+    public void updatePartida(){
+    	try {
+    		presupuestosService.updatePartida(selectedPartida);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error actualizando la partida"));
+		}
+    	
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida actualizada correctamente"));
     }
     
     public List<Material> searchMaterial(String query) throws SystemException {
@@ -116,19 +131,23 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     
 
 	public StreamedContent getPresupuestoFile(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.selectedPresupuesto.getNumeroPresupuesto());
+		sb.append(".docx");
+		String nombreFichero= sb.toString();
 
 		StreamedContent file = null;
 		XWPFDocument document= WordHelper.getPresupuesto(this.selectedPresupuesto);
     	
     		FileOutputStream ficheroSalida;
 			try {
-				ficheroSalida = new FileOutputStream("presupuesto_servialtura.docx");
+				ficheroSalida = new FileOutputStream(nombreFichero);
 				document.write(ficheroSalida);
 	    		ficheroSalida.close();
 	    		
-	    		InputStream stream = new FileInputStream("presupuesto_servialtura.docx");
+	    		InputStream stream = new FileInputStream(nombreFichero);
 	    		
-	    		file = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "presupuesto_servialtura.docx");
+	    		file = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", nombreFichero);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -219,6 +238,22 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setIsEditing(Boolean isEditing) {
 		this.isEditing = isEditing;
+	}
+
+	public Partida getSelectedPartida() {
+		return selectedPartida;
+	}
+
+	public void setSelectedPartida(Partida selectedPartida) {
+		this.selectedPartida = selectedPartida;
+	}
+
+	public List<MaterialPresupuesto> getMaterialesPresupuestoList() {
+		return materialesPresupuestoList;
+	}
+
+	public void setMaterialesPresupuestoList(List<MaterialPresupuesto> materialesPresupuestoList) {
+		this.materialesPresupuestoList = materialesPresupuestoList;
 	}
 
 

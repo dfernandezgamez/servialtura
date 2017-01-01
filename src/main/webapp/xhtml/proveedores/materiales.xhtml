@@ -17,18 +17,18 @@
 							</h:panelGrid>
 						
 						
-						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10" widgetVar="materialesTable"
-							paginator="true"  id="materialesTable" editable="true" filteredValue="#{materialesListBean.filteredMateriales}"
+						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10" widgetVar="materialesTableVar"
+							paginator="true"  id="materialesTable" editable="true" 
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,10,15">
 							<p:ajax event="rowEdit" listener="#{materialesListBean.onRowEdit}" update=":materialesListForm:materialesTable" />
-							<p:column headerText="Categoria" filterBy="#{mate.categoriaMaterial.nombreCategoria}"  sortBy="#{mate.categoriaMaterial.nombreCategoria}" filterMatchMode="contains">
+							
+							<p:column headerText="Categoria"  filterBy="#{mate.categoriaMaterial}" footerText="exact" filterMatchMode="exact">
 								<f:facet name="filter">
-					                <p:autoComplete dropdown="true" converter="omnifaces.SelectItemsConverter" value="#{mate.categoriaMaterial.nombreCategoria}"
-					        					 completeMethod="#{materialesListBean.searchCategorias}"
-					        					 emptyMessage="No se han encontrado categorias" placeholder="Filtrar categorias" 
-					        					 var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat.nombreCategoria}">
-					        						<p:ajax event="itemSelect" oncomplete="PF('materialesTable').filter()"/>
+					                <p:autoComplete dropdown="true" converter="#{genericEntityConverter}"  
+					        					 completeMethod="#{materialesListBean.searchCategorias}" 
+					        					 emptyMessage="No se han encontrado categorias" placeholder="Filtrar categorias"  onstart="PF('carsTable').filter()"
+					        					 var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat}">
 					        		</p:autoComplete>
 					            </f:facet>
 								<p:cellEditor>
@@ -36,6 +36,7 @@
 										 <f:facet name="input"><p:inputText  value="#{mate.categoriaMaterial.nombreCategoria}"/></f:facet>
 								</p:cellEditor>
 							</p:column>
+							
 							<p:column headerText="Nombre"  sortBy="#{mate.nombreMaterial}" filterBy="#{mate.nombreMaterial}" filterMatchMode="contains">
 							<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.nombreMaterial}"/></f:facet>
