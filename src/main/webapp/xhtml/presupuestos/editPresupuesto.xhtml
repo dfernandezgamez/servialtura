@@ -12,9 +12,11 @@
 	<ui:composition template="/xhtml/template/layout.xhtml">
 		<ui:define name="content">
 			<b:container >
-					<h:form id="formbuttons">
-						<p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
-							<h:panelGrid id="actionsPanel" columns="2" styleClass="width-6 btn-panel" columnClasses="width-3, width-3">	
+				<p:tabView id="tabView">
+					<p:tab title="Detalles">
+					 <h:form id="editPresupuestoForm">
+					 <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
+					 	<h:panelGrid id="actionsPanel" columns="3" styleClass="width-9" columnClasses="width-3, width-3, width-3">	
 									<p:commandButton styleClass="btn btn-warning" icon="fa fa-search fa-1x" value="Generar documento" ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)" >
 										<p:fileDownload value="#{editPresupuestoBean.presupuestoFile}" />
 									</p:commandButton>
@@ -24,11 +26,7 @@
 									</p:commandButton>
 									<p:commandButton value="Cancelar" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{editPresupuestoBean.isEditing}" immediate="true" process="@this" actionListener="#{editPresupuestoBean.editPresupuesto(false)}"  icon="ui-icon-close" update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-default"/>
 								
-							</h:panelGrid>
-					</h:form>
-				<p:tabView id="tabView">
-					<p:tab title="Detalles">
-					 <h:form id="editPresupuestoForm">
+						</h:panelGrid>
 						<p:fieldset legend="Presupuesto: #{editPresupuestoBean.selectedPresupuesto.numeroPresupuesto}" toggleable="true" id="infoPanel" styleClass="idiada-fieldset-nobackground">
 							<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12 top-info-bar data-panel-grid" >
 								<p:outputLabel id="desLbl" value="Descripción: " for="des" />
@@ -92,6 +90,9 @@
 							         <p:column headerText="Detalles" styleClass="col-button  col-align-center">
 												<p:commandButton  icon="ui-icon-search"  actionListener="#{editPresupuestoBean.prepareEditPartida(par)}"  onstart="showStatus()" onerror="hideStatus()"  oncomplete="hideStatus();PF('editPartidaDialog').show();" 	update=":editPartidaForm"/>
 									</p:column>
+									 <p:column headerText="Borrar" styleClass="col-button  col-align-center">
+												<p:commandButton  icon="ui-icon-trash" update="partidas"  actionListener="#{editPresupuestoBean.deletePartida(par)}"  onstart="showStatus()" onerror="hideStatus()"/>
+									</p:column>
 							    </p:dataTable>
 								<p:commandButton value="Añadir nueva partida" styleClass="btn btn-info"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}" onstart="showStatus()" onerror="hideStatus()"  oncomplete="hideStatus();PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
@@ -146,9 +147,8 @@
 											</pe:ckEditor> 
 											
 											<p:outputLabel id="impLbl" for="importe" value="Importe:" />
-											<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
-												<p:keyFilter regEx="/[ABC]/i"/>
-											</p:inputText>
+											<p:inputNumber id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
+											</p:inputNumber>
 									</h:panelGrid>		
 								</p:panel>
 								<p:panel styleClass="idiada-buttons-container">
@@ -208,7 +208,7 @@
 									            </f:facet>
 				        					</p:autoComplete>
 				        					<p:outputLabel id="cantidadLbl" for="cantidad" value="Cantidad:" />
-				        					<p:inputText  id="cantidad"  value="Material" required="true"/>
+				        					<p:inputNumber  id="cantidad"  value="Material" required="true"/>
 			
 												
 										</h:panelGrid>

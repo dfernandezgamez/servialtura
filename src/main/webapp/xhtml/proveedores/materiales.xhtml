@@ -12,31 +12,17 @@
 		<ui:define name="content">
 			<h:form id="materialesListForm">
 				<b:container>
-							<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
-								<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" styleClass="btn btn-info"/>
-							</h:panelGrid>
-						
-						
-						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10" widgetVar="materialesTableVar"
-							paginator="true"  id="materialesTable" editable="true" 
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="5,10,15">
-							<p:ajax event="rowEdit" listener="#{materialesListBean.onRowEdit}" update=":materialesListForm:materialesTable" />
-							
-							<p:column headerText="Categoria"  filterBy="#{mate.categoriaMaterial}" footerText="exact" filterMatchMode="exact">
-								<f:facet name="filter">
-					                <p:autoComplete dropdown="true" converter="#{genericEntityConverter}"  
-					        					 completeMethod="#{materialesListBean.searchCategorias}" 
-					        					 emptyMessage="No se han encontrado categorias" placeholder="Filtrar categorias"  onstart="PF('carsTable').filter()"
-					        					 var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat}">
-					        		</p:autoComplete>
-					            </f:facet>
+						<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
+							<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" styleClass="btn btn-info"/>
+						</h:panelGrid>
+						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10"  id="materialesTable" widgetVar="materialesTableVar">
+							<p:column headerText="Categoria"  filterBy="#{mate.categoriaMaterial.nombreCategoria}" footerText="exact" filterMatchMode="contains">
 								<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.categoriaMaterial.nombreCategoria}" /></f:facet>
 										 <f:facet name="input"><p:inputText  value="#{mate.categoriaMaterial.nombreCategoria}"/></f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+						
 							<p:column headerText="Nombre"  sortBy="#{mate.nombreMaterial}" filterBy="#{mate.nombreMaterial}" filterMatchMode="contains">
 							<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.nombreMaterial}"/></f:facet>
@@ -45,19 +31,11 @@
 							</p:column>
 							<p:column headerText="Precio"  sortBy="#{mate.precioUnitario}" >
 								<p:cellEditor>
-										<f:facet name="output"><h:outputText value="#{mate.precioUnitario}" /></f:facet>
+										<f:facet name="output"><h:outputText value="#{mate.precioUnitario} €" /></f:facet>
 										 <f:facet name="input"><p:inputText  value="#{mate.precioUnitario}"/></f:facet>
 								</p:cellEditor>
 							</p:column>
 							<p:column headerText="Proveedor"  sortBy="#{mate.proveedor.nombreProveedor}" filterBy="#{mate.proveedor.nombreProveedor}" filterMatchMode="exact" >
-								<f:facet name="filter">
-					                <p:autoComplete dropdown="true" converter="omnifaces.SelectItemsConverter" 
-					        					 completeMethod="#{materialesListBean.searchProveedores}" value="#{mate.proveedor.nombreProveedor}"
-					        					 emptyMessage="No se han encontrado proveedores" placeholder="Filtrar proveedores" 
-					        					 var="pro" itemLabel="#{pro.nombreProveedor}" itemValue="#{pro.nombreProveedor}">
-					        					 <p:ajax event="itemSelect"  oncomplete="PF('materialesTable').filter()"/>
-					        		</p:autoComplete>
-					            </f:facet>
 								<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.proveedor.nombreProveedor}" /></f:facet>
 										 <f:facet name="input"><p:inputText  value="#{mate.proveedor.nombreProveedor}"/></f:facet>
@@ -66,6 +44,7 @@
 							<p:column style="width:55px" headerText="Editar" >
 					           <p:rowEditor />
 					       </p:column>
+			
 
 						</p:dataTable>
 				</b:container>
@@ -75,20 +54,39 @@
 			
 			
 			<!-- dialogos -->
-			<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
-				<h:form id="newMaterialForm">
-				    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
-							 <b:panelGrid colSpans="2,10">
-								<p:outputLabel id="nombreLbl" value="Nombre"  for="nombre"/>
-								<p:inputText id="nombre"
-									value="#{materialesListBean.newMaterial.nombreMaterial}" required="true"/>
-									
-							</b:panelGrid>
-						<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newMaterialDialog').hide();" immediate="true"/>
-						<p:commandButton value="Añadir proveedor" icon="ui-icon-plus" process="@form" actionListener="#{materialesListBean.addMaterial()}" 
-						oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":materialesListForm"/>
-				</h:form>
-			</p:dialog>	
+			<h:form id="newMaterialForm">
+				<p:dialog header="Nuevo material" widgetVar="newMaterialDialog" styleClass="idiada-dialog" onShow="Idiada(PF('newMaterialDialog')).centerDialog();" closeOnEscape="true" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+					
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
+					    		<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
+								 	<p:outputLabel id="categoriaLbl" value="Categoria"  for="categoria"/>
+									<p:autoComplete dropdown="true" converter="#{genericEntityConverter}"  value="#{materialesListBean.newMaterial.categoriaMaterial}"
+						        					 completeMethod="#{materialesListBean.searchCategorias}" id="categoria" required="true"
+						        					 emptyMessage="No se han encontrado categorias" placeholder="Filtrar categorias"  
+						        					 var="cat" itemLabel="#{cat.nombreCategoria}" itemValue="#{cat}">
+						        	</p:autoComplete>
+									<p:outputLabel id="proveedorLbl" value="Proveedor"  for="proveedor"/>
+									<p:autoComplete dropdown="true" converter="#{genericEntityConverter}" id="proveedor" required="true"
+						        					 completeMethod="#{materialesListBean.searchProveedores}" value="#{materialesListBean.newMaterial.proveedor}"
+						        					 emptyMessage="No se han encontrado proveedores" placeholder="Filtrar proveedores" 
+						        					 var="pro" itemLabel="#{pro.nombreProveedor}" itemValue="#{pro.nombreProveedor}">
+						        	</p:autoComplete>
+						        	<p:outputLabel id="nombreLbl" value="Nombre"  for="nombre"/>
+									<p:inputText id="nombre"
+										value="#{materialesListBean.newMaterial.nombreMaterial}" required="true"/>
+									<p:outputLabel id="precioLbl" value="Precio"  for="precio"/>
+									<p:inputNumber id="precio"
+										value="#{materialesListBean.newMaterial.precioUnitario}" required="true"/>
+								</h:panelGrid>
+							</p:panel>
+							<p:panel styleClass="idiada-buttons-container">			
+								<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newMaterialDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{materialesListBean.addMaterial()}"  styleClass="btn btn-idiada"
+								oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":materialesListForm"/>
+							</p:panel>
+				</p:dialog>	
+			</h:form>
 		</ui:define>
 	</ui:composition>
 

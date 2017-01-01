@@ -57,6 +57,11 @@ public class PresupuestosService {
 	public void createPartida(Partida par) throws SystemException{
 		 partidaDao.create(par);
 	}
+	
+	@Transactional
+	public void deletePartida(Partida par) throws SystemException{
+		 partidaDao.delete(par);
+	}
 
 	@Transactional
 	public void updatePresupuesto(Presupuesto pre) throws SystemException{

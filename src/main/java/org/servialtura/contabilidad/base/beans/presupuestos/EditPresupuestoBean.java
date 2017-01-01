@@ -42,7 +42,6 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = -7766171432336654234L;
 
     private Presupuesto selectedPresupuesto;
-    private List<Partida> partidas;
     private List<Material> materiales;
     private Partida newPartida;
     private Material newMaterial;
@@ -90,6 +89,15 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     	this.selectedPartida=partida;
     }
     
+    public void deletePartida(Partida partida){
+    	try {
+    		presupuestosService.deletePartida(partida);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error eliminando la partida"));
+		}
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida eliminada correctamente"));
+    }
+    
     public void prepareNewMaterial(){
     	this.newMaterial = new Material();
     }
@@ -104,7 +112,6 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando partida"));
 		}
     	
-    	this.partidas.add(newPartida);
     	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida creada correctamente"));
     }
     
@@ -182,14 +189,6 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 
 	public void setClientesService(ClientesService clientesService) {
 		this.clientesService = clientesService;
-	}
-
-	public List<Partida> getPartidas() {
-		return partidas;
-	}
-
-	public void setPartidas(List<Partida> partidas) {
-		this.partidas = partidas;
 	}
 
 	public Partida getNewPartida() {
