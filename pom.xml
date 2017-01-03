@@ -123,11 +123,11 @@
 		</dependency>
 
 		<!-- EL -->
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>el-impl</artifactId>
-			<version>2.2</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.glassfish.web</groupId> -->
+<!-- 			<artifactId>el-impl</artifactId> -->
+<!-- 			<version>2.2</version> -->
+<!-- 		</dependency> -->
 
 		<!-- Spring 4 dependencies -->
 		<dependency>
@@ -220,17 +220,17 @@
 			<version>0.9.1.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>net.sf.jt400</groupId>
-			<artifactId>jt400-full</artifactId>
-			<version>5.3</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>net.sf.jt400</groupId> -->
+<!-- 			<artifactId>jt400-full</artifactId> -->
+<!-- 			<version>5.3</version> -->
+<!-- 		</dependency> -->
 
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.2-1003-jdbc4</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.postgresql</groupId> -->
+<!-- 			<artifactId>postgresql</artifactId> -->
+<!-- 			<version>9.2-1003-jdbc4</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
