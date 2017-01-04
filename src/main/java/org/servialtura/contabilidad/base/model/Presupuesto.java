@@ -42,6 +42,7 @@ public class Presupuesto implements java.io.Serializable {
 	private BigDecimal importePresupuesto;
 	private Boolean tieneFacturaSuplidos;
 	private Date fechaSolicitud;
+	private Date fechaCreacion;
 	private String descripcionSolicitud;
 	private String emailContacto;
 	private String personaContacto;
@@ -212,6 +213,16 @@ public class Presupuesto implements java.io.Serializable {
 		} else if (!idPresupuesto.equals(other.getIdPresupuesto()))
 			return false;
 		return true;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_creation", length = 19)
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 }
