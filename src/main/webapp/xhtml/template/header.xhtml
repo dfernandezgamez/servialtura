@@ -11,28 +11,51 @@
 	<meta name="author" content="David Fernández Gámez"></meta>
 </h:head>
 <h:body>
-
+<ui:composition>
 	<p:growl id="growl" showDetail="true"   /> 
-	<h:form>
-		 <p:menubar>
-				<p:submenu label="Usuarios" icon="fa fa-fw fa-users">
-					<p:menuitem value="Listado usuarios" url="/faces/xhtml/users/userList.xhtml"/>
+	<h:form id="menuBarForm">
+		 <p:megaMenu styleClass="ui-menubar-header se-menu" autoDisplay="false">
+		 		<p:menuitem id="menu1" onclick="$('.se-menu-item').slideToggle();" styleClass="visible-xs se-menu-btn atope" style="width: 100% !important" >
+					<div style="color:red; float:left !important;" class="se-menu-title" >D'ALTURA</div>
+					<div style="float:right !important;" class="se-menu-title" >
+						<i class="fa fa-bars fa-lg" > </i>	
+					</div>
+				</p:menuitem>
+				<p:submenu label="Usuarios" icon="fa fa-fw fa-users" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header" >
+							<p:menuitem value="Listado usuarios" url="/faces/xhtml/users/userList.xhtml" />
+						</p:submenu>
+					</p:column>
 				</p:submenu>
-				<p:submenu label="Presupuestos"  icon="fa fa-fw fa-tasks">
-					<p:menuitem value="Listado presupuestos" url="/faces/xhtml/presupuestos/presupuestos.xhtml"/>
-					<p:menuitem value="Nuevo presupuesto" url="/faces/xhtml/presupuestos/newPresupuesto.xhtml"/>
+				<p:submenu label="Presupuestos"  icon="fa fa-fw fa-tasks" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header">
+							<p:menuitem value="Listado presupuestos" url="/faces/xhtml/presupuestos/presupuestos.xhtml"/>
+
+							<p:menuitem value="Nuevo presupuesto" url="/faces/xhtml/presupuestos/newPresupuesto.xhtml" />
+						</p:submenu>
+					</p:column>
 				</p:submenu>
-				<p:submenu label="Proveedores y Material" icon="fa fa-fw fa-paint-brush">
-					<p:menuitem value="Proveedores" url="/faces/xhtml/proveedores/proveedores.xhtml"/>
-					<p:menuitem value="Materiales" url="/faces/xhtml/proveedores/materiales.xhtml"/>
+					
+				
+				<p:submenu label="Proveedores y Material" icon="fa fa-fw fa-paint-brush" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header">
+							<p:menuitem value="Proveedores" url="/faces/xhtml/proveedores/proveedores.xhtml" />
+							<p:menuitem value="Materiales" url="/faces/xhtml/proveedores/materiales.xhtml"/>
+						</p:submenu>
+					</p:column>
 				</p:submenu>
-				<p:submenu label="Facturas" icon="fa fa-fw fa-euro">
+					
+				
+				<p:submenu label="Facturas" icon="fa fa-fw fa-euro" styleClass="se-menu-item">
 				</p:submenu>
-				<p:submenu label="Empleados" icon="fa fa-fw fa-street-view">
+				<p:submenu label="Empleados" icon="fa fa-fw fa-street-view" styleClass="se-menu-item">
 				</p:submenu>
-				<p:submenu label="#{msg['bar.logout']}" url="${pageContext.request.contextPath}/j_spring_security_logout"></p:submenu>
-		 </p:menubar>
+				<p:submenu label="#{msg['bar.logout']}" url="${pageContext.request.contextPath}/j_spring_security_logout" styleClass="se-menu-item"></p:submenu>
+		 </p:megaMenu>
 	 </h:form>
-		
+	</ui:composition>
 </h:body>
 </html>

@@ -13,7 +13,7 @@
 			<h:form id="presupuestosListForm">
 				<b:container>
 					<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
-						<p:commandButton value="Añadir presupuesto"  icon="ui-icon-plus" oncomplete="PF('newPresupuestoDialog').show();" styleClass="btn btn-info"/>
+						<p:commandButton value="Añadir presupuesto"  icon="ui-icon-plus" oncomplete="PF('newPresupuestoDialog').show();" update=":newPresupuestoForm" styleClass="btn btn-info"/>
 					</h:panelGrid>
 						<p:dataTable var="pre" value="#{presupuestosListBean.presupuestos}" rows="10"
 							paginator="true" editable="false" id="solicitudesTable"
@@ -41,6 +41,53 @@
 
 						</p:dataTable>
 				</b:container>
+			</h:form>
+			
+			
+			
+			
+			<!-- DIALOGOS -->
+			<h:form id="newPresupuestoForm">
+				<p:dialog header="Nuevo presupuesto" widgetVar="newPresupuestoDialog" styleClass="idiada-dialog" onShow="Idiada(PF('newPresupuestoDialog')).centerDialog();" closeOnEscape="true" width="800" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
+					    		<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
+								 	<p:outputLabel id="desLbl" value="Descripción: " for="des" />
+										<p:inputTextarea id="des" 
+											value="#{newPresupuestoBean.newPresupuesto.descripcionSolicitud}" rows="10" required="true"/>
+											
+										<p:outputLabel id="fechaLbl" value="Fecha solicitud: " for="fecha" />
+										<p:calendar id="fecha"
+											value="#{newPresupuestoBean.newPresupuesto.fechaSolicitud}" >
+												<f:convertDateTime/>
+										</p:calendar>
+										
+										<p:outputLabel value="Cliente" for="cliente" />
+			        					<p:autoComplete id="cliente" dropdown="true" converter="#{genericEntityConverter}" 
+			        					 value="#{newPresupuestoBean.selectedEmpresa}" completeMethod="#{newPresupuestoBean.searchCliente}"
+			        					 emptyMessage="No se han encontrado clientes" placeholder="Buscar clientes" 
+			        					 var="cli" itemLabel="#{cli.nombreEmpresa}" itemValue="#{cli}">
+			        						<p:ajax event="itemSelect" listener="#{newPresupuestoBean.onItemSelect}"  update="dataPanel"/>
+			        					</p:autoComplete>
+											
+										<p:outputLabel id="nombreLbl" value="Persona contacto: "  for="nombre"/>
+										<p:inputText id="nombre"
+											value="#{newPresupuestoBean.newPresupuesto.personaContacto}" required="true"/>
+											
+										<p:outputLabel id="emailLbl" value="Email contacto: " for="email"/>
+										<p:inputText id="email"
+											value="#{newPresupuestoBean.newPresupuesto.emailContacto}" required="true" />
+											
+										<p:outputLabel id="teleconoLbl" value="Telefono contacto: "  for="telefono"/>
+										<p:inputText id="telefono"
+											value="#{newPresupuestoBean.newPresupuesto.telefonoContacto}" required="true" />
+								</h:panelGrid>
+							</p:panel>
+							<p:panel styleClass="idiada-buttons-container">			
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newPresupuestoDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Guardar presupuesto" styleClass="btn btn-info"  icon="ui-icon-disk" actionListener="#{newPresupuestoBean.guardarPresupuesto}" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newPresupuestoDialog').hide();"	update="@form"/>
+							</p:panel>
+				</p:dialog>	
 			</h:form>
 		</ui:define>
 	</ui:composition>

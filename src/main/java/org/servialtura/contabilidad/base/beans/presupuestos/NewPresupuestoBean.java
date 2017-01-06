@@ -55,6 +55,7 @@ public class NewPresupuestoBean extends BaseBean implements Serializable {
     	this.newPresupuesto=new Presupuesto();
     	this.newPresupuesto.setEstadoPresupuesto(EstadoPresupuestoEnum.EN_PREPARACION);
     	this.newPresupuesto.setFechaSolicitud( new Date());
+    	this.newPresupuesto.setFechaCreacion( new Date());
     }
     
     public void guardarPresupuesto(){

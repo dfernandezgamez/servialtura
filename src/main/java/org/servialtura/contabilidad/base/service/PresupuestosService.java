@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.SystemException;
+
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
-import org.omg.CORBA.SystemException;
 import org.servialtura.contabilidad.base.db.GenericDAO;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
@@ -56,7 +59,9 @@ public class PresupuestosService {
 	
 	@Transactional
 	public void createPresupuesto(Presupuesto pre) throws SystemException{
-		 genericDao.create(pre);
+		String code=findNextPresupuestoNumber(pre);
+		pre.setNumeroPresupuesto(code);
+		genericDao.create(pre);
 	}
 	
 	@Transactional
@@ -111,22 +116,15 @@ public class PresupuestosService {
 		DateTime dt = new DateTime(date);
 		DateTime start = dt.withDayOfMonth(1).withTimeAtStartOfDay();
 		DateTime end = start.plusMonths(1).minusMillis(1);
-		
-		filters.addCriterion(Restrictions.between());
-		searchHelper.addDateFromTo("creationDate", start.toDate(), end.toDate());
-		criterions.addAll(searchHelper.getCriterions());
-		GenericSearch<MeetingReport> genericSearch = GenericSearch.builder(MeetingReport.class).addCriterions(criterions);
-		genericSearch.addSorting("idMeetingReport", false);
-		List<MeetingReport> list = CastingUtils.castGenericList(super.getObjectsBySearchCriteriaRoTx(genericSearch) , MeetingReport.class);
-		
+		addDateFromTo(filters,"fechaCreacion",start.toDate(),end.toDate(),true);
+		List<Presupuesto> list = genericDao.findByCriteria(filters);
 		return list.size()+1;
 	}
 	
 	
 	
 	
-	public List<Criterion> addDateFromTo(String property, Date from, Date to, Boolean includeLimits) {
-		List<Criterion> criterions = new ArrayList<>();
+	public void addDateFromTo(CriteriaFilters filters, String property, Date from, Date to, Boolean includeLimits) {
 
 		if (from != null && to != null) {
 			Criterion dateFrom;
@@ -139,8 +137,8 @@ public class PresupuestosService {
 				dateFrom = Restrictions.gt(property, from);
 				dateUntil = Restrictions.lt(property, to);
 			}
-			criterions.add(dateFrom);
-			criterions.add(dateUntil);
+			filters.addCriterion(dateFrom);
+			filters.addCriterion(dateUntil);
 		}
 
 		else if (to != null && from == null) {
@@ -152,7 +150,7 @@ public class PresupuestosService {
 			else{
 				dateUntil = Restrictions.lt(property, to);
 			}
-			criterions.add(dateUntil);
+			filters.addCriterion(dateUntil);
 		}
 
 		else if (to == null && from != null) {
@@ -163,9 +161,8 @@ public class PresupuestosService {
 			else{
 				dateFrom = Restrictions.gt(property, from);
 			}
-			criterions.add(dateFrom);
+			filters.addCriterion(dateFrom);
 		}
 
-		return criterions;
 	}
 }

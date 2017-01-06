@@ -216,7 +216,7 @@ public class Presupuesto implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_creation", length = 19)
+	@Column(name = "fecha_creacion", length = 19)
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}

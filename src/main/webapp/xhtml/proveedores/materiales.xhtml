@@ -81,9 +81,9 @@
 								</h:panelGrid>
 							</p:panel>
 							<p:panel styleClass="idiada-buttons-container">			
-								<p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('newMaterialDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newMaterialDialog').hide();" immediate="true" styleClass="btn btn-default"/>
 								<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{materialesListBean.addMaterial()}"  styleClass="btn btn-idiada"
-								oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":materialesListForm"/>
+								onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update=":materialesListForm"/>
 							</p:panel>
 				</p:dialog>	
 			</h:form>
