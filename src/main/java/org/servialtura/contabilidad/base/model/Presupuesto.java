@@ -8,7 +8,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +52,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String numeroPresupuesto;
 	private Empresa cliente;
 	private List<Partida> partidas = new ArrayList<Partida>();
-	private List<MaterialesPresupuesto> materialesPresupuestos = new ArrayList<MaterialesPresupuesto>();
+	private Set<MaterialesPresupuesto> materialesPresupuestos = new HashSet<MaterialesPresupuesto>(0);
 
 	public Presupuesto() {
 	}
@@ -169,24 +171,12 @@ public class Presupuesto implements java.io.Serializable {
 		this.partidas = partidas;
 	}
 	
-//	@ManyToMany(fetch = FetchType.LAZY)
-//	@JoinTable(name="MATERIALES_PRESUPUESTO", 
-//	joinColumns={@JoinColumn(name="idPresupuesto")}, 
-//	inverseJoinColumns={@JoinColumn(name="idMaterial")})
-//	public List<Material> getMateriales() {
-//		return this.materiales;
-//	}
-//
-//	public void setMateriales(List<Material> materiales) {
-//		this.materiales = materiales;
-//	}
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
-	public List<MaterialesPresupuesto> getMaterialesPresupuestos() {
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.presupuesto")
+	public Set<MaterialesPresupuesto> getMaterialesPresupuestos() {
 		return this.materialesPresupuestos;
 	}
 
-	public void setMaterialesPresupuestos(List<MaterialesPresupuesto> materialesPresupuestos) {
+	public void setMaterialesPresupuestos(Set<MaterialesPresupuesto> materialesPresupuestos) {
 		this.materialesPresupuestos = materialesPresupuestos;
 	}
 

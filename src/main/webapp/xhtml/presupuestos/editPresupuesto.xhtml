@@ -12,19 +12,32 @@
 	<ui:composition template="/xhtml/template/layout.xhtml">
 		<ui:define name="content">
 			<b:container >
-				<p:tabView id="tabView">
-					<p:tab title="Detalles">
+				<p:tabView id="tabView" cache="true" dynamic="true">
+					<p:ajax event="tabChange" listener="#{editPresupuestoBean.onTabChange}"/>
+					<p:tab title="Detalles" id="detallesTab">
 					 <h:form id="editPresupuestoForm">
 					 <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
 					 	<h:panelGrid id="actionsPanel" columns="3" styleClass="width-9" columnClasses="width-3, width-3, width-3">	
-									<p:commandButton styleClass="btn btn-warning" icon="fa fa-search fa-1x" value="Generar documento" ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)" >
+									<p:commandButton styleClass="btn btn-extra" icon="fa fa-search fa-1x" rendered="#{!editPresupuestoBean.isEditing}" value="Generar documento" ajax="false"
+											 onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)" >
 										<p:fileDownload value="#{editPresupuestoBean.presupuestoFile}" />
 									</p:commandButton>
-									<p:commandButton value="Editar presupuesto " onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{!editPresupuestoBean.isEditing}" actionListener="#{editPresupuestoBean.editPresupuesto(true)}"  icon="ui-icon-pencil" update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-info"/>
-									<p:commandButton value="Guardar presupuesto" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{editPresupuestoBean.isEditing}" process=":tabView:editPresupuestoForm" actionListener="#{editPresupuestoBean.guardarPresupuesto}"  icon="ui-icon-pencil" update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-idiada">
+									<p:commandButton value="Editar presupuesto " onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{!editPresupuestoBean.isEditing}"
+													 actionListener="#{editPresupuestoBean.editPresupuesto(true)}"  icon="ui-icon-pencil" 
+													 update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-info"/>
+									<p:commandButton value="Guardar presupuesto" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{editPresupuestoBean.isEditing}" 
+													process=":tabView:editPresupuestoForm" actionListener="#{editPresupuestoBean.guardarPresupuesto}"  icon="ui-icon-pencil" 
+													update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-idiada">
 										
 									</p:commandButton>
-									<p:commandButton value="Cancelar" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()" rendered="#{editPresupuestoBean.isEditing}" immediate="true" process="@this" actionListener="#{editPresupuestoBean.editPresupuesto(false)}"  icon="ui-icon-close" update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-default"/>
+									<p:commandButton value="Enviar presupuesto" icon="fa fa-envelope-o fa-1x" onstart="showStatus()" onerror="hideStatus()" update=":enviarPresupuestoForm" 
+														oncomplete="hideStatus();PF('enviarPresupuestoDialog').show(); "  actionListener="#{editPresupuestoBean.prepareEnviarPresupuesto}"
+														rendered="#{editPresupuestoBean.selectedPresupuesto.estadoPresupuesto eq 'EN_PREPARACION' and !editPresupuestoBean.isEditing}"  
+														styleClass="btn btn-success"/>
+									<p:commandButton value="Cancelar" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus()"
+													 rendered="#{editPresupuestoBean.isEditing}" immediate="true" process="@this" 
+													 actionListener="#{editPresupuestoBean.editPresupuesto(false)}"  icon="ui-icon-close" 
+													 update="actionsPanel :tabView:editPresupuestoForm:infoPanel" styleClass="btn btn-default"/>
 								
 						</h:panelGrid>
 						<p:fieldset legend="Presupuesto: #{editPresupuestoBean.selectedPresupuesto.numeroPresupuesto}" toggleable="true" id="infoPanel" styleClass="idiada-fieldset-nobackground">
@@ -76,7 +89,7 @@
 						</p:fieldset>
 						</h:form>
 					</p:tab>
-					<p:tab title="Partidas">
+					<p:tab title="Partidas" id="partidasTab">
 						 <h:form id="formPartidas">
 							<p:fieldset legend="Partidas del presupuesto" toggleable="true" id="fieldSetPartidas" styleClass="idiada-fieldset-nobackground">
 								<p:dataTable var="par" value="#{editPresupuestoBean.selectedPresupuesto.partidas}" 
@@ -85,7 +98,9 @@
 							                <h:outputText value="#{par.nombrePartida}" />
 							         </p:column>
 							        <p:column headerText="Importe" styleClass="col-md  col-align-center">
-							                <h:outputText value="#{par.importePartida}" /> €
+							                <h:outputText value="#{par.importePartida}" >
+							                	<f:convertNumber type="currency" currencySymbol="€" locale="es" /> 
+							                </h:outputText>
 							         </p:column>
 							         <p:column headerText="Detalles" styleClass="col-button  col-align-center">
 												<p:commandButton  icon="ui-icon-search"  actionListener="#{editPresupuestoBean.prepareEditPartida(par)}"  onstart="showStatus()" onerror="hideStatus()"  oncomplete="hideStatus();PF('editPartidaDialog').show();" 	update=":editPartidaForm"/>
@@ -93,19 +108,42 @@
 									 <p:column headerText="Borrar" styleClass="col-button  col-align-center">
 												<p:commandButton  icon="ui-icon-trash" update="partidas"  actionListener="#{editPresupuestoBean.deletePartida(par)}"  onstart="showStatus()" onerror="hideStatus()"/>
 									</p:column>
+									<p:summaryRow>
+							            <p:column colspan="3" style="text-align:right">
+							                <h:outputText value="Total:" />
+							            </p:column>
+							            <p:column>
+							                <h:outputText value="#{editPresupuestoBean.precioTotalPartidas}">
+							                    <f:convertNumber type="currency" currencySymbol="€" />
+							                </h:outputText>
+							            </p:column>
+							        </p:summaryRow>
 							    </p:dataTable>
 								<p:commandButton value="Añadir nueva partida" styleClass="btn btn-info"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewPartida}" onstart="showStatus()" onerror="hideStatus()"  oncomplete="hideStatus();PF('newPartidaDialog').show();"	update=":newPartidaForm"/>
 						
 							</p:fieldset>
 						</h:form>
 					</p:tab>
-					<p:tab title="Materiales">
+					<p:tab title="Materiales" id="materialesTab">
 						 <h:form id="formMateriales">
 							<p:fieldset legend="Cálculo del presupuesto" toggleable="true" id="fieldSetMateriales" styleClass="idiada-fieldset-nobackground">
-									<p:dataTable var="ser" value="#{editPresupuestoBean.selectedPresupuesto.materialesPresupuestos}" 
+									<p:dataTable var="mp" value="#{editPresupuestoBean.selectedPresupuesto.materialesPresupuestos}" 
 								         id="servicios" emptyMessage="Sin materiales en el presupuesto">
-								        <p:column headerText="Nombre partida">
-								                <h:outputText value="#{par.nombrePartida}" />
+								         <p:column headerText="Nombre material" styleClass="col-lg">
+								                <h:outputText value="#{mp.id.material.nombreMaterial}" />
+								         </p:column>
+								         <p:column headerText="Cantidad" styleClass="col-sm col-align-right">
+								                <h:outputText value="#{mp.cantidad}" />
+								         </p:column>
+								         <p:column headerText="Precio unitario" styleClass="col-sm col-align-right">
+								                <h:outputText value="#{mp.id.material.precioUnitario}" >
+									                 <f:convertNumber type="currency" currencySymbol="€" />
+								                </h:outputText>
+								         </p:column>
+								          <p:column headerText="Total" styleClass="col-md col-align-right" >
+								                <h:outputText value="#{mp.cantidad * mp.id.material.precioUnitario}">
+								                	<f:convertNumber type="currency" currencySymbol="€" />
+								                </h:outputText>
 								         </p:column>
 								    </p:dataTable>
 									<p:commandButton value="Añadir material" styleClass="btn btn-info"  icon="ui-icon-plus" actionListener="#{editPresupuestoBean.prepareNewMaterial}"  onstart="showStatus()" onerror="hideStatus()"  oncomplete="hideStatus();PF('newMaterialDialog').show();"	update=":newMaterialForm"/>
@@ -113,14 +151,14 @@
 								</p:fieldset>
 						</h:form>
 					</p:tab>
-					<p:tab title="Fotos">
+					<p:tab title="Fotos" id="fotosTab">
 						 <h:form id="formFotos">
 							<p:fieldset legend="Álbumes del presupuesto" toggleable="true"  styleClass="idiada-fieldset-nobackground">
 							
 								</p:fieldset>
 						</h:form>
 					</p:tab>
-					<p:tab title="Documentos">
+					<p:tab title="Documentos" id="documentosTab">
 						 <h:form id="formDocumento">
 							<p:fieldset legend="Documentos del presupuesto" toggleable="true"  styleClass="idiada-fieldset-nobackground">
 							</p:fieldset>
@@ -143,8 +181,8 @@
 											<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.newPartida.nombrePartida}" />
 											
 											<p:outputLabel id="desLbl" for="des" value="Descripción:" />
-											<pe:ckEditor id="des" value="#{editPresupuestoBean.newPartida.descripcionPartida}" required="true" toolbar="#{UIConstants.CUSTOM_TOOLBAR}">  
-											</pe:ckEditor> 
+											<p:inputTextarea id="des" 
+											value="#{editPresupuestoBean.newPartida.descripcionPartida}" rows="10" required="true"/>
 											
 											<p:outputLabel id="impLbl" for="importe" value="Importe:" />
 											<p:inputNumber id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
@@ -169,8 +207,8 @@
 											<p:inputText id="titulo"  required="true" value="#{editPresupuestoBean.selectedPartida.nombrePartida}" />
 											
 											<p:outputLabel id="desLbl" for="des" value="Descripción:" />
-											<pe:ckEditor id="des" value="#{editPresupuestoBean.selectedPartida.descripcionPartida}" required="true" toolbar="#{UIConstants.CUSTOM_TOOLBAR}">  
-											</pe:ckEditor> 
+											<p:inputTextarea id="des" 
+											value="#{editPresupuestoBean.selectedPartida.descripcionPartida}" rows="10" required="true"/>
 											
 											<p:outputLabel id="impLbl" for="importe" value="Importe:" />
 											<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.selectedPartida.importePartida}">
@@ -193,10 +231,10 @@
 									<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
 								    	<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
 											<p:outputLabel id="materialLbl" for="material" value="Material" />
-											<p:autoComplete id="material" dropdown="true" converter="#{genericEntityConverter}"   minQueryLength="3" 
-				        					 value="#{editPresupuestoBean.newMaterial}" completeMethod="#{editPresupuestoBean.searchMaterial}"
+											<p:autoComplete id="material" dropdown="true" converter="#{genericEntityConverter}" required="true"   minQueryLength="3" 
+				        					 value="#{editPresupuestoBean.newMaterial.id.material}" completeMethod="#{editPresupuestoBean.searchMaterial}"
 				        					 emptyMessage="No se han encontrado materiales" placeholder="Buscar material" 
-				        					 var="ma" itemLabel="#{ma.nombreMaterial}:" itemValue="#{ma}">
+				        					 var="ma" itemLabel="#{ma.nombreMaterial}" itemValue="#{ma}">
 				        						<f:facet name="itemtip">
 									                <h:panelGrid columns="2" width="100%">
 									                    <h:outputText value="Precio: " />
@@ -207,16 +245,36 @@
 									                </h:panelGrid>
 									            </f:facet>
 				        					</p:autoComplete>
-				        					<p:outputLabel id="cantidadLbl" for="cantidad" value="Cantidad:" />
-				        					<p:inputNumber  id="cantidad"  value="Material" required="true"/>
+				        					<p:outputLabel id="cantidadLbl" for="cantidad" value="Cantidad: " />
+				        					<p:inputNumber  id="cantidad"  value="#{editPresupuestoBean.newMaterial.cantidad}" required="true"/>
 			
 												
 										</h:panelGrid>
 									</p:panel>
 								<p:panel styleClass="idiada-buttons-container">
 									<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('newMaterialDialog').hide();" immediate="true" styleClass="btn btn-default"/>
-									<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addMaterial()}" styleClass="btn btn-IDIADA"
+									<p:commandButton value="Añadir material" icon="ui-icon-plus" process="@form" actionListener="#{editPresupuestoBean.addMaterial()}" styleClass="btn btn-idiada"
 									oncomplete="if (!args.validationFailed) {PF('newMaterialDialog').hide();}" update="tabView:formMateriales:fieldSetMateriales"/>
+								</p:panel>
+						
+					</p:dialog>	
+				</h:form>
+				
+				<h:form id="enviarPresupuestoForm">
+					<p:dialog styleClass="idiada-dialog" header="Enviar presupuesto al cliente" widgetVar="enviarPresupuestoDialog" closeOnEscape="true"  onShow="Idiada(PF('enviarPresupuestoDialog')).centerDialog();"
+					resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true" >
+						    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+									<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
+								    	<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
+
+			
+												
+										</h:panelGrid>
+									</p:panel>
+								<p:panel styleClass="idiada-buttons-container">
+									<p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('enviarPresupuestoDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+									<p:commandButton value="Enviar presupuesto" icon="fa fa-envelope-o fa-1x" process="@form"  styleClass="btn btn-idiada" 
+									oncomplete="if (!args.validationFailed) {PF('enviarPresupuestoDialog').hide();}" />
 								</p:panel>
 						
 					</p:dialog>	

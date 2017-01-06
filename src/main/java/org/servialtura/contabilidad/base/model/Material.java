@@ -102,7 +102,7 @@ public class Material implements java.io.Serializable {
 		this.proveedor = proveedor;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "material")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.material")
 	public Set<MaterialesPresupuesto> getMaterialesPresupuestos() {
 		return this.materialesPresupuestos;
 	}

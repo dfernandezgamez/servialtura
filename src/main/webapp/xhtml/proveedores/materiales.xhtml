@@ -16,7 +16,7 @@
 							<p:commandButton value="Añadir Material"  icon="ui-icon-plus" oncomplete="PF('newMaterialDialog').show();" styleClass="btn btn-info"/>
 						</h:panelGrid>
 						<p:dataTable var="mate" value="#{materialesListBean.materiales}" rows="10"  id="materialesTable" widgetVar="materialesTableVar">
-							<p:column headerText="Categoria"  filterBy="#{mate.categoriaMaterial.nombreCategoria}" footerText="exact" filterMatchMode="contains">
+							<p:column headerText="Categoria"  filterBy="#{mate.categoriaMaterial.nombreCategoria}"  filterMatchMode="contains">
 								<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.categoriaMaterial.nombreCategoria}" /></f:facet>
 										 <f:facet name="input"><p:inputText  value="#{mate.categoriaMaterial.nombreCategoria}"/></f:facet>
@@ -35,7 +35,7 @@
 										 <f:facet name="input"><p:inputText  value="#{mate.precioUnitario}"/></f:facet>
 								</p:cellEditor>
 							</p:column>
-							<p:column headerText="Proveedor"  sortBy="#{mate.proveedor.nombreProveedor}" filterBy="#{mate.proveedor.nombreProveedor}" filterMatchMode="exact" >
+							<p:column headerText="Proveedor"  sortBy="#{mate.proveedor.nombreProveedor}" filterBy="#{mate.proveedor.nombreProveedor}" filterMatchMode="contains" >
 								<p:cellEditor>
 										<f:facet name="output"><h:outputText value="#{mate.proveedor.nombreProveedor}" /></f:facet>
 										 <f:facet name="input"><p:inputText  value="#{mate.proveedor.nombreProveedor}"/></f:facet>

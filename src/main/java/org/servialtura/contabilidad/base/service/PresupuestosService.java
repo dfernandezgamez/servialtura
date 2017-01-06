@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.servialtura.contabilidad.base.db.GenericDAO;
+import org.servialtura.contabilidad.base.model.MaterialesPresupuesto;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.utils.CriteriaFilters;
@@ -34,6 +34,8 @@ public class PresupuestosService {
 	GenericDAO<Presupuesto, Serializable> genericDao;
 	@Autowired
 	GenericDAO<Partida, Serializable> partidaDao;
+	@Autowired
+	GenericDAO<MaterialesPresupuesto, Serializable> materialDao;
 	
 	  
 	
@@ -67,6 +69,11 @@ public class PresupuestosService {
 	@Transactional
 	public void createPartida(Partida par) throws SystemException{
 		 partidaDao.create(par);
+	}
+	
+	@Transactional
+	public void createMaterialInPresupuesto(MaterialesPresupuesto par) throws SystemException{
+		 materialDao.create(par);
 	}
 	
 	@Transactional

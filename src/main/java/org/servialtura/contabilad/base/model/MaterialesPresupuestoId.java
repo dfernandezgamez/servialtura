@@ -2,8 +2,8 @@ package org.servialtura.contabilad.base.model;
 // default package
 // Generated 30-dic-2016 19:16:06 by Hibernate Tools 4.3.1.Final
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 
 import org.servialtura.contabilidad.base.model.Material;
 import org.servialtura.contabilidad.base.model.Presupuesto;
@@ -30,7 +30,7 @@ public class MaterialesPresupuestoId implements java.io.Serializable {
 		this.material = material;
 	}
 
-	@Column(name = "idPresupuesto", nullable = false)
+	@ManyToOne
 	public Presupuesto getPresupuesto() {
 		return this.presupuesto;
 	}
@@ -39,7 +39,7 @@ public class MaterialesPresupuestoId implements java.io.Serializable {
 		this.presupuesto = presupuesto;
 	}
 
-	@Column(name = "idMaterial", nullable = false)
+	@ManyToOne
 	public Material getMaterial() {
 		return this.material;
 	}

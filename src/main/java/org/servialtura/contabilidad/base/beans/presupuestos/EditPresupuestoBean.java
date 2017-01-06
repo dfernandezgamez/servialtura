@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,13 +19,15 @@ import javax.transaction.SystemException;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.servialtura.contabilidad.base.beans.BaseBean;
+import org.servialtura.contabilidad.base.enums.EstadoPresupuestoEnum;
 import org.servialtura.contabilidad.base.helpers.WordHelper;
 import org.servialtura.contabilidad.base.model.Empresa;
 import org.servialtura.contabilidad.base.model.Material;
-import org.servialtura.contabilidad.base.model.MaterialPresupuesto;
+import org.servialtura.contabilidad.base.model.MaterialesPresupuesto;
 import org.servialtura.contabilidad.base.model.Partida;
 import org.servialtura.contabilidad.base.model.Presupuesto;
 import org.servialtura.contabilidad.base.service.ClientesService;
@@ -44,10 +47,11 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     private Presupuesto selectedPresupuesto;
     private List<Material> materiales;
     private Partida newPartida;
-    private Material newMaterial;
+    private MaterialesPresupuesto newMaterial;
     private Boolean isEditing;
     private Partida selectedPartida;
-    private List<MaterialPresupuesto> materialesPresupuestoList;
+    private BigDecimal precioTotalPartidas;
+    private BigDecimal precioTotalMaterial;
      
     
     @ManagedProperty(value="#{presupuestosService}")
@@ -82,6 +86,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     
     public void prepareNewPartida(){
     	this.newPartida = new Partida();
+    	this.newPartida.setEstadoPartida(EstadoPresupuestoEnum.EN_PREPARACION);
     	this.newPartida.setPresupuesto(selectedPresupuesto);
     }
     
@@ -99,7 +104,26 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     }
     
     public void prepareNewMaterial(){
-    	this.newMaterial = new Material();
+    	this.newMaterial = new MaterialesPresupuesto();
+    	this.newMaterial.setPresupuesto(selectedPresupuesto);
+    }
+    
+    public void prepareEnviarPresupuesto(){
+    }
+    
+    public void onTabChange(TabChangeEvent event) {
+    	if(event.getTab().getId().equals("partidasTab")){
+    		this.precioTotalPartidas=new BigDecimal(0);
+    		for(Partida par:selectedPresupuesto.getPartidas()){
+    			precioTotalPartidas.add(par.getImportePartida());
+    		}
+    	}
+    	if(event.getTab().getId().equals("materialesTab")){
+    		this.precioTotalMaterial=new BigDecimal(0);
+    		for(MaterialesPresupuesto mar:selectedPresupuesto.getMaterialesPresupuestos()){
+    			precioTotalMaterial.add(mar.getMaterial().getPrecioUnitario().multiply(new BigDecimal(mar.getCantidad())));
+    		}
+    	}
     }
     
     public void onItemSelect(SelectEvent event) {
@@ -134,6 +158,15 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
     }
     
     public void addMaterial(){
+    	
+    	try {
+    		presupuestosService.createMaterialInPresupuesto(newMaterial);
+		} catch (SystemException e) {
+			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error añadiendo material"));
+		}
+    	
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Material añadido correctamente"));
+    	this.selectedPresupuesto.getMaterialesPresupuestos().add(newMaterial);
     }
     
 
@@ -207,11 +240,11 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 		this.materiales = materiales;
 	}
 
-	public Material getNewMaterial() {
+	public MaterialesPresupuesto getNewMaterial() {
 		return newMaterial;
 	}
 
-	public void setNewMaterial(Material newMaterial) {
+	public void setNewMaterial(MaterialesPresupuesto newMaterial) {
 		this.newMaterial = newMaterial;
 	}
 
@@ -247,12 +280,20 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 		this.selectedPartida = selectedPartida;
 	}
 
-	public List<MaterialPresupuesto> getMaterialesPresupuestoList() {
-		return materialesPresupuestoList;
+	public BigDecimal getPrecioTotalPartidas() {
+		return precioTotalPartidas;
 	}
 
-	public void setMaterialesPresupuestoList(List<MaterialPresupuesto> materialesPresupuestoList) {
-		this.materialesPresupuestoList = materialesPresupuestoList;
+	public void setPrecioTotalPartidas(BigDecimal precioTotalPartidas) {
+		this.precioTotalPartidas = precioTotalPartidas;
+	}
+
+	public BigDecimal getPrecioTotalMaterial() {
+		return precioTotalMaterial;
+	}
+
+	public void setPrecioTotalMaterial(BigDecimal precioTotalMaterial) {
+		this.precioTotalMaterial = precioTotalMaterial;
 	}
 
 

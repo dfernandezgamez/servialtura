@@ -2,13 +2,14 @@ package org.servialtura.contabilidad.base.model;
 // default package
 // Generated 30-dic-2016 19:16:06 by Hibernate Tools 4.3.1.Final
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.servialtura.contabilad.base.model.MaterialesPresupuestoId;
 
@@ -17,17 +18,19 @@ import org.servialtura.contabilad.base.model.MaterialesPresupuestoId;
  */
 @Entity
 @Table(name = "MATERIALES_PRESUPUESTO", catalog = "SERVIALTURA")
+@AssociationOverrides({
+	@AssociationOverride(name = "id.material",
+		joinColumns = @JoinColumn(name = "idMaterial")),
+	@AssociationOverride(name = "id.presupuesto",
+		joinColumns = @JoinColumn(name = "idPresupuesto")) })
 public class MaterialesPresupuesto implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3036925999478037892L;
-	private MaterialesPresupuestoId id;
+	private MaterialesPresupuestoId id = new MaterialesPresupuestoId();
 	private Float cantidad;
-	private Presupuesto presupuesto;
-	private Material material;
-
 	public MaterialesPresupuesto() {
 	}
 
@@ -62,24 +65,24 @@ public class MaterialesPresupuesto implements java.io.Serializable {
 		this.cantidad = cantidad;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idMaterial", nullable = false, insertable = false, updatable = false)
+
+	@Transient
 	public Material getMaterial() {
-		return this.material;
+		return getId().getMaterial();
 	}
 
 	public void setMaterial(Material material) {
-		this.material = material;
+		this.getId().setMaterial(material);
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idPresupuesto", nullable = false, insertable = false, updatable = false)
+
+	@Transient
 	public Presupuesto getPresupuesto() {
-		return this.presupuesto;
+		return getId().getPresupuesto();
 	}
 
 	public void setPresupuesto(Presupuesto presupuesto) {
-		this.presupuesto = presupuesto;
+			getId().setPresupuesto( presupuesto);
 	}
 
 }
