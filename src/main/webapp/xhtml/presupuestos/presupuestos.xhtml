@@ -30,7 +30,9 @@
 										<h:outputText value="#{pre.personaContacto}" />
 							</p:column>
 							<p:column headerText="Importe" filterBy="#{pre.importePresupuesto}" filterMatchMode="contains" sortBy="#{pre.importePresupuesto}" styleClass="col-md  col-align-center">
-										<h:outputText value="#{pre.importePresupuesto} €" />
+										<h:outputText value="#{pre.importePresupuesto}">
+											 <f:convertNumber type="currency" currencySymbol="€" />
+										 </h:outputText>
 							</p:column>
 							<p:column headerText="Fecha solicitud" filterBy="#{pre.fechaSolicitud}" filterMatchMode="contains" sortBy="#{pre.fechaSolicitud}" styleClass="col-date  col-align-center">
 										<h:outputText value="#{pre.fechaSolicitud}"  converter="javax.faces.DateTime"  />

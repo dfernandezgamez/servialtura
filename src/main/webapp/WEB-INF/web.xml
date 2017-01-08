@@ -8,6 +8,17 @@
 	
 	
 	  <display-name>ServialturaContabilidad</display-name>
+	  
+  	<filter>
+    <filter-name>primeFacesFileUploadFilter</filter-name>
+    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>primeFacesFileUploadFilter</filter-name>
+	    <servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping> 
+	  
+	  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -35,6 +46,11 @@
    <context-param>
 	   <param-name>primefaces.FONT_AWESOME</param-name>
 	   <param-value>true</param-value>
+	</context-param> 
+	
+	<context-param>
+	   <param-name>primefaces.UPLOADER</param-name>
+	   <param-value>commons</param-value>
 	</context-param> 
 	
 	<context-param>

@@ -51,6 +51,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String telefonoContacto;
 	private String numeroPresupuesto;
 	private Empresa cliente;
+	private String direccionPresupuesto;
 	private List<Partida> partidas = new ArrayList<Partida>();
 	private Set<MaterialesPresupuesto> materialesPresupuestos = new HashSet<MaterialesPresupuesto>(0);
 
@@ -213,6 +214,15 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+	
+	@Column(name = "direccion_presupuesto", length = 16777215)
+	public String getDireccionPresupuesto() {
+		return this.direccionPresupuesto;
+	}
+
+	public void setDireccionPresupuesto(String direccionPresupuesto) {
+		this.direccionPresupuesto = direccionPresupuesto;
 	}
 
 }

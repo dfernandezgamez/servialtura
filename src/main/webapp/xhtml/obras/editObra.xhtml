@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/xhtml/template/layout.xhtml">
+		<ui:define name="content">
+			<b:container >
+				<p:tabView id="tabView" cache="true" dynamic="true">
+					<p:ajax event="tabChange" listener="#{editObraBean.onTabChange}"/>
+					<p:tab title="Fotos" id="fotosTab">
+						 <h:form id="formFotos">
+						 	<h:panelGrid id="actionsPanel" columns="4" styleClass="width-12 btn-panel" columnClasses="width-3, width-3, width-3, width-3">	
+								<p:commandButton value="Añadir álbum"  icon="ui-icon-plus" oncomplete="PF('newAlbumDialog').show();" update=":newAlbumForm" styleClass="btn btn-info"/>
+							</h:panelGrid>
+							<p:fieldset legend="Álbumes del obra" toggleable="true"  styleClass="idiada-fieldset-nobackground">
+								<p:dataGrid  var="al" value="#{editObraBean.selectedObra.albums}" rows="10" emptyMessage="Sin álbumes en esta obra"
+									 editable="false" id="albumsTable"
+									 rowsPerPageTemplate="5,10,15">
+									  <p:panel header="#{al.idAlbum}" style="text-align:center">
+           									 <h:panelGrid columns="1" style="width:100%">
+															<h:outputText value="#{al.nombreAlbum}" />
+															<p:commandButton value="Añadir fotos"  icon="ui-icon-plus" actionListener="#{editObraBean.prepareNewFoto}" oncomplete="PF('newFotoDialog').show();" update=":newFotoForm" styleClass="btn btn-info"/>
+											</h:panelGrid>
+									</p:panel>
+								</p:dataGrid >
+							
+							</p:fieldset>
+						</h:form>
+					</p:tab>
+					<p:tab title="Documentos" id="documentosTab">
+						 <h:form id="formDocumento">
+							<p:fieldset legend="Documentos de la obra" toggleable="true"  styleClass="idiada-fieldset-nobackground">
+							</p:fieldset>
+						</h:form>
+					</p:tab>
+					
+				</p:tabView>
+			</b:container>
+			
+			
+			
+			<!-- DIALOGOS -->
+			<h:form id="newAlbumForm">
+				<p:dialog header="Nuevo álbum" widgetVar="newAlbumDialog" styleClass="idiada-dialog" onShow="Idiada(PF('newAlbumDialog')).centerDialog();" closeOnEscape="true" width="800" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
+					    		<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
+										<p:outputLabel id="nombreLbl" value="Nombre álbum: "  for="nombre"/>
+										<p:inputText id="nombre"
+											value="#{editObraBean.newAlbum.nombreAlbum}" required="true"/>
+
+								</h:panelGrid>
+							</p:panel>
+							<p:panel styleClass="idiada-buttons-container">			
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newAlbumDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Guardar álbum" styleClass="btn btn-info"  icon="ui-icon-disk" 
+								actionListener="#{editObraBean.guardarAlbum}" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newAlbumDialog').hide();"	update="@form"/>
+							</p:panel>
+				</p:dialog>	
+			</h:form>
+			
+			<h:form id="newFotoForm" enctype="multipart/form-data">
+				<p:dialog header="Nueva foto" widgetVar="newFotoDialog" styleClass="idiada-dialog" onShow="Idiada(PF('newFotoDialog')).centerDialog();" closeOnEscape="true" width="800" resizable="false" modal="true" maximizable="false"  closable="true" dynamic="true">
+					    <p:messages showDetail="true" autoUpdate="true" closable="true" id="messages"/>
+					    	<p:panel id="dataPanel" styleClass="idiada-dialog-content-wrapper">
+					    		<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12" >
+					    				 <p:outputLabel value="#{editObraBean.file.fileName}" rendered="#{editObraBean.file ne null}" id="name"/>
+										 <p:fileUpload fileUploadListener="#{editObraBean.handleFotoUpload}" update="dataPanel" mode="advanced" required="true" dragDropSupport="true"  auto="true"
+                       							    sizeLimit="100000" />
+								</h:panelGrid>
+							</p:panel>
+							<p:panel styleClass="idiada-buttons-container">			
+								<p:commandButton value="Cancelar" icon="ui-icon-close" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newFotoDialog').hide();" immediate="true" styleClass="btn btn-default"/>
+								<p:commandButton value="Guardar foto" styleClass="btn btn-info"  icon="fa fa-save" ajax="false"
+								actionListener="#{editObraBean.guardarFoto}" onstart="showStatus()" onerror="hideStatus()" oncomplete="hideStatus();PF('newFotoDialog').hide();"	update="@form"/>
+							</p:panel>
+				</p:dialog>	
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

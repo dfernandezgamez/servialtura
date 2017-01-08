@@ -80,7 +80,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 		} catch (SystemException e) {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error actualizando  presupuesto"));
 		}
-    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Presupuesto actualizado correctamente"));
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Presupuesto actualizado correctamente"));
     	isEditing=false;
     }
     
@@ -100,7 +100,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 		} catch (SystemException e) {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error eliminando la partida"));
 		}
-    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida eliminada correctamente"));
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Partida eliminada correctamente"));
     }
     
     public void prepareNewMaterial(){
@@ -136,7 +136,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error creando partida"));
 		}
     	
-    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida creada correctamente"));
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Partida creada correctamente"));
     }
     
     public void updatePartida(){
@@ -146,7 +146,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error actualizando la partida"));
 		}
     	
-    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Partida actualizada correctamente"));
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Partida actualizada correctamente"));
     }
     
     public List<Material> searchMaterial(String query) throws SystemException {
@@ -165,7 +165,7 @@ public class EditPresupuestoBean extends BaseBean implements Serializable {
 			   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error añadiendo material"));
 		}
     	
-    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Material añadido correctamente"));
+    	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Material añadido correctamente"));
     	this.selectedPresupuesto.getMaterialesPresupuestos().add(newMaterial);
     }
     

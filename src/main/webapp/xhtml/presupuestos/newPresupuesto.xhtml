@@ -14,8 +14,8 @@
 			<h:form id="newPresupuestoForm">
 				<p:messages showDetail="true" autoUpdate="true" closable="true" id="messages" showIcon="true" />
 			<b:container >
-					<p:fieldset legend="Nuevo presupuesto" toggleable="true" id="infoPanel">
-						<h:panelGrid columns="2" width="100%" >
+					<p:fieldset legend="Nuevo presupuesto" toggleable="true" id="infoPanel" styleClass="idiada-fieldset-nobackground">
+						<h:panelGrid columns="2" columnClasses="width-2, width-10" styleClass="width-12 top-info-bar data-panel-grid" >
 							<p:outputLabel id="desLbl" value="Descripción: " for="des" />
 							<p:inputTextarea id="des" 
 								value="#{newPresupuestoBean.newPresupuesto.descripcionSolicitud}" required="true"/>

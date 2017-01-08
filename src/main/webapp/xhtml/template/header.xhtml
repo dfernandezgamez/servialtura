@@ -21,13 +21,6 @@
 						<i class="fa fa-bars fa-lg" > </i>	
 					</div>
 				</p:menuitem>
-				<p:submenu label="Usuarios" icon="fa fa-fw fa-users" styleClass="se-menu-item">
-					<p:column>
-						<p:submenu styleClass="no-menu-header" >
-							<p:menuitem value="Listado usuarios" url="/faces/xhtml/users/userList.xhtml" />
-						</p:submenu>
-					</p:column>
-				</p:submenu>
 				<p:submenu label="Presupuestos"  icon="fa fa-fw fa-tasks" styleClass="se-menu-item">
 					<p:column>
 						<p:submenu styleClass="no-menu-header">
@@ -37,8 +30,27 @@
 						</p:submenu>
 					</p:column>
 				</p:submenu>
-					
 				
+				<p:submenu label="Obras"  icon="fa fa-fw fa-tasks" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header">
+							<p:menuitem value="Listado obras" url="/faces/xhtml/obras/obras.xhtml"/>
+
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="Clientes" icon="fa fa-fw fa-users" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header" >
+							<p:menuitem value="Empresas" />
+							<p:menuitem value="Personas" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+				
+				<p:submenu label="Facturas" icon="fa fa-fw fa-euro" styleClass="se-menu-item">
+				</p:submenu>
 				<p:submenu label="Proveedores y Material" icon="fa fa-fw fa-paint-brush" styleClass="se-menu-item">
 					<p:column>
 						<p:submenu styleClass="no-menu-header">
@@ -47,11 +59,14 @@
 						</p:submenu>
 					</p:column>
 				</p:submenu>
-					
-				
-				<p:submenu label="Facturas" icon="fa fa-fw fa-euro" styleClass="se-menu-item">
-				</p:submenu>
 				<p:submenu label="Empleados" icon="fa fa-fw fa-street-view" styleClass="se-menu-item">
+				</p:submenu>
+								<p:submenu label="Usuarios" icon="fa fa-fw fa-user" styleClass="se-menu-item">
+					<p:column>
+						<p:submenu styleClass="no-menu-header" >
+							<p:menuitem value="Listado usuarios" url="/faces/xhtml/users/userList.xhtml" />
+						</p:submenu>
+					</p:column>
 				</p:submenu>
 				<p:submenu label="#{msg['bar.logout']}" url="${pageContext.request.contextPath}/j_spring_security_logout" styleClass="se-menu-item"></p:submenu>
 		 </p:megaMenu>

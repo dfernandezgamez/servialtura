@@ -151,20 +151,6 @@
 								</p:fieldset>
 						</h:form>
 					</p:tab>
-					<p:tab title="Fotos" id="fotosTab">
-						 <h:form id="formFotos">
-							<p:fieldset legend="Álbumes del presupuesto" toggleable="true"  styleClass="idiada-fieldset-nobackground">
-							
-								</p:fieldset>
-						</h:form>
-					</p:tab>
-					<p:tab title="Documentos" id="documentosTab">
-						 <h:form id="formDocumento">
-							<p:fieldset legend="Documentos del presupuesto" toggleable="true"  styleClass="idiada-fieldset-nobackground">
-							</p:fieldset>
-						</h:form>
-					</p:tab>
-					
 				</p:tabView>
 			</b:container>
 			
@@ -185,7 +171,8 @@
 											value="#{editPresupuestoBean.newPartida.descripcionPartida}" rows="10" required="true"/>
 											
 											<p:outputLabel id="impLbl" for="importe" value="Importe:" />
-											<p:inputNumber id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}">
+											<p:inputNumber id="importe"  required="true" value="#{editPresupuestoBean.newPartida.importePartida}" >
+												<f:convertNumber type="currency" currencySymbol="€" />
 											</p:inputNumber>
 									</h:panelGrid>		
 								</p:panel>
@@ -211,9 +198,8 @@
 											value="#{editPresupuestoBean.selectedPartida.descripcionPartida}" rows="10" required="true"/>
 											
 											<p:outputLabel id="impLbl" for="importe" value="Importe:" />
-											<p:inputText id="importe"  required="true" value="#{editPresupuestoBean.selectedPartida.importePartida}">
-												<p:keyFilter regEx="/[ABC]/i"/>
-											</p:inputText>
+											<p:inputNumber id="importe"  required="true" value="#{editPresupuestoBean.selectedPartida.importePartida}">
+											</p:inputNumber>
 									</h:panelGrid>		
 								</p:panel>
 								<p:panel styleClass="idiada-buttons-container">
@@ -238,7 +224,9 @@
 				        						<f:facet name="itemtip">
 									                <h:panelGrid columns="2" width="100%">
 									                    <h:outputText value="Precio: " />
-									                    <h:outputText value="#{ma.precioUnitario} €" />
+									                    <h:outputText value="#{ma.precioUnitario}">
+									                    		<f:convertNumber type="currency" currencySymbol="€" />
+									                    </h:outputText>
 									 
 									                    <h:outputText value="Proveedor: " />
 									                    <h:outputText value="#{ma.proveedor.nombreProveedor}" />

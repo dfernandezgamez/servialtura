@@ -168,12 +168,15 @@ public class WordHelper {
 			r2.setBold(true);
 			r2.setFontSize(12);
 			r2.setUnderline(UnderlinePatterns.SINGLE);
-			r2.setText(partida.getNombrePartida());
+			r2.setText(partida.getNombrePartida()+" "+partida.getImportePartida().toString()+" €");
 			r2.setFontFamily("Helvetica");
 			r2.addBreak();
 			
-			//por cada <p> que nos encontremos tenemos que crear un nuevo parrafo
-			//por cada <ui> hay que empezar una lista con elementos
+			XWPFParagraph parrafo3 = presupuestoDoc.createParagraph();
+			parrafo3.setAlignment(ParagraphAlignment.LEFT);
+			XWPFRun r3 = parrafo3.createRun();
+			r3.setText(partida.getDescripcionPartida());
+			r3.addBreak();
 		}
 		
 		XWPFParagraph importe = presupuestoDoc.createParagraph();
